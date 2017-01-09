@@ -1,1 +1,1 @@
-image::../images/Rosee.png[]
+image::../images/ExempleBaro.png[]
