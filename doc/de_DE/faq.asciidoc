@@ -1,9 +1,9 @@
 [panel,primary]
-.Est-ce que le plugin s'appuie sur des API tiers ?
+.Stützt sich das Plugin auf APIs Dritter ?
 --
-Non, le plugin fait le calcul en interne par rapport à la pression atmosphérique
+Nein, das Plugin macht die Berechnung intern, relativ zu dem Atmosphärendruck
 --
-.A quoi sert le plugin ?
+Wozu dient das Plugin ?
 --
-Le plugin calcule une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
+Das Plugin berechnet einen Wettertrend basierent auf Veränderungen des Luftdrucks in den letzten Stunden
 --
