@@ -6,7 +6,7 @@ include::presentation.asciidoc[]
 include::configuration.asciidoc[]
 
 '''
-== Exemple
+== Beispiel
 include::exemple.asciidoc[]
 
 '''
