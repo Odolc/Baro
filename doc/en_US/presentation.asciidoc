@@ -1,2 +1,2 @@
 
-Ce plugin permet de calculer la tendance météo à venir en se basant sur les évolutions de la pression atmosphérique des dernières heures
+This plugin allows to calculate the weather tend to come based on the changes of atmospheric pressure for the last hours
