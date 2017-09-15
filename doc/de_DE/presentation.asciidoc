@@ -1,0 +1,2 @@
+
+Dieses Plugin ermöglicht das Wetter vorherzusagen, auf der Grundlage von Änderungen des atmosphärischen Drucks der letzten Stunden zu berechnen

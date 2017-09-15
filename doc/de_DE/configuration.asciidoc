@@ -1,0 +1,3 @@
+
+Das Plugin enthält keine allgemeine Konfiguration.
+Man muss ein Gerät für den Luftdruck hinzufügen

@@ -1,0 +1,4 @@
+[panel,primary]
+.Version 1.0
+--
+Création du plugin

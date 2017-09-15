@@ -1,0 +1,7 @@
+[panel,primary]
+.Ich bekomme keine Informationen, die zurückreichen
+--
+Man muß das Druck Gerät richtig angeben, damit das Plugin richtig funktioniert.
+Man kann die Geräte dank der Schaltfläche "Geräte suchen" finden.
+--
+
