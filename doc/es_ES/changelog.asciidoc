@@ -2,6 +2,7 @@
 .Version 1.0
 --
 Création du plugin
+--
 .Version 2.0
 --
 mise à jour pour compatibilité Jeedom V3
