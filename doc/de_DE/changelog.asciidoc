@@ -5,4 +5,4 @@ Erstellung des Plugins
 --
 .Version 2.0
 --
-mise à jour pour compatibilité Jeedom V3
+Update für Jeedom V3 Kompatibilität
