@@ -1,9 +1,0 @@
-[panel,primary]
-.Stützt sich das Plugin auf APIs Dritter ?
---
-Nein, das Plugin macht die Berechnung intern, relativ zu dem Atmosphärendruck
---
-Wozu dient das Plugin ?
---
-Das Plugin berechnet einen Wettertrend basierent auf Veränderungen des Luftdrucks in den letzten Stunden
---

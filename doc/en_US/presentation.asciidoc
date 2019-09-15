@@ -1,2 +1,0 @@
-
-This plugin allows to calculate the weather tend to come based on the changes of atmospheric pressure for the last hours
