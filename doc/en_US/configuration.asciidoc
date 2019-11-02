@@ -1,3 +1,0 @@
-
-The plugin does not have general configuration.
-Il faut ajouter un équipement pour la pression atmosphérique

@@ -1,11 +1,17 @@
 {
 	"id" : "baro",
 	"name" : "Tendance Baro",
+    "description" : "Plugin de calcul de tendance météo basée sur les variations de pression d'un baromètre connecté à Jeedom (local)",
+    "usage" : "",
 	"licence" : "AGPL",
 	"author" : "Claude Metzger",
-	"require" : "1.124.0",
+	"require" : "3.0",
 	"category" : "weather",
-	"hasDependency" : 0,
-	"hasOwnDeamon" : 0
+    "hasDependency" : false,
+    "hasOwnDeamon" : false,
+    "changelog" : "https://jeedom.github.io/third_plugin/baro/#language#/changelog",
+	"documentation" : "https://jeedom.github.io/third_plugin/baro/#language#/",
+    "forum_link" : "https://www.jeedom.com/forum/viewtopic.php?f=28&t=18608",
+    "language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","v4"]
 }
-

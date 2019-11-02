@@ -1,9 +1,0 @@
-[panel,primary]
-. Is the plugin relies on third-party API?
---
-Non, le plugin fait le calcul en interne par rapport à la pression atmosphérique
---
-.A quoi sert le plugin ?
---
-Le plugin calcule une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
---
