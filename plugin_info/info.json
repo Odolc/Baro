@@ -5,13 +5,13 @@
     "usage" : "",
 	"licence" : "AGPL",
 	"author" : "Claude Metzger",
-	"require" : "2.3.0",
+	"require" : "3.0",
 	"category" : "weather",
-	"hasDependency" : 0,
-	"hasOwnDeamon" : 0,
-	"changelog" : "https://jeedom.github.io/third_plugin/baro/#language#/changelog",
+    "hasDependency" : false,
+    "hasOwnDeamon" : false,
+    "changelog" : "https://jeedom.github.io/third_plugin/baro/#language#/changelog",
 	"documentation" : "https://jeedom.github.io/third_plugin/baro/#language#/",
     "forum_link" : "https://www.jeedom.com/forum/viewtopic.php?f=28&t=18608",
-    "compatibility" : ["miniplus","smart","rpi","diy"]
+    "language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","v4"]
 }
-
