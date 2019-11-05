@@ -17,7 +17,6 @@ menu plugin :
 Voici un exemple de configuration
 
 ![exemple](../images/exemple.png)
-![exemple](../images/exemple1.png)
 
 # FAQ
 
@@ -30,5 +29,5 @@ Voici un exemple de configuration
 > **Je n'ai pas d'information qui remontent**
 >
 > Il faut bien indiquer l'équipement pression pour que le plugin fonctionne correctement.
-> On peut rechercher les équipements grace au bouton de recherche de l’équipement
+> On peut rechercher les équipements grace au bouton de recherche de l’équipement.
 
