@@ -8,29 +8,29 @@ $eqLogics = eqLogic::byType($plugin->getId());
 ?>
 
 <div class="row row-overflow">
-    	<div class="col-xs-12 eqLogicThumbnailDisplay">
-            <legend><i class="fas fa-cog"></i> {{Gestion}}</legend>
-            <div class="eqLogicThumbnailContainer">
-                <div class="cursor eqLogicAction logoPrimary" data-action="add" >
-                    <i class="fas fa-plus-circle"></i>
-                    <br/>
-                    <span>{{Ajouter}}</span>
-                </div>
+    <div class="col-xs-12 eqLogicThumbnailDisplay">
+        <legend><i class="fas fa-cog"></i> {{Gestion}}</legend>
+        <div class="eqLogicThumbnailContainer">
+            <div class="cursor eqLogicAction logoPrimary" data-action="add" >
+                <i class="fas fa-plus-circle"></i>
+                <br/>
+                <span>{{Ajouter}}</span>
             </div>
-            <legend><i class="fas fa-table"></i> {{Mes Tendances Baro}}</legend>
-            <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
-            <div class="eqLogicThumbnailContainer">
-                <?php
-                foreach ($eqLogics as $eqLogic) {
-                    $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
-                    echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '" >';
-                    echo '<img src="' . $plugin->getPathImgIcon() . '" />';
-                    echo '<br>';
-                    echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
-                    echo '</div>';
-                }
-                ?>
-            </div>
+        </div>
+        <legend><i class="fas fa-table"></i> {{Mes Tendances Baro}}</legend>
+        <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
+        <div class="eqLogicThumbnailContainer">
+            <?php
+            foreach ($eqLogics as $eqLogic) {
+                $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
+                echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '" >';
+                echo '<img src="' . $plugin->getPathImgIcon() . '" />';
+                echo '<br>';
+                echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
+                echo '</div>';
+            }
+            ?>
+        </div>
     </div>
     
     <div class="col-xs-12 eqLogic" style="display: none;">
@@ -47,12 +47,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
 			<div role="tabpanel" class="tab-pane active" id="eqlogictab">
                 <br/>
-                				<div class="row">
-					<div class="col-sm-6">
-						<form class="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <form class="form-horizontal">
 							<fieldset>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Nom de l'équipement caméra}}</label>
+									<label class="col-sm-3 control-label">{{Nom de l'équipement}}</label>
 									<div class="col-sm-6">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
 										<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement caméra}}"/>
