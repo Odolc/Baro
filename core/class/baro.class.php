@@ -25,18 +25,38 @@ class baro extends eqLogic {
     /*     * ***********************Methode static*************************** */
 
     public static function cron15() {
-    //public static function cron() {
-    //public static function cron15($_options) {
         foreach (eqLogic::byType('baro') as $baro) {
-			log::add('baro', 'debug', 'pull cron');
+            log::add('baro', 'debug', '========================== CRON 15 ==========================');
 			$baro->getInformations();
 		}
 
     }
-
+    
+    public static function cron30($_eqlogic_id = null) {
+		//no both cron15 and cron30 enabled:
+		if (config::byKey('functionality::cron15::enable', 'baro', 0) == 1)
+		{
+			config::save('functionality::cron30::enable', 0, 'baro');
+			return;
+		}
+		foreach (eqLogic::byType('rosee') as $rosee) {
+			if ($rosee->getIsEnable()) {
+				log::add('rosee', 'debug', '========================== CRON 30 ==========================');
+				$rosee->getInformations();
+			}
+		}
+	}
 
     /*     * *********************Methode d'instance************************* */
-
+    public function refresh() {
+        foreach ($this->getCmd() as $cmd)
+        {
+            $s = print_r($cmd, 1);
+            log::add('baro', 'debug', 'refresh  cmd: '.$s);
+            $cmd->execute();
+        }
+    }
+    
     public function preUpdate() {
     	if ($this->getConfiguration('pression') == '') {
     		throw new Exception(__('Le champ pression ne peut etre vide',__FILE__));
@@ -45,197 +65,224 @@ class baro extends eqLogic {
 
      public function postInsert() {
     	// Ajout d'une commande dans le tableau pour le dP/dT
-        $BaroCmd = new BaroCmd();
-        $BaroCmd->setName(__('dP/dT', __FILE__));
-        $BaroCmd->setEqLogic_id($this->id);
-		$BaroCmd->setLogicalId('dPdT');
-        $BaroCmd->setConfiguration('data', 'dPdT');
-        $BaroCmd->setType('info');
-        $BaroCmd->setSubType('numeric');
-        $BaroCmd->setUnite('hPa/h');
-        $BaroCmd->setEventOnly(1);
-		$BaroCmd->setIsHistorized(0);
-		$BaroCmd->setIsVisible(0);
-		$BaroCmd->setDisplay('generic_type','DONT');
-        $BaroCmd->save();
+            $BaroCmd = new BaroCmd();
+            $BaroCmd->setName(__('dP/dT', __FILE__));
+            $BaroCmd->setEqLogic_id($this->id);
+            $BaroCmd->setLogicalId('dPdT');
+            $BaroCmd->setConfiguration('data', 'dPdT');
+            $BaroCmd->setType('info');
+            $BaroCmd->setSubType('numeric');
+            $BaroCmd->setUnite('hPa/h');
+            $BaroCmd->setIsHistorized(0);
+            $BaroCmd->setIsVisible(0);
+            $BaroCmd->setDisplay('generic_type','GENERIC_INFO');
+            $BaroCmd->save();
 
         // Ajout d'une commande dans le tableau pour la pression
-        $BaroCmd = new BaroCmd();
-        $BaroCmd->setName(__('Pression', __FILE__));
-        $BaroCmd->setEqLogic_id($this->id);
-		$BaroCmd->setLogicalId('pression');
-        $BaroCmd->setConfiguration('data', 'pression');
-        $BaroCmd->setType('info');
-        $BaroCmd->setSubType('numeric');
-        $BaroCmd->setUnite('hPa');
-        $BaroCmd->setEventOnly(1);
-		$BaroCmd->setIsHistorized(0);
-		$BaroCmd->setIsVisible(0);
-		$BaroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
-        $BaroCmd->save();
+            $BaroCmd = new BaroCmd();
+            $BaroCmd->setName(__('Pression', __FILE__));
+            $BaroCmd->setEqLogic_id($this->id);
+            $BaroCmd->setLogicalId('pression');
+            $BaroCmd->setConfiguration('data', 'pression');
+            $BaroCmd->setType('info');
+            $BaroCmd->setSubType('numeric');
+            $BaroCmd->setUnite('hPa');
+            $BaroCmd->setIsHistorized(0);
+            $BaroCmd->setIsVisible(0);
+            $BaroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
+            $BaroCmd->save();
 
 		// Ajout d'une commande dans le tableau pour la tendance numérique
-        $BaroCmd = new BaroCmd();
-        $BaroCmd->setName(__('state', __FILE__));
-        $BaroCmd->setEqLogic_id($this->id);
-		$BaroCmd->setLogicalId('tendance_num');
-        $BaroCmd->setConfiguration('data', 'tendance_num');
-        $BaroCmd->setType('info');
-        $BaroCmd->setSubType('numeric');
-        $BaroCmd->setUnite('');
-        $BaroCmd->setEventOnly(1);
-		$BaroCmd->setIsHistorized(0);
-		$BaroCmd->setIsVisible(0);
-		$BaroCmd->setDisplay('generic_type','DONT');
-        $BaroCmd->save();
+            $BaroCmd = new BaroCmd();
+            $BaroCmd->setName(__('Tendance numerique', __FILE__));
+            $BaroCmd->setEqLogic_id($this->id);
+            $BaroCmd->setLogicalId('tendance_num');
+            $BaroCmd->setConfiguration('data', 'tendance_num');
+            $BaroCmd->setType('info');
+            $BaroCmd->setSubType('numeric');
+            $BaroCmd->setUnite('');
+            $BaroCmd->setIsHistorized(0);
+            $BaroCmd->setIsVisible(1);
+            $BaroCmd->setDisplay('generic_type','GENERIC_INFO');
+            $BaroCmd->save();
         
         // Ajout d'une commande dans le tableau pour la tendance
-        $BaroCmd = new BaroCmd();
-        $BaroCmd->setName(__('Tendance', __FILE__));
-        $BaroCmd->setEqLogic_id($this->id);
-		$BaroCmd->setLogicalId('tendance');
-        $BaroCmd->setConfiguration('data', 'tendance');
-        $BaroCmd->setType('info');
-        $BaroCmd->setSubType('string');
-        $BaroCmd->setUnite('');
-        $BaroCmd->setEventOnly(1);
-		$BaroCmd->setIsHistorized(0);
-		$BaroCmd->setIsVisible(1);
-		$BaroCmd->setDisplay('generic_type','WEATHER_CONDITION');
-        $BaroCmd->save();
+            $BaroCmd = new BaroCmd();
+            $BaroCmd->setName(__('Tendance', __FILE__));
+            $BaroCmd->setEqLogic_id($this->id);
+            $BaroCmd->setLogicalId('tendance');
+            $BaroCmd->setConfiguration('data', 'tendance');
+            $BaroCmd->setType('info');
+            $BaroCmd->setSubType('string');
+            $BaroCmd->setUnite('');
+            $BaroCmd->setIsHistorized(0);
+            $BaroCmd->setIsVisible(1);
+            $BaroCmd->setDisplay('generic_type','WEATHER_CONDITION');
+            $BaroCmd->save();
+        }
+    
+    public function postSave() {
+        $refresh = $this->getCmd(null, 'refresh');
+        if (!is_object($refresh)) {
+            $refresh = new roseeCmd();
+            $refresh->setLogicalId('refresh');
+            $refresh->setIsVisible(1);
+            $refresh->setName(__('Rafraichir', __FILE__));
+        }
+        $refresh->setType('action');
+        $refresh->setSubType('other');
+        $refresh->setEqLogic_id($this->getId());
+        $refresh->save();
     }
 
     /*     * **********************Getteur Setteur*************************** */
-	public function postUpdate() {
+    public function postUpdate() {
         foreach (eqLogic::byType('baro') as $baro) {
-            	$baro->getInformations();
-		}
+            $baro->getInformations();
+        }
     }
 
     public function getInformations() {
-
-    $idvirt = str_replace("#","",$this->getConfiguration('pression'));
-    log::add('baro', 'debug', 'Configuration : $idvirt ' . $idvirt);
-	$cmdvirt = cmd::byId($idvirt);
-	
-	if (is_object($cmdvirt)) {
-		$pression = $cmdvirt->execCmd();
-		//log::add('baro', 'debug', 'Configuration : pression ' . $pression);
-	} else {
-		log::add('baro', 'error', 'Configuration : pression non existante : ' . $this->getConfiguration('pression'));
-	}
-
+        if (!$this->getIsEnable()) return;
+        $_eqName = $this->getName();
+        log::add('baro', 'debug', '================= CONFIGURATION : ' .$_eqName.' =================');
+        /*  ********************** PRESSION *************************** */
+            $idvirt = str_replace("#","",$this->getConfiguration('pression'));
+            $cmdvirt = cmd::byId($idvirt);
+            if (is_object($cmdvirt)) {
+                $pression = $cmdvirt->execCmd();
+                log::add('baro', 'debug', 'Pression : ' . $pression.'hPa');
+            } else {
+                log::add('baro', 'error', 'Configuration : pression non existante : ' . $this->getConfiguration('pression'));
+            }
+        log::add('baro', 'debug', '========= CALCUL  =========');
 	// récupération du timestamp de la dernière mesure
-	$histo = new scenarioExpression();
-	$endDate = $histo -> collectDate($idvirt);
+        $histo = new scenarioExpression();
+        $endDate = $histo -> collectDate($idvirt);
 	
 	// calcul du timestamp actuel
-	$_date1 = new DateTime("$endDate");
-	$_date2 = new DateTime("$endDate");
-	$startDate = $_date1 -> modify('-15 minute');
-	$startDate = $_date1 -> format('Y-m-d H:i:s');
-	log::add('baro', 'debug', 'Calcul : $startDate ' . $startDate);
-	log::add('baro', 'debug', 'Calcul : $endDate ' . $endDate);
+        $_date1 = new DateTime("$endDate");
+        $_date2 = new DateTime("$endDate");
+        $startDate = $_date1 -> modify('-15 minute');
+        $startDate = $_date1 -> format('Y-m-d H:i:s');
+        log::add('baro', 'debug', 'Start Date : ' . $startDate);
+        log::add('baro', 'debug', 'End Date : ' . $endDate);
 
 	// dernière mesure barométrique
-	$h1 = $histo->lastBetween($idvirt, $startDate, $endDate);
-	log::add('baro', 'debug', 'Calcul : Pression actuelle ' . $h1 . ' hPa');
+        $h1 = $histo->lastBetween($idvirt, $startDate, $endDate);
+        log::add('baro', 'debug', 'Pression actuelle : ' . $h1 . 'hPa');
 
+    log::add('baro', 'debug', '========= CALCUL Timestamp - 2H =========');
 	// calcul du timestamp - 2h
-	$endDate = $_date2 -> modify('-2 hour');
-	$endDate = $_date2 -> format('Y-m-d H:i:s');
-	$startDate = $_date1 -> modify('-2 hour');
-	$startDate = $_date1 -> format('Y-m-d H:i:s');
-	log::add('baro', 'debug', 'Calcul : $startDate ' . $startDate);
-	log::add('baro', 'debug', 'Calcul : $endDate ' . $endDate);
+        $endDate = $_date2 -> modify('-2 hour');
+        $endDate = $_date2 -> format('Y-m-d H:i:s');
+        $startDate = $_date1 -> modify('-2 hour');
+        $startDate = $_date1 -> format('Y-m-d H:i:s');
+        log::add('baro', 'debug', 'Start Date -2 heures : ' . $startDate);
+        log::add('baro', 'debug', 'End Date -2 heures : ' . $endDate);
 
 	// mesure barométrique -2h
-	$h2 = $histo->lastBetween($idvirt, $startDate, $endDate);
-	log::add('baro', 'debug', 'Calcul : Pression -2 heures ' . $h2 . ' hPa');
+        $h2 = $histo->lastBetween($idvirt, $startDate, $endDate);
+        log::add('baro', 'debug', 'Pression -2 heures : ' . $h2 . 'hPa');
+        
+    // calculs de tendance
+        $tendance2h = ($h1 - $h2) / 2;
+            log::add('baro', 'debug', 'Tendance - 2h : ' . $tendance2h . 'hPa/h');
 
+    log::add('baro', 'debug', '========= CALCUL Timestamp - 4H =========');
 	// calcul du timestamp - 4h
-	$endDate = $_date2 -> modify('-2 hour');
-	$endDate = $_date2 -> format('Y-m-d H:i:s');
-	$startDate = $_date1 -> modify('-2 hour');
-	$startDate = $_date1 -> format('Y-m-d H:i:s');
-	log::add('baro', 'debug', 'Calcul : $startDate ' . $startDate);
-	log::add('baro', 'debug', 'Calcul : $endDate ' . $endDate);
+        $endDate = $_date2 -> modify('-2 hour');
+        $endDate = $_date2 -> format('Y-m-d H:i:s');
+        $startDate = $_date1 -> modify('-2 hour');
+        $startDate = $_date1 -> format('Y-m-d H:i:s');
+        log::add('baro', 'debug', 'Start Date -4 heures : ' . $startDate);
+        log::add('baro', 'debug', 'End Date -4 heures : ' . $endDate);
 
 	// mesure barométrique -4h
-	$h4 = $histo->lastBetween($idvirt, $startDate, $endDate);
-	log::add('baro', 'debug', 'Calcul : Pression -4 heures ' . $h4 . ' hPa');
+        $h4 = $histo->lastBetween($idvirt, $startDate, $endDate);
+        log::add('baro', 'debug', 'Pression -4 heures : ' . $h4 . 'hPa');
+    
+    // calculs de tendance
+        $tendance4h = ($h1 - $h4) / 4;
+            log::add('baro', 'debug', 'Tendance - 4h : ' . $tendance4h . 'hPa/h');
 
+    log::add('baro', 'debug', '=============== CALCUL TENDANCE ===============');
 	// calculs de tendance
 	// sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
     // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
     
-	$tendance2h = ($h1 - $h2) / 2;
-	log::add('baro', 'debug', 'Calcul : $tendance2h ' . $tendance2h . ' hPa/h');
-	$tendance4h = ($h1 - $h4) / 4;
-	log::add('baro', 'debug', 'Calcul : $tendance4h ' . $tendance4h . ' hPa/h');
 	// moyennation de la tendance à -2h (50%) et -4h (50%)
-	$tendance = (0.5 * $tendance2h + 0.5 * $tendance4h);
-	$tendance_format = number_format($tendance, 3, '.', '');
-	log::add('baro', 'debug', 'Calcul : $tendance moyennée ' . $tendance . ' hPa/h');
+        $tendance = (0.5 * $tendance2h + 0.5 * $tendance4h);
+        $tendance_format = number_format($tendance, 3, '.', '');
+            log::add('baro', 'debug', 'Tendance Moyenne : ' . $tendance . 'hPa/h');
 
 	if ($tendance > 2.5) {
 	  // Quickly rising High Pressure System, not stable
-	  $td = 'Forte embellie, instable';
-	  $td_num=5;
+          $td = 'Forte embellie, instable';
+          $td_num=5;
 	} elseif ($tendance > 0.5) {
 	  	// Slowly rising High Pressure System, stable good weather
-	  	$td = 'Amélioration, beau temps durable';
-	  	$td_num=4;
+            $td = 'Amélioration, beau temps durable';
+            $td_num=4;
 	} elseif ($tendance > 0.0) {
 	  	//  Stable weather condition
-	  	$td = 'Lente amélioration, temps stable';
-	  	$td_num=3;
+            $td = 'Lente amélioration, temps stable';
+            $td_num=3;
 	} elseif ($tendance > -0.5) {
 	  	// Stable weather condition
-	    $td = 'Lente dégradation, temps stable';
-	    $td_num=2;
+            $td = 'Lente dégradation, temps stable';
+            $td_num=2;
 	} elseif ($tendance > -2.5) {
 	  	// Slowly falling Low Pressure System, stable rainy weather
-	  	$td = 'Dégradation, mauvais temps durable';
-	  	$td_num=1;
+            $td = 'Dégradation, mauvais temps durable';
+            $td_num=1;
 	} else {
 	  	// Quickly falling Low Pressure, Thunderstorm, not stable
-	  	$td = 'Forte dégradation, instable';
-	  	$td_num=0;
+            $td = 'Forte dégradation, instable';
+            $td_num=0;
 	}
-	log::add('baro', 'debug', 'Calcul : $td ' . $td);
-	log::add('baro', 'debug', 'Calcul : $td_num ' . $td_num);
+	log::add('baro', 'debug', 'Tendance : ' . $td);
+	log::add('baro', 'debug', 'Tendance numérique : ' . $td_num);
 
-	foreach ($this->getCmd() as $cmd) {
-				if($cmd->getConfiguration('data')=="pression"){
-					$cmd->setConfiguration('value', $pression);
-					//$cmd->setIsVisible(true);
-					$cmd->save();
-					$cmd->event($pression);
-					//log::add('baro', 'debug', 'Pression ' . $pression);
-				}
-				if($cmd->getConfiguration('data')=="dPdT"){
-					$cmd->setConfiguration('value', $tendance_format);
-					//$cmd->setIsVisible(true);
-					$cmd->save();
-					$cmd->event($tendance_format);
-					//log::add('baro', 'debug', 'dPdT ' . $tendance);
-				}
-				if($cmd->getConfiguration('data')=="tendance"){
-					$cmd->setConfiguration('value', $td);
-					//$cmd->setIsVisible(true);
-					$cmd->save();
-					$cmd->event($td);
-					//log::add('baro', 'debug', 'tendance ' . $td);
-				}
-				if($cmd->getConfiguration('data')=="tendance_num"){
-					$cmd->setConfiguration('value', $td_num);
-					//$cmd->setIsVisible(false);
-					$cmd->save();
-					$cmd->event($td_num);
-					//log::add('baro', 'debug', 'tendance ' . $td);
-				}			
+    log::add('baro', 'debug', '=============== MISE A JOUR ===============');
+        
+    $cmd = $this->getCmd('info', 'pression');
+		if (is_object($cmd)) {
+			$cmd->setConfiguration('value', $pression);
+			$cmd->save();
+			$cmd->setCollectDate('');
+            $cmd->event($pression);
+                log::add('baro', 'debug', 'Pression : ' . $pression. 'hPa');
 		}
+        
+    $cmd = $this->getCmd('info', 'dPdT');
+		if (is_object($cmd)) {
+			$cmd->setConfiguration('value', $tendance_format);
+			$cmd->save();
+			$cmd->setCollectDate('');
+            $cmd->event($tendance_format);
+                log::add('baro', 'debug', 'dPdT : ' . $tendance_format. 'hPa/h');
+		}  
+     
+    $cmd = $this->getCmd('info', 'tendance');
+		if (is_object($cmd)) {
+			$cmd->setConfiguration('value', $td);
+			$cmd->save();
+			$cmd->setCollectDate('');
+            $cmd->event($td);
+                log::add('baro', 'debug', 'Tendance : ' . $td);
+		}
+     
+    $cmd = $this->getCmd('info', 'tendance_num');
+		if (is_object($cmd)) {
+			$cmd->setConfiguration('value', $td_num);
+			$cmd->save();
+			$cmd->setCollectDate('');
+            $cmd->event($td_num);
+                log::add('baro', 'debug', 'Tendance Numérique : ' . $td_num);
+		}
+    log::add('baro', 'debug', '================= FIN CONFIGURATION : ' .$_eqName.' =================');
+        
         return ;
     }
 }
@@ -243,14 +290,20 @@ class baro extends eqLogic {
 class BaroCmd extends cmd {
     /*     * *************************Attributs****************************** */
 
-
-
     /*     * ***********************Methode static*************************** */
 
     /*     * *********************Methode d'instance************************* */
-	public function execute($_options = null) {
-	}
+	public function dontRemoveCmd()
+    {
+        return true;
+    }
 
+	public function execute($_options = null) {
+		if ($this->getLogicalId() == 'refresh') {
+			$this->getEqLogic()->getInformations();
+			return;
+		}
+	}
 }
 
 ?>

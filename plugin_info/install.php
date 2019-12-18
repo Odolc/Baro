@@ -20,6 +20,8 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 
 function baro_install() {
+    config::save('functionality::cron15::enable', 1, 'baro');
+    config::save('functionality::cron30::enable', 0, 'baro');
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
@@ -27,6 +29,10 @@ function baro_install() {
 }
 
 function baro_update() {
+    if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1)
+        config::save('functionality::cron15::enable', 1, 'baro');
+    if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1)
+        config::save('functionality::cron30::enable', 0, 'baro');
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
