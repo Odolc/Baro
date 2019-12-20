@@ -13,8 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 $('#bt_selectBaroCmd').on('click', function () {
     jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'numeric'}}, function (result) {
         $('.eqLogicAttr[data-l2key=pression]').atCaret('insert', result.human);
@@ -49,26 +47,23 @@ function addCmdToTable(_cmd) {
     }
 
     if (init(_cmd.type) == 'info') {
-        var disabled = (init(_cmd.configuration.virtualAction) == '1') ? 'disabled' : '';
+        var disabled = (init(_cmd.configuration.virtualAction) == '1') ? 'readonly' : '';
         var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
         tr += '<td>';
 		tr += '<span class="cmdAttr" data-l1key="id"></span>';
-        tr += '</td>';
-        tr += '<td>';
-		tr += '<span class="cmdAttr" data-l1key="name"></span></td>';
-        tr += '<td>';
-        tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="value" ' + disabled + ' placeholder="{{Valeur}}" readonly=true>';
-        tr += '</td>';
-        tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="unite" style="width : 90px;" placeholder="{{Unité}}"></td>';
-        tr += '</td>';
-        tr += '<td><input class="tooltips cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="minValue" placeholder="{{Min}}" title="{{Min}}" style="width : 40%;display : inline-block;"> ';
-        tr += '<input class="tooltips cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="maxValue" placeholder="{{Max}}" title="{{Max}}" style="width : 40%;display : inline-block;">';
-        tr += '</td>';
-        tr += '<td>';
-	    tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
-	    tr += '<span><label class="checkbox-inline"><input type="checkbox" cLass="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span> ';
-        tr += '</td>'
-        tr += '<td>';
+		tr += '</td>';
+		tr += '<td>';
+		tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" placeholder="{{Nom}}"></td>'
+		tr += '</td>';
+		tr += '<td>';
+		tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="value" ' + disabled + ' readonly=true>';
+		tr += '</td>';
+		tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="unite" style="width : 90px;" placeholder="{{Unité}}"></td>';
+		tr += '<td>';
+		tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span> ';
+		tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
+		tr += '</td>';
+		tr += '<td>';
         if (is_numeric(_cmd.id)) {
             tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fas fa-cogs"></i></a> ';
             tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fas fa-rss"></i> {{Tester}}</a>';
