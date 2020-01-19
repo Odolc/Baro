@@ -18,6 +18,10 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
+function baro_install() {
+	config::save('api', baro::generatePassword(), 'Baro');
+}
+
 
 function baro_install() {
     config::save('functionality::cron15::enable', 1, 'baro');
