@@ -20,14 +20,17 @@ Voici un exemple de configuration
 
 # FAQ
 
--   **Est-ce que le plugin s'appuie sur des API tiers ?** : Non, le plugin fait le calcul en interne par rapport à la pression atmosphérique
+-   Est-ce que le plugin s'appuie sur des API tiers ?
 
--   **A quoi sert le plugin ?** : Le plugin calcule une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
+>Non, le plugin fait le calcul en interne par rapport à la pression atmosphérique
+
+-   A quoi sert le plugin ? 
+
+>Le plugin calcule une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
 
 # Troubleshotting
+- Je n'ai pas d'informations qui remontent
 
-> **Je n'ai pas d'information qui remontent**
->
 > Il faut bien indiquer l'équipement pression pour que le plugin fonctionne correctement.
+>
 > On peut rechercher les équipements grace au bouton de recherche de l’équipement.
-
