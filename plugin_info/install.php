@@ -19,11 +19,7 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function baro_install() {
-	config::save('api', baro::generatePassword(), 'Baro');
-}
-
-
-function baro_install() {
+    jeedom::getApiKey('baro');
     config::save('functionality::cron15::enable', 1, 'baro');
     config::save('functionality::cron30::enable', 0, 'baro');
     $cron = cron::byClassAndFunction('baro', 'pull');
@@ -33,6 +29,7 @@ function baro_install() {
 }
 
 function baro_update() {
+    jeedom::getApiKey('baro');
     if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1)
         config::save('functionality::cron15::enable', 1, 'baro');
     if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1)
@@ -40,6 +37,35 @@ function baro_update() {
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
+    }
+    $plugin = plugin::byId('rosee');
+    $eqLogics = eqLogic::byType($plugin->getId());
+    /* foreach ($eqLogics as $eqLogic) {
+
+    }*/
+
+    //resave eqs for new cmd:
+        try
+        {
+            $eqs = eqLogic::byType('baro');
+            foreach ($eqs as $eq){
+                $eq->save();
+            }
+        }
+        catch (Exception $e)
+        {
+            $e = print_r($e, 1);
+            log::add('baro', 'error', 'baro_update ERROR: '.$e);
+        }
+
+    //message::add('baro', 'Merci pour la mise à jour de ce plugin,');
+}
+
+function updateLogicalId($eqLogic, $from, $to) {
+    $baroCmd = $eqLogic->getCmd(null, $from);
+    if (is_object($baroCmd)) {
+        $baroCmd->setLogicalId($to);
+        $baroCmd->save();
     }
 }
 
