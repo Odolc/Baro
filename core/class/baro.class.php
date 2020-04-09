@@ -41,7 +41,7 @@ class baro extends eqLogic {
 		}
 		foreach (eqLogic::byType('rosee') as $rosee) {
 			if ($rosee->getIsEnable()) {
-				log::add('rosee', 'debug', '========================== CRON 30 ==========================');
+				log::add('baro', 'debug', '========================== CRON 30 ==========================');
 				$rosee->getInformations();
 			}
 		}
@@ -58,81 +58,130 @@ class baro extends eqLogic {
     }
 
     public function preUpdate() {
+        if (!$this->getIsEnable()) return;
+
     	if ($this->getConfiguration('pression') == '') {
     		throw new Exception(__('Le champ pression ne peut etre vide',__FILE__));
 		}
     }
 
      public function postInsert() {
-    	// Ajout d'une commande dans le tableau pour le dP/dT
-            $BaroCmd = new BaroCmd();
-            $BaroCmd->setName(__('dP/dT', __FILE__));
-            $BaroCmd->setEqLogic_id($this->id);
-            $BaroCmd->setLogicalId('dPdT');
-            $BaroCmd->setConfiguration('data', 'dPdT');
-            $BaroCmd->setType('info');
-            $BaroCmd->setSubType('numeric');
-            $BaroCmd->setUnite('hPa/h');
-            $BaroCmd->setIsHistorized(0);
-            $BaroCmd->setIsVisible(0);
-            $BaroCmd->setDisplay('generic_type','GENERIC_INFO');
-            $BaroCmd->save();
 
-        // Ajout d'une commande dans le tableau pour la pression
-            $BaroCmd = new BaroCmd();
-            $BaroCmd->setName(__('Pression', __FILE__));
-            $BaroCmd->setEqLogic_id($this->id);
-            $BaroCmd->setLogicalId('pression');
-            $BaroCmd->setConfiguration('data', 'pression');
-            $BaroCmd->setType('info');
-            $BaroCmd->setSubType('numeric');
-            $BaroCmd->setUnite('hPa');
-            $BaroCmd->setIsHistorized(0);
-            $BaroCmd->setIsVisible(0);
-            $BaroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
-            $BaroCmd->save();
-
-		// Ajout d'une commande dans le tableau pour la tendance numérique
-            $BaroCmd = new BaroCmd();
-            $BaroCmd->setName(__('Tendance numerique', __FILE__));
-            $BaroCmd->setEqLogic_id($this->id);
-            $BaroCmd->setLogicalId('tendance_num');
-            $BaroCmd->setConfiguration('data', 'tendance_num');
-            $BaroCmd->setType('info');
-            $BaroCmd->setSubType('numeric');
-            $BaroCmd->setUnite('');
-            $BaroCmd->setIsHistorized(0);
-            $BaroCmd->setIsVisible(1);
-            $BaroCmd->setDisplay('generic_type','GENERIC_INFO');
-            $BaroCmd->save();
-
-        // Ajout d'une commande dans le tableau pour la tendance
-            $BaroCmd = new BaroCmd();
-            $BaroCmd->setName(__('Tendance', __FILE__));
-            $BaroCmd->setEqLogic_id($this->id);
-            $BaroCmd->setLogicalId('tendance');
-            $BaroCmd->setConfiguration('data', 'tendance');
-            $BaroCmd->setType('info');
-            $BaroCmd->setSubType('string');
-            $BaroCmd->setUnite('');
-            $BaroCmd->setIsHistorized(0);
-            $BaroCmd->setIsVisible(1);
-            $BaroCmd->setDisplay('generic_type','WEATHER_CONDITION');
-            $BaroCmd->save();
-        }
+     }
 
     public function postSave() {
+        log::add('baro', 'debug', 'postSave()');
+        $order = 1;
         $refresh = $this->getCmd(null, 'refresh');
         if (!is_object($refresh)) {
-            $refresh = new roseeCmd();
+            $refresh = new baroCmd();
             $refresh->setLogicalId('refresh');
             $refresh->setIsVisible(1);
             $refresh->setName(__('Rafraichir', __FILE__));
         }
+        $refresh->setEqLogic_id($this->getId());
         $refresh->setType('action');
         $refresh->setSubType('other');
-        $refresh->setEqLogic_id($this->getId());
         $refresh->save();
+
+        // Ajout d'une commande dans le tableau pour le dP/dT
+        $baroCmd = $this->getCmd(null, 'dPdT');
+        if (!is_object($baroCmd)) {
+            $baroCmd = new baroCmd();
+            $baroCmd->setName(__('dP/dT', __FILE__));
+            $baroCmd->setEqLogic_id($this->id);
+            $baroCmd->setLogicalId('dPdT');
+            $baroCmd->setConfiguration('data', 'dPdT');
+            $baroCmd->setType('info');
+            $baroCmd->setSubType('numeric');
+            $baroCmd->setUnite('hPa/h');
+            $baroCmd->setIsHistorized(0);
+            $baroCmd->setIsVisible(0);
+            $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+            $baroCmd->setOrder($order);
+            $order ++;
+        }
+        $baroCmd->setEqLogic_id($this->getId());
+        $baroCmd->setUnite('hPa/h');
+        $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setType('info');
+        $baroCmd->setSubType('numeric');
+        $baroCmd->save();
+
+        // Ajout d'une commande dans le tableau pour la pression
+        $baroCmd = $this->getCmd(null, 'pression');
+        if (!is_object($baroCmd)) {
+            $baroCmd = new baroCmd();
+            $baroCmd->setName(__('Pression', __FILE__));
+            $baroCmd->setEqLogic_id($this->id);
+            $baroCmd->setLogicalId('pression');
+            $baroCmd->setConfiguration('data', 'pression');
+            $baroCmd->setType('info');
+            $baroCmd->setSubType('numeric');
+            $baroCmd->setUnite('hPa');
+            $baroCmd->setIsHistorized(0);
+            $baroCmd->setIsVisible(0);
+            $baroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
+            $baroCmd->setOrder($order);
+            $order ++;
+        }
+        $baroCmd->setEqLogic_id($this->getId());
+        $baroCmd->setUnite('hPa');
+        $baroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
+        $baroCmd->setType('info');
+        $baroCmd->setSubType('numeric');
+        $baroCmd->save();
+
+        // Ajout d'une commande dans le tableau pour la tendance
+        $baroCmd = $this->getCmd(null, 'tendance');
+        if (!is_object($baroCmd)){
+            $baroCmd = new baroCmd();
+            $baroCmd->setName(__('Tendance', __FILE__));
+            $baroCmd->setEqLogic_id($this->id);
+            $baroCmd->setLogicalId('tendance');
+            $baroCmd->setConfiguration('data', 'tendance');
+            $baroCmd->setType('info');
+            $baroCmd->setSubType('string');
+            $baroCmd->setUnite('');
+            $baroCmd->setIsHistorized(0);
+            $baroCmd->setIsVisible(0);
+            $baroCmd->setDisplay('generic_type','WEATHER_CONDITION');
+            $baroCmd->setOrder($order);
+            $order ++;
+        }
+        $baroCmd->setEqLogic_id($this->getId());
+        $baroCmd->setUnite('');
+        $baroCmd->setDisplay('generic_type','WEATHER_CONDITION');
+        $baroCmd->setType('info');
+        $baroCmd->setSubType('string');
+        $baroCmd->save();
+
+        // Ajout d'une commande dans le tableau pour la tendance numérique
+        $baroCmd = $this->getCmd(null, 'tendance_num');
+        if (!is_object($baroCmd)) {
+            $baroCmd = new baroCmd();
+            $baroCmd->setName(__('Tendance numerique', __FILE__));
+            $baroCmd->setEqLogic_id($this->id);
+            $baroCmd->setLogicalId('tendance_num');
+            $baroCmd->setConfiguration('data', 'tendance_num');
+            $baroCmd->setType('info');
+            $baroCmd->setSubType('numeric');
+            $baroCmd->setUnite('');
+            $baroCmd->setIsHistorized(0);
+            $baroCmd->setIsVisible(1);
+            $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+            $baroCmd->setOrder($order);
+            $order ++;
+        }
+        $baroCmd->setEqLogic_id($this->getId());
+        $baroCmd->setUnite('');
+        $baroCmd->setConfiguration('minValue', 0);
+        $baroCmd->setConfiguration('maxValue', 5);
+        $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setType('info');
+        $baroCmd->setSubType('numeric');
+        $baroCmd->save();
+
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -242,16 +291,7 @@ class baro extends eqLogic {
     /*  ********************** Mise à Jour des équipements *************************** */
         log::add('baro', 'debug', '┌───────── MISE A JOUR : '.$_eqName);
 
-    $cmd = $this->getCmd('info', 'pression');
-		if (is_object($cmd)) {
-			$cmd->setConfiguration('value', $pression);
-			$cmd->save();
-			$cmd->setCollectDate('');
-            $cmd->event($pression);
-                log::add('baro', 'debug', '│ Pression : ' . $pression. ' hPa');
-		}
-
-    $cmd = $this->getCmd('info', 'dPdT');
+        $cmd = $this->getCmd('info', 'dPdT');
 		if (is_object($cmd)) {
 			$cmd->setConfiguration('value', $tendance_format);
 			$cmd->save();
@@ -260,7 +300,16 @@ class baro extends eqLogic {
                 log::add('baro', 'debug', '│ dPdT : ' . $tendance_format. ' hPa/h');
 		}
 
-    $cmd = $this->getCmd('info', 'tendance');
+        $cmd = $this->getCmd('info', 'pression');
+		if (is_object($cmd)) {
+			$cmd->setConfiguration('value', $pression);
+			$cmd->save();
+			$cmd->setCollectDate('');
+            $cmd->event($pression);
+                log::add('baro', 'debug', '│ Pression : ' . $pression. ' hPa');
+		}
+
+        $cmd = $this->getCmd('info', 'tendance');
 		if (is_object($cmd)) {
 			$cmd->setConfiguration('value', $td);
 			$cmd->save();
@@ -268,8 +317,7 @@ class baro extends eqLogic {
             $cmd->event($td);
                 log::add('baro', 'debug', '│ Tendance : ' . $td);
 		}
-
-    $cmd = $this->getCmd('info', 'tendance_num');
+        $cmd = $this->getCmd('info', 'tendance_num');
 		if (is_object($cmd)) {
 			$cmd->setConfiguration('value', $td_num);
 			$cmd->save();

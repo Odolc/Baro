@@ -38,7 +38,7 @@ function baro_update() {
     if (is_object($cron)) {
         $cron->remove();
     }
-    $plugin = plugin::byId('rosee');
+    $plugin = plugin::byId('baro');
     $eqLogics = eqLogic::byType($plugin->getId());
     /* foreach ($eqLogics as $eqLogic) {
 
