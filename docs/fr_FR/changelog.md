@@ -6,6 +6,15 @@ description: Ce plugin permet de calculer la tendance météo à venir en se bas
 ## Changelog
 >*Remarque : en cas de mise à jour non listée ici, c'est que celle-ci ne comporte que des changements mineurs du type documentation ou corrections de bugs mineurs.*
 
+# Version 2020xxxx
+- Ajout de log supplémentaire en mode DEBUG
+- Ajout bouton pour recréer les commandes
+- Résolution Bug calcul tendance
+- Affectation valeur Min et Max sur le "Tendance numérique"
+- Amélioration affichage V4
+
+>*Info : Penser à sauvegarder chaque équipement
+
 # Version 2.2
 
 - Ajout d’un cron 30
