@@ -39,10 +39,10 @@ class baro extends eqLogic {
 			config::save('functionality::cron30::enable', 0, 'baro');
 			return;
 		}
-		foreach (eqLogic::byType('rosee') as $rosee) {
-			if ($rosee->getIsEnable()) {
+		foreach (eqLogic::byType('baro') as $baro) {
+			if ($baro->getIsEnable()) {
 				log::add('baro', 'debug', '========================== CRON 30 ==========================');
-				$rosee->getInformations();
+				$baro->getInformations();
 			}
 		}
 	}

@@ -31,7 +31,7 @@ description: Ce plugin permet de calculer la tendance météo à venir en se bas
 
 # Version 2.1
 
-- Support de PHP 7.3
+- Support de PHP 7.3    
 - Migration vers font-awesome 5
 - Migration affichage au format core V4
 
