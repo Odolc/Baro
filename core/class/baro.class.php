@@ -297,7 +297,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($tendance_format);
-                log::add('baro', 'debug', '│ dPdT : ' . $tendance_format. ' hPa/h');
+            log::add('baro', 'debug', '│ dPdT : ' . $tendance_format. ' hPa/h');
 		}
 
         $cmd = $this->getCmd('info', 'pression');
@@ -306,7 +306,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($pression);
-                log::add('baro', 'debug', '│ Pression : ' . $pression. ' hPa');
+            log::add('baro', 'debug', '│ Pression : ' . $pression. ' hPa');
 		}
 
         $cmd = $this->getCmd('info', 'tendance');
@@ -315,7 +315,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($td);
-                log::add('baro', 'debug', '│ Tendance : ' . $td);
+            log::add('baro', 'debug', '│ Tendance : ' . $td);
 		}
         $cmd = $this->getCmd('info', 'tendance_num');
 		if (is_object($cmd)) {
@@ -323,7 +323,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($td_num);
-                log::add('baro', 'debug', '│ Tendance Numérique : ' . $td_num);
+            log::add('baro', 'debug', '│ Tendance Numérique : ' . $td_num);
 		}
         log::add('baro', 'debug', '└─────────');
         log::add('baro', 'debug', '================ FIN CRON =================');
