@@ -62,10 +62,10 @@ function baro_update() {
 }
 
 function updateLogicalId($eqLogic, $from, $to) {
-    $baroCmd = $eqLogic->getCmd(null, $from);
+    $barocmd = $eqLogic->getCmd(null, $from);
     if (is_object($baroCmd)) {
-        $baroCmd->setLogicalId($to);
-        $baroCmd->save();
+        $barocmd->setLogicalId($to);
+        $barocmd->save();
     }
 }
 
