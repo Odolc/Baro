@@ -20,12 +20,15 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function baro_install() {
     jeedom::getApiKey('baro');
+
     config::save('functionality::cron15::enable', 1, 'baro');
     config::save('functionality::cron30::enable', 0, 'baro');
+
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
     }
+
     message::add('baro', 'Merci pour l\'installation du plugin baro');
 }
 
