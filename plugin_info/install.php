@@ -26,18 +26,25 @@ function baro_install() {
     if (is_object($cron)) {
         $cron->remove();
     }
+    message::add('baro', 'Merci pour l\'installation du plugin baro');
 }
 
 function baro_update() {
     jeedom::getApiKey('baro');
-    if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1)
-        config::save('functionality::cron15::enable', 1, 'baro');
-    if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1)
-        config::save('functionality::cron30::enable', 0, 'baro');
+
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
     }
+
+    if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1) {
+        config::save('functionality::cron15::enable', 1, 'baro');
+    }
+
+    if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1){
+        config::save('functionality::cron30::enable', 0, 'baro');
+    }
+
     $plugin = plugin::byId('baro');
     $eqLogics = eqLogic::byType($plugin->getId());
     /* foreach ($eqLogics as $eqLogic) {
@@ -58,14 +65,14 @@ function baro_update() {
             log::add('baro', 'error', 'baro_update ERROR: '.$e);
         }
 
-    //message::add('baro', 'Merci pour la mise à jour de ce plugin,');
+    message::add('baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog');
 }
 
 function updateLogicalId($eqLogic, $from, $to) {
-    $barocmd = $eqLogic->getCmd(null, $from);
+    $baroCmd = $eqLogic->getCmd(null, $from);
     if (is_object($baroCmd)) {
-        $barocmd->setLogicalId($to);
-        $barocmd->save();
+        $baroCmd->setLogicalId($to);
+        $baroCmd->save();
     }
 }
 
