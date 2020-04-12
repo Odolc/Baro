@@ -17,7 +17,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <span>{{Ajouter}}</span>
             </div>
         </div>
-        <legend><i class="fas fa-table"></i> {{Mes Tendances Baro}}</legend>
+        <legend><i class="fas fa-chart-bar"></i> {{Mes Tendances Baro}}</legend>
         <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
         <div class="eqLogicThumbnailContainer">
             <?php
