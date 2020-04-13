@@ -72,17 +72,6 @@ class baro extends eqLogic {
     public function postSave() {
         log::add('baro', 'debug', 'postSave()');
         $order = 1;
-        $refresh = $this->getCmd(null, 'refresh');
-        if (!is_object($refresh)) {
-            $refresh = new baroCmd();
-            $refresh->setLogicalId('refresh');
-            $refresh->setIsVisible(1);
-            $refresh->setName(__('Rafraichir', __FILE__));
-        }
-        $refresh->setEqLogic_id($this->getId());
-        $refresh->setType('action');
-        $refresh->setSubType('other');
-        $refresh->save();
 
         // Ajout d'une commande dans le tableau pour le dP/dT
         $baroCmd = $this->getCmd(null, 'dPdT');
@@ -97,7 +86,6 @@ class baro extends eqLogic {
             $baroCmd->setUnite('hPa/h');
             $baroCmd->setIsHistorized(0);
             $baroCmd->setIsVisible(0);
-            $baroCmd->setDisplay('generic_type','GENERIC_INFO');
             $baroCmd->setOrder($order);
             $order ++;
         }
@@ -121,7 +109,6 @@ class baro extends eqLogic {
             $baroCmd->setUnite('hPa');
             $baroCmd->setIsHistorized(0);
             $baroCmd->setIsVisible(0);
-            $baroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
             $baroCmd->setOrder($order);
             $order ++;
         }
@@ -145,7 +132,6 @@ class baro extends eqLogic {
             $baroCmd->setUnite('');
             $baroCmd->setIsHistorized(0);
             $baroCmd->setIsVisible(0);
-            $baroCmd->setDisplay('generic_type','WEATHER_CONDITION');
             $baroCmd->setOrder($order);
             $order ++;
         }
@@ -169,7 +155,6 @@ class baro extends eqLogic {
             $baroCmd->setUnite('');
             $baroCmd->setIsHistorized(0);
             $baroCmd->setIsVisible(1);
-            $baroCmd->setDisplay('generic_type','GENERIC_INFO');
             $baroCmd->setOrder($order);
             $order ++;
         }
@@ -181,6 +166,19 @@ class baro extends eqLogic {
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
+        
+        $refresh = $this->getCmd(null, 'refresh');
+        if (!is_object($refresh)) {
+            $refresh = new baroCmd();
+            $refresh->setLogicalId('refresh');
+            $refresh->setIsVisible(1);
+            $refresh->setName(__('Rafraichir', __FILE__));
+            $refresh->setOrder($order);
+        }
+        $refresh->setEqLogic_id($this->getId());
+        $refresh->setType('action');
+        $refresh->setSubType('other');
+        $refresh->save();
 
     }
 
