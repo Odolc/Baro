@@ -3,8 +3,19 @@ title: Jeedom | Plugin Baro
 description: Ce plugin permet de calculer la tendance météo à venir en se basant sur les évolutions de la pression atmosphérique des dernières heures
 ---
 
-## Changelog
->*Remarque : en cas de mise à jour non listée ici, c'est que celle-ci ne comporte que des changements mineurs du type documentation ou corrections de bugs mineurs.*
+# Info
+>*Important : en cas de mise à jour disponible pour laquelle il n’y a pas d’information dans cette section, c’est qu’elle n’intègre aucune nouveauté majeure. Cela peut être un ajout de documentation, une correction de documentation, des traductions ou bien de la correction de bugs mineurs.*
+
+# Version 20200413
+- Ajout de log supplémentaire en mode DEBUG
+- Nettoyage log
+- Résolution Bug calcul tendance
+- Ajout bouton pour recréer les commandes
+- Modification création des commandes
+- Affectation valeur Min et Max sur le "Tendance numérique"
+- Amélioration affichage V4
+
+>*Info : Penser à sauvegarder chaque équipement
 
 # Version 2.2
 
