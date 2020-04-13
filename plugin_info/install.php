@@ -55,18 +55,18 @@ function baro_update() {
     }*/
 
     //resave eqs for new cmd:
-        try
-        {
-            $eqs = eqLogic::byType('baro');
-            foreach ($eqs as $eq){
-                $eq->save();
-            }
+    try
+    {
+        $eqs = eqLogic::byType('baro');
+        foreach ($eqs as $eq){
+            $eq->save();
         }
-        catch (Exception $e)
-        {
-            $e = print_r($e, 1);
-            log::add('baro', 'error', 'baro_update ERROR: '.$e);
-        }
+    }
+    catch (Exception $e)
+    {
+        $e = print_r($e, 1);
+        log::add('baro', 'error', 'baro_update ERROR: '.$e);
+    }
 
     message::add('baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog');
 }
