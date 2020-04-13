@@ -29,7 +29,7 @@ function baro_install() {
         $cron->remove();
     }
 
-    message::add('baro', 'Merci pour l\'installation du plugin baro');
+    message::add('Plugin Tendance Baro', 'Merci pour l\'installation du plugin.');
 }
 
 function baro_update() {
@@ -68,7 +68,7 @@ function baro_update() {
         log::add('baro', 'error', 'baro_update ERROR: '.$e);
     }
 
-    message::add('baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog');
+    message::add('Plugin Tendance Baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog.');
 }
 
 function updateLogicalId($eqLogic, $from, $to) {
