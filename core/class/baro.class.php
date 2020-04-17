@@ -46,6 +46,22 @@ class baro extends eqLogic {
 			}
 		}
 	}
+    // Template pour la tendance
+    public static function templateWidget(){
+        $return = array('info' => array('numeric' => array()));
+        $return['info']['numeric']['tendance'] = array(
+            'template' => 'tmplmultistate',
+            'test' => array(
+                array('operation' => '#value# == 0','state_light' => '<img src=plugins/baro/core/template/img/tendance_0.png>'),
+                array('operation' => '#value# == 1','state_light' => '<img src=plugins/baro/core/template/img/tendance_1.png>'),
+                array('operation' => '#value# == 2','state_light' => '<img src=plugins/baro/core/template/img/tendance_2.png>'),
+                array('operation' => '#value# == 3','state_light' => '<img src=plugins/baro/core/template/img/tendance_3.png>'),
+                array('operation' => '#value# == 4','state_light' => '<img src=plugins/baro/core/template/img/tendance_4.png>'),
+                array('operation' => '#value# == 5','state_light' => '<img src=plugins/baro/core/template/img/tendance_5.png>')
+            )
+        );
+        return $return;
+    }
 
     /*     * *********************Methode d'instance************************* */
     public function refresh() {
@@ -110,6 +126,8 @@ class baro extends eqLogic {
             $baroCmd->setIsHistorized(0);
             $baroCmd->setIsVisible(0);
             $baroCmd->setOrder($order);
+            $baroCmd->setTemplate('dashboard','core::line');
+            $baroCmd->setTemplate('mobile','core::multiline');
             $order ++;
         }
         $baroCmd->setEqLogic_id($this->getId());
@@ -117,6 +135,8 @@ class baro extends eqLogic {
         $baroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
+        $baroCmd->setTemplate('dashboard','core::line');
+        $baroCmd->setTemplate('mobile','core::line');
         $baroCmd->save();
 
         // Ajout d'une commande dans le tableau pour la tendance
@@ -131,7 +151,9 @@ class baro extends eqLogic {
             $baroCmd->setSubType('string');
             $baroCmd->setUnite('');
             $baroCmd->setIsHistorized(0);
-            $baroCmd->setIsVisible(0);
+            $baroCmd->setIsVisible(1);
+            $baroCmd->setTemplate('dashboard','core::multiline');
+            $baroCmd->setTemplate('mobile','core::multiline');
             $baroCmd->setOrder($order);
             $order ++;
         }
@@ -140,6 +162,8 @@ class baro extends eqLogic {
         $baroCmd->setDisplay('generic_type','WEATHER_CONDITION');
         $baroCmd->setType('info');
         $baroCmd->setSubType('string');
+        $baroCmd->setTemplate('dashboard','core::multiline');
+        $baroCmd->setTemplate('mobile','core::multiline');
         $baroCmd->save();
 
         // Ajout d'une commande dans le tableau pour la tendance numérique
@@ -155,6 +179,8 @@ class baro extends eqLogic {
             $baroCmd->setUnite('');
             $baroCmd->setIsHistorized(0);
             $baroCmd->setIsVisible(1);
+            $baroCmd->setTemplate('dashboard','baro::tendance');
+            $baroCmd->setTemplate('mobile','baro::tendance');
             $baroCmd->setOrder($order);
             $order ++;
         }
@@ -163,6 +189,8 @@ class baro extends eqLogic {
         $baroCmd->setConfiguration('minValue', 0);
         $baroCmd->setConfiguration('maxValue', 5);
         $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setTemplate('dashboard','baro::tendance');
+        $baroCmd->setTemplate('mobile','baro::tendance');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();

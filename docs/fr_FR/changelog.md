@@ -6,6 +6,11 @@ description: Ce plugin permet de calculer la tendance météo à venir en se bas
 # Info
 >*Important : en cas de mise à jour disponible pour laquelle il n’y a pas d’information dans cette section, c’est qu’elle n’intègre aucune nouveauté majeure. Cela peut être un ajout de documentation, une correction de documentation, des traductions ou bien de la correction de bugs mineurs.*
 
+# Version 20200417
+- Ajout widget core pour les commandes sauf pour tendance
+- Ajout widget pour la tendance (uniquement pour le Core V4)
+- Mise à jour de la doc
+
 # Version 20200414
 - Résolution Bug calcul tendance
 
@@ -21,7 +26,6 @@ description: Ce plugin permet de calculer la tendance météo à venir en se bas
 >*Info : Penser à sauvegarder chaque équipement
 
 # Version 2.2
-
 - Ajout d’un cron 30
 - Amélioration de l'affichage pour le Core V4
 - Possibilité de renommer les commandes
@@ -35,15 +39,12 @@ description: Ce plugin permet de calculer la tendance météo à venir en se bas
 >*Remarque : Il est conseillé de supprimer le plugin et ensuite le réinstaller*
 
 # Version 2.1
-
 - Support de PHP 7.3
 - Migration vers font-awesome 5
 - Migration affichage au format core V4
 
 # Version 2.0
-
 - Mise à jour pour compatibilité Jeedom V3
 
 # Version 1.0
-
 - Création du plugin

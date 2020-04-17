@@ -13,12 +13,6 @@ Il faut ajouter un équipement pour la pression atmosphérique.
 La configuration des équipements virtuels est accessible à partir du
 menu plugin :
 
-# Exemple de configuration
-
-Voici un exemple de configuration
-
-![exemple](../images/exemple.png)
-
 # Tendance Météo
 > Sources :
 > - <a href="http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf">http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf</a>
@@ -44,6 +38,9 @@ Le plugin calcule 6 niveaux d'information
     >- Tendance : Forte embellie, instable
     >- Tendance numérique : 5
 
+Le plugin affecte par défaut un widget (uniquement pour le core V4) :
+![Visu Tendance](../images/visu_tendance.png)
+
 # FAQ
 
 -   Est-ce que le plugin s'appuie sur des API tiers ?
@@ -54,9 +51,19 @@ Le plugin calcule 6 niveaux d'information
 
 >Le plugin calcule une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
 
+# Exemple de configuration
+## Vue de la liste des équipements
+![exemple vue d'ensemble](../images/vue.png)
+
+Voici un exemple de configuration
+
+![exemple équipement](../images/equipement.png)
+![exemple commandes](../images/commandes.png)
+
+
 # Troubleshotting
 - Je n'ai pas d'informations qui remontent
 
-> Il faut bien indiquer l'équipement pression pour que le plugin fonctionne correctement.
+> Il faut bien indiquer l'équipement pression pour que le plugin fonctionne correctement. L'équipement doit être aussi historisé pour pouvoir fonctionner
 >
 > On peut rechercher les équipements grace au bouton de recherche de l’équipement.
