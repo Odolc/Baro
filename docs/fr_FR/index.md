@@ -53,9 +53,10 @@ Le plugin affecte par défaut un widget (uniquement pour le core V4) :
 
 # Exemple de configuration
 ## Vue de la liste des équipements
+
 ![exemple vue d'ensemble](../images/vue.png)
 
-Voici un exemple de configuration
+## Exemple de configuration
 
 ![exemple équipement](../images/equipement.png)
 ![exemple commandes](../images/commandes.png)
