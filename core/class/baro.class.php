@@ -166,7 +166,7 @@ class baro extends eqLogic {
         $baroCmd->save();
 
         // Ajout d'une commande dans le tableau pour la tendance
-        $baroCmd = $this->getCmd(null, 'tde');
+        $baroCmd = $this->getCmd(null, 'td');
         if (!is_object($baroCmd)){
             $baroCmd = new baroCmd();
             $baroCmd->setName(__('Tendance', __FILE__));
