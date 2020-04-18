@@ -117,7 +117,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             </label>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="pression" placeholder="{{Pression}}" />
+                                    <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="pressure" placeholder="{{Pression}}" />
                                     <span class="input-group-btn">
                                         <a class="btn btn-default listCmdActionOther roundedRight" id="bt_selectBaroCmd"><i class="fas fa-list-alt"></i></a>
                                     </span>
