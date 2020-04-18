@@ -21,13 +21,16 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function baro_install() {
     jeedom::getApiKey('baro');
 
-    config::save('functionality::cron15::enable', 1, 'baro');
-    config::save('functionality::cron30::enable', 0, 'baro');
-
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
     }
+
+    config::save('functionality::cron5::enable', 0, 'baro');
+    config::save('functionality::cron10::enable', 0, 'baro');
+    config::save('functionality::cron15::enable', 1, 'baro');
+    config::save('functionality::cron30::enable', 0, 'baro');
+    config::save('functionality::cronHourly::enable', 0, 'baro');
 
     //message::add('Plugin Tendance Baro', 'Merci pour l\'installation du plugin.');
 }
@@ -40,12 +43,24 @@ function baro_update() {
         $cron->remove();
     }
 
+    if (config::byKey('functionality::cron5::enable', 'baro', -1) == -1) {
+        config::save('functionality::cron5::enable', 1, 'baro');
+    }
+    
+    if (config::byKey('functionality::cron10::enable', 'baro', -1) == -1) {
+        config::save('functionality::cron10::enable', 1, 'baro');
+    }
+    
     if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1) {
         config::save('functionality::cron15::enable', 1, 'baro');
     }
 
     if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1){
         config::save('functionality::cron30::enable', 0, 'baro');
+    }
+    
+    if (config::byKey('functionality::cronHourly::enable', 'baro', -1) == -1){
+        config::save('functionality::cronHourly::enable', 0, 'baro');
     }
 
     $plugin = plugin::byId('baro');

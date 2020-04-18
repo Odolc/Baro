@@ -24,12 +24,30 @@ class baro extends eqLogic {
 
     /*     * ***********************Methode static*************************** */
 
-    public static function cron15() {
+    public static function cron5($_eqlogic_id = null) {
         foreach (eqLogic::byType('baro') as $baro) {
-            log::add('baro', 'debug', '========================== CRON 15 ==========================');
+            log::add('baro', 'debug', '========================== CRON 5 ==========================');
 			$baro->getInformations();
 		}
 
+    }
+
+    public static function cron10($_eqlogic_id = null) {
+        foreach (eqLogic::byType('baro') as $rosee) {
+            if ($rosee->getIsEnable()) {
+                log::add('baro', 'debug', '================= CRON 10 =================');
+                $rosee->getInformations();
+            }
+        }
+    }
+
+    public static function cron15() {
+        foreach (eqLogic::byType('baro') as $rosee) {
+            if ($rosee->getIsEnable()) {
+                log::add('baro', 'debug', '================= CRON 15 =================');
+                $rosee->getInformations();
+            }
+        }
     }
 
     public static function cron30($_eqlogic_id = null) {
@@ -46,6 +64,16 @@ class baro extends eqLogic {
 			}
 		}
 	}
+
+    public static function cronHourly() {
+        foreach (eqLogic::byType('baro') as $rosee) {
+            if ($rosee->getIsEnable()) {
+                log::add('baro', 'debug', '================= CRON HEURE =================');
+                $rosee->getInformations();
+            }
+        }
+    }
+
     // Template pour la tendance
     public static function templateWidget(){
         $return = array('info' => array('numeric' => array()));
