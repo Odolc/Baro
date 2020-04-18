@@ -244,13 +244,13 @@ class baro extends eqLogic {
         $_eqName = $this->getName();
         log::add('baro', 'debug', '┌───────── CONFIGURATION EQUIPEMENT : '.$_eqName );
         /*  ********************** PRESSION *************************** */
-            $idvirt = str_replace("#","",$this->getConfiguration('pression'));
+            $idvirt = str_replace("#","",$this->getConfiguration('pressure'));
             $cmdvirt = cmd::byId($idvirt);
             if (is_object($cmdvirt)) {
-                $pression = $cmdvirt->execCmd();
-                log::add('baro', 'debug', '│ Pression Atmosphérique : ' . $pression.' hPa');
+                $pressure = $cmdvirt->execCmd();
+                log::add('baro', 'debug', '│ Pression Atmosphérique : ' . $pressure.' hPa');
             } else {
-                log::add('baro', 'error', 'Configuration : pression non existante : ' . $this->getConfiguration('pression'));
+                log::add('baro', 'error', 'Configuration : pression non existante : ' . $this->getConfiguration('pressure'));
             }
         log::add('baro', 'debug', '└─────────');
 
@@ -348,13 +348,13 @@ class baro extends eqLogic {
             log::add('baro', 'debug', '│ dPdT : ' . $td_format. ' hPa/h');
 		}
 
-        $cmd = $this->getCmd('info', 'pression');
+        $cmd = $this->getCmd('info', 'pressure');
 		if (is_object($cmd)) {
-			$cmd->setConfiguration('value', $pression);
+			$cmd->setConfiguration('value', $pressure);
 			$cmd->save();
 			$cmd->setCollectDate('');
-            $cmd->event($pression);
-            log::add('baro', 'debug', '│ Pression : ' . $pression. ' hPa');
+            $cmd->event($pressure);
+            log::add('baro', 'debug', '│ Pression : ' . $pressure. ' hPa');
 		}
 
         $cmd = $this->getCmd('info', 'td');
