@@ -6,10 +6,11 @@ description: Ce plugin permet de calculer la tendance météo à venir en se bas
 # Info
 >*Important : en cas de mise à jour disponible pour laquelle il n’y a pas d’information dans cette section, c’est qu’elle n’intègre aucune nouveauté majeure. Cela peut être un ajout de documentation, une correction de documentation, des traductions ou bien de la correction de bugs mineurs.*
 
-# Version 20200417
+# Version 20200418
 - Ajout widget core pour les commandes sauf pour tendance
 - Ajout widget pour la tendance (uniquement pour le Core V4)
 - Mise à jour de la doc
+- Modification des variables internes aux calculs
 
 # Version 20200414
 - Résolution Bug calcul tendance
