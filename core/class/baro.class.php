@@ -311,8 +311,8 @@ class baro extends eqLogic {
 
 	// moyennation de la tendance à -2h (50%) et -4h (50%)
         $td_moy = (0.5 * $td2h + 0.5 * $td4h);
-        $td_moy_format = number_format($td_moy, 3, '.', '');
-        log::add('baro', 'debug', '│ Tendance Moyenne : ' . $td_moy_format . ' hPa/h' );
+        $dPdT = number_format($td_moy, 3, '.', '');
+        log::add('baro', 'debug', '│ Tendance Moyenne : ' . $dPdT . ' hPa/h' );
 
         if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
             $td = 'Forte embellie, instable';
@@ -342,11 +342,11 @@ class baro extends eqLogic {
 
         $cmd = $this->getCmd('info', 'dPdT');
 		if (is_object($cmd)) {
-			$cmd->setConfiguration('value', $td_moy_format);
+			$cmd->setConfiguration('value', $dPdT);
 			$cmd->save();
 			$cmd->setCollectDate('');
-            $cmd->event($td_format);
-            log::add('baro', 'debug', '│ dPdT : ' . $td_moy_format. ' hPa/h');
+            $cmd->event($dPdT);
+            log::add('baro', 'debug', '│ dPdT : ' . $dPdT. ' hPa/h');
 		}
 
         $cmd = $this->getCmd('info', 'pressure');
