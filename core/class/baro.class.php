@@ -141,13 +141,13 @@ class baro extends eqLogic {
         $baroCmd->save();
 
         // Ajout d'une commande dans le tableau pour la pression
-        $baroCmd = $this->getCmd(null, 'pression');
+        $baroCmd = $this->getCmd(null, 'pressure');
         if (!is_object($baroCmd)) {
             $baroCmd = new baroCmd();
             $baroCmd->setName(__('Pression', __FILE__));
             $baroCmd->setEqLogic_id($this->id);
-            $baroCmd->setLogicalId('pression');
-            $baroCmd->setConfiguration('data', 'pression');
+            $baroCmd->setLogicalId('pressure');
+            $baroCmd->setConfiguration('data', 'pressure');
             $baroCmd->setType('info');
             $baroCmd->setSubType('numeric');
             $baroCmd->setUnite('hPa');
