@@ -46,11 +46,11 @@ function baro_update() {
     if (config::byKey('functionality::cron5::enable', 'baro', -1) == -1) {
         config::save('functionality::cron5::enable', 1, 'baro');
     }
-    
+
     if (config::byKey('functionality::cron10::enable', 'baro', -1) == -1) {
         config::save('functionality::cron10::enable', 1, 'baro');
     }
-    
+
     if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1) {
         config::save('functionality::cron15::enable', 1, 'baro');
     }
@@ -58,16 +58,17 @@ function baro_update() {
     if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1){
         config::save('functionality::cron30::enable', 0, 'baro');
     }
-    
+
     if (config::byKey('functionality::cronHourly::enable', 'baro', -1) == -1){
         config::save('functionality::cronHourly::enable', 0, 'baro');
     }
 
     $plugin = plugin::byId('baro');
     $eqLogics = eqLogic::byType($plugin->getId());
-    /* foreach ($eqLogics as $eqLogic) {
-
-    }*/
+    foreach ($eqLogics as $eqLogic) {
+        updateLogicalId($eqLogic, 'tendance', 'td');
+        updateLogicalId($eqLogic, 'tendance_num', 'td_num');
+    }
 
     //resave eqs for new cmd:
     try
