@@ -244,14 +244,14 @@ class baro extends eqLogic {
         $_eqName = $this->getName();
         log::add('baro', 'debug', '┌───────── CONFIGURATION EQUIPEMENT : '.$_eqName );
         /*  ********************** PRESSION *************************** */
-            $idvirt = str_replace("#","",$this->getConfiguration('pressure'));
+            $idvirt = str_replace("#","",$this->getConfiguration('pression'));
             $cmdvirt = cmd::byId($idvirt);
             if (is_object($cmdvirt)) {
                 $pressure = $cmdvirt->execCmd();
                 log::add('baro', 'debug', '│ Pression Atmosphérique : ' . $pressure.' hPa');
             } else {
                 throw new Exception(__('Le champ "Pression Atmosphérique" ne peut être vide',__FILE__));
-                log::add('baro', 'error', '│ Configuration : pression non existante : ' . $this->getConfiguration('pressure'));
+                log::add('baro', 'error', '│ Configuration : pression non existante : ' . $this->getConfiguration('pression'));
             }
         log::add('baro', 'debug', '└─────────');
 
