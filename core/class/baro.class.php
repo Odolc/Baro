@@ -310,23 +310,23 @@ class baro extends eqLogic {
     // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
 
 	// moyennation de la tendance à -2h (50%) et -4h (50%)
-        $td = (0.5 * $td2h + 0.5 * $td4h);
-        $td_format = number_format($td, 3, '.', '');
-        log::add('baro', 'debug', '│ Tendance Moyenne : ' . $td . ' hPa/h' );
+        $td_moy = (0.5 * $td2h + 0.5 * $td4h);
+        $td_moy_format = number_format($td_moy, 3, '.', '');
+        log::add('baro', 'debug', '│ Tendance Moyenne : ' . $td_moy_format . ' hPa/h' );
 
-        if ($td > 2.5) { // Quickly rising High Pressure System, not stable
+        if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
             $td = 'Forte embellie, instable';
             $td_num=5;
-        } elseif ($td > 0.5 && $td <= 2.5) { // Slowly rising High Pressure System, stable good weather
+        } elseif ($td_moy > 0.5 && $td_moy <= 2.5) { // Slowly rising High Pressure System, stable good weather
             $td = 'Amélioration, beau temps durable';
             $td_num=4;
-        } elseif ($td > 0.0 && $td <= 0.5) { // Stable weather condition
+        } elseif ($td_moy > 0.0 && $td_moy <= 0.5) { // Stable weather condition
             $td = 'Lente amélioration, temps stable';
             $td_num=3;
-        } elseif ($td> -0.5 && $td <= 0) { // Stable weather condition
+        } elseif ($td_moy > -0.5 && $td_moy <= 0) { // Stable weather condition
             $td = 'Lente dégradation, temps stable';
             $td_num=2;
-        } elseif ($td > -2.5 && $td <= -0.5) { // Slowly falling Low Pressure System, stable rainy weather
+        } elseif ($td_moy > -2.5 && $td_moy <= -0.5) { // Slowly falling Low Pressure System, stable rainy weather
             $td = 'Dégradation, mauvais temps durable';
             $td_num=1;
         } else { // Quickly falling Low Pressure, Thunderstorm, not stable
@@ -342,11 +342,11 @@ class baro extends eqLogic {
 
         $cmd = $this->getCmd('info', 'dPdT');
 		if (is_object($cmd)) {
-			$cmd->setConfiguration('value', $td_format);
+			$cmd->setConfiguration('value', $td_moy_format);
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($td_format);
-            log::add('baro', 'debug', '│ dPdT : ' . $td_format. ' hPa/h');
+            log::add('baro', 'debug', '│ dPdT : ' . $td_moy_format. ' hPa/h');
 		}
 
         $cmd = $this->getCmd('info', 'pressure');
