@@ -258,7 +258,8 @@ class baro extends eqLogic {
         log::add('baro', 'debug', '┌───────── CALCUL Timestamp : '.$_eqName); // récupération du timestamp de la dernière mesure
         $histo = new scenarioExpression();
         $endDate = $histo -> collectDate($idvirt);
-	// calcul du timestamp actuel
+
+        // calcul du timestamp actuel
         log::add('baro', 'debug', '│ ┌─────── Timestamp -15min : ' .$_eqName);
         $_date1 = new DateTime("$endDate");
         $_date2 = new DateTime("$endDate");
@@ -266,12 +267,13 @@ class baro extends eqLogic {
         $startDate = $_date1 -> format('Y-m-d H:i:s');
         log::add('baro', 'debug', '│ │ Start Date -15min : ' .$startDate );
         log::add('baro', 'debug', '│ │ End Date -15min : ' .$endDate );
-	// dernière mesure barométrique
+
+        // dernière mesure barométrique
         $h1 = $histo->lastBetween($idvirt, $startDate, $endDate);
         log::add('baro', 'debug', '│ │ Pression Atmosphérique -15min : ' .$h1 . ' hPa' );
         log::add('baro', 'debug', '│ └───────');
 
-	// calcul du timestamp - 2h
+        // calcul du timestamp - 2h
         log::add('baro', 'debug', '│ ┌─────── Timestamp -2h : ' .$_eqName);
         $endDate = $_date2 -> modify('-2 hour');
         $endDate = $_date2 -> format('Y-m-d H:i:s');
@@ -279,15 +281,17 @@ class baro extends eqLogic {
         $startDate = $_date1 -> format('Y-m-d H:i:s');
         log::add('baro', 'debug', '│ │ Start Date -2h : ' .$startDate );
         log::add('baro', 'debug', '│ │ End Date -2h : ' .$endDate );
-	// mesure barométrique -2h
+
+        // mesure barométrique -2h
         $h2 = $histo->lastBetween($idvirt, $startDate, $endDate);
         log::add('baro', 'debug', '│ │ Pression Atmosphérique -2h : ' .$h2 . ' hPa' );
-    // calculs de tendance
+
+        // calculs de tendance 15min/2h
         $td2h = ($h1 - $h2) / 2;
         log::add('baro', 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h' );
         log::add('baro', 'debug', '│ └───────');
 
-	// calcul du timestamp - 4h
+        // calcul du timestamp - 4h
         log::add('baro', 'debug', '│ ┌─────── Timestamp -4h : ' .$_eqName);
         $endDate = $_date2 -> modify('-2 hour');
         $endDate = $_date2 -> format('Y-m-d H:i:s');
@@ -295,24 +299,26 @@ class baro extends eqLogic {
         $startDate = $_date1 -> format('Y-m-d H:i:s');
         log::add('baro', 'debug', '│ │ Start Date -4h : ' .$startDate );
         log::add('baro', 'debug', '│ │ End Date -4h : ' .$endDate );
-	// mesure barométrique -4h
+
+        // mesure barométrique -4h
         $h4 = $histo->lastBetween($idvirt, $startDate, $endDate);
         log::add('baro', 'debug', '│ │ Pression Atmosphérique -4h : ' .$h4 . ' hPa' );
-    // calculs de tendance
+
+        // calculs de tendance 2h/4h
         $td4h = ($h1 - $h4) / 4;
         log::add('baro', 'debug', '│ │ Tendance -4h : ' . $td4h . ' hPa/h' );
         log::add('baro', 'debug', '│ └───────');
         log::add('baro', 'debug', '└─────────');
 
-	// calculs de tendance
+        // calculs de tendance
         log::add('baro', 'debug', '┌───────── CALCUL TENDANCE : '.$_eqName);
-	// sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
-    // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
+        // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
+        // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
 
-	// moyennation de la tendance à -2h (50%) et -4h (50%)
+        // moyennation de la tendance à -2h (50%) et -4h (50%)
         $td_moy = (0.5 * $td2h + 0.5 * $td4h);
         $dPdT = number_format($td_moy, 3, '.', '');
-        log::add('baro', 'debug', '│ Tendance Moyenne : ' . $dPdT . ' hPa/h' );
+        log::add('baro', 'debug', '│ Tendance Moyenne (dPdT) : ' . $dPdT . ' hPa/h' );
 
         if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
             $td = 'Forte embellie, instable';
