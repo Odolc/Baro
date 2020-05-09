@@ -23,7 +23,7 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-     if (init('action') == 'getBaro') {
+    if (init('action') == 'getBaro') {
         $baro = baro::byId(init('id'));
         if (!is_object($baro)) {
             throw new Exception(__('Baro inconnu verifier l\'id', __FILE__));

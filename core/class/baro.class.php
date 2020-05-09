@@ -33,19 +33,19 @@ class baro extends eqLogic {
     }
 
     public static function cron10($_eqlogic_id = null) {
-        foreach (eqLogic::byType('baro') as $rosee) {
-            if ($rosee->getIsEnable()) {
+        foreach (eqLogic::byType('baro') as $baro) {
+            if ($baro->getIsEnable()) {
                 log::add('baro', 'debug', '================= CRON 10 =================');
-                $rosee->getInformations();
+                $baro->getInformations();
             }
         }
     }
 
     public static function cron15() {
-        foreach (eqLogic::byType('baro') as $rosee) {
-            if ($rosee->getIsEnable()) {
+        foreach (eqLogic::byType('baro') as $baro) {
+            if ($baro->getIsEnable()) {
                 log::add('baro', 'debug', '================= CRON 15 =================');
-                $rosee->getInformations();
+                $baro->getInformations();
             }
         }
     }
@@ -66,10 +66,10 @@ class baro extends eqLogic {
 	}
 
     public static function cronHourly() {
-        foreach (eqLogic::byType('baro') as $rosee) {
-            if ($rosee->getIsEnable()) {
+        foreach (eqLogic::byType('baro') as $baro) {
+            if ($baro->getIsEnable()) {
                 log::add('baro', 'debug', '================= CRON HEURE =================');
-                $rosee->getInformations();
+                $baro->getInformations();
             }
         }
     }
@@ -109,9 +109,9 @@ class baro extends eqLogic {
 		}
     }
 
-     public function postInsert() {
+    public function postInsert() {
 
-     }
+    }
 
     public function postSave() {
         log::add('baro', 'debug', 'postSave()');
