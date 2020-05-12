@@ -11,6 +11,7 @@ pluginId: baro
 # Version 20200512
 - Correction bug enregistrement individuel de chaque équipement
 - Enregistrement des équipements après chaque mise à jour
+- Modification widget pour la tendance
 
 # Version 20200418
 - Ajout widget core pour les commandes sauf pour tendance

@@ -79,7 +79,7 @@ class baro extends eqLogic {
         $return = array('info' => array('numeric' => array()));
         $return['info']['numeric']['tendance'] = array(
             'template' => 'tmplmultistate',
-            'replace' => array('#_desktop_width_#' => '60'),
+            'replace' => array('#_desktop_width_#' => '40'),
             'test' => array(
                 array('operation' => '#value# == 0','state_light' => '<img src=plugins/baro/core/template/img/tendance_0.png>'),
                 array('operation' => '#value# == 1','state_light' => '<img src=plugins/baro/core/template/img/tendance_1.png>'),
