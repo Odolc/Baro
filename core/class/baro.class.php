@@ -79,6 +79,7 @@ class baro extends eqLogic {
         $return = array('info' => array('numeric' => array()));
         $return['info']['numeric']['tendance'] = array(
             'template' => 'tmplmultistate',
+            'replace' => array('#_desktop_width_#' => '60'),
             'test' => array(
                 array('operation' => '#value# == 0','state_light' => '<img src=plugins/baro/core/template/img/tendance_0.png>'),
                 array('operation' => '#value# == 1','state_light' => '<img src=plugins/baro/core/template/img/tendance_1.png>'),
@@ -114,7 +115,8 @@ class baro extends eqLogic {
     }
 
     public function postSave() {
-        log::add('baro', 'debug', 'postSave()');
+        $_eqName = $this->getName();
+        log::add('baro', 'debug', 'postSave() =>'.$_eqName);
         $order = 1;
 
         // Ajout d'une commande dans le tableau pour le dP/dT

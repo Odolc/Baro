@@ -1,3 +1,9 @@
+---
+layout: default
+title: Plugin Baro - documentation
+lang: fr_FR
+pluginId: baro
+---
 # Description
 
 Ce plugin permet de calculer la tendance météo à venir en se basant sur les évolutions de la pression atmosphérique des dernières heures
