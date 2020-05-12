@@ -86,6 +86,10 @@ function baro_update() {
     }
 
     //message::add('Plugin Tendance Baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog.');
+    foreach (eqLogic::byType('baro') as $baro) {
+        $baro->getInformations();
+    }
+
 }
 
 function updateLogicalId($eqLogic, $from, $to) {

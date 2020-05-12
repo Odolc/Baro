@@ -234,9 +234,7 @@ class baro extends eqLogic {
 
     /*     * **********************Getteur Setteur*************************** */
     public function postUpdate() {
-        foreach (eqLogic::byType('baro') as $baro) {
-            $baro->getInformations();
-        }
+        $this->getInformations();
     }
 
     public function getInformations() {
@@ -399,7 +397,9 @@ class BaroCmd extends cmd {
 
 	public function execute($_options = null) {
 		if ($this->getLogicalId() == 'refresh') {
+            log::add('baro', 'debug', ' ─────────> ACTUALISATION MANUELLE');
 			$this->getEqLogic()->getInformations();
+            log::add('baro', 'debug', ' ─────────> FIN ACTUALISATION MANUELLE');
 			return;
 		}
 	}
