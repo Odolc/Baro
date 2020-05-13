@@ -1,6 +1,6 @@
 ---
-langs: [fr_FR, en_US]
-baseurl: "/Baro" # the subpath of your site, e.g. /blog
+langs: [fr_FR,en_US,es_ES]
+baseurl: "/"
 url: "/" # the base hostname & protocol for your site
 sass:
   sass_dir: assets/css
@@ -11,13 +11,27 @@ kramdown:
   input: GFM
   hard_wrap: false
 highlighter: rouge
+gems:
+- jekyll-paginate
+- jekyll-seo-tag
 exclude:
 - vendor
 plugins:
 - jekyll-paginate
 - jekyll-seo-tag
-title: "Documentations des plugins et widget de Edualc"
-description: "Ceci est la documentation du plugin Tendance baro de la solution domotique Jeedom."
-author: "JAG"
-image: https://doc.jeedom.com/img/logo.png
-forum: https://community.jeedom.com
+title: "Documentation Jeedom"
+description: "Ceci est la documentation du plugin Tendance Baro, lié à la solution domotique Jeedom."
+author: "Edualc"
+image: https://www.jeedom.com/site/logo.png
+twitter:
+  username: Jeedom_domotic
+social:
+  name: Jeedom
+  links:
+    - https://twitter.com/Jeedom_domotic
+    - https://www.facebook.com/Jeedom-249936178537210/
+    - https://github.com/jeedom
+community: https://community.jeedom.com
+market: https://market.jeedom.com
+blog: https://blog.jeedom.com
+doc: https://doc.jeedom.com
