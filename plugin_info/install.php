@@ -21,13 +21,16 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function baro_install() {
     jeedom::getApiKey('baro');
 
-    config::save('functionality::cron15::enable', 1, 'baro');
-    config::save('functionality::cron30::enable', 0, 'baro');
-
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
     }
+
+    config::save('functionality::cron5::enable', 0, 'baro');
+    config::save('functionality::cron10::enable', 0, 'baro');
+    config::save('functionality::cron15::enable', 1, 'baro');
+    config::save('functionality::cron30::enable', 0, 'baro');
+    config::save('functionality::cronHourly::enable', 0, 'baro');
 
     //message::add('Plugin Tendance Baro', 'Merci pour l\'installation du plugin.');
 }
@@ -40,6 +43,14 @@ function baro_update() {
         $cron->remove();
     }
 
+    if (config::byKey('functionality::cron5::enable', 'baro', -1) == -1) {
+        config::save('functionality::cron5::enable', 1, 'baro');
+    }
+
+    if (config::byKey('functionality::cron10::enable', 'baro', -1) == -1) {
+        config::save('functionality::cron10::enable', 1, 'baro');
+    }
+
     if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1) {
         config::save('functionality::cron15::enable', 1, 'baro');
     }
@@ -48,11 +59,17 @@ function baro_update() {
         config::save('functionality::cron30::enable', 0, 'baro');
     }
 
+    if (config::byKey('functionality::cronHourly::enable', 'baro', -1) == -1){
+        config::save('functionality::cronHourly::enable', 0, 'baro');
+    }
+
     $plugin = plugin::byId('baro');
     $eqLogics = eqLogic::byType($plugin->getId());
-    /* foreach ($eqLogics as $eqLogic) {
-
-    }*/
+    foreach ($eqLogics as $eqLogic) {
+        updateLogicalId($eqLogic, 'tendance', 'td');
+        updateLogicalId($eqLogic, 'tendance_num', 'td_num');
+        updateLogicalId($eqLogic, 'pression', 'pressure');
+    }
 
     //resave eqs for new cmd:
     try
@@ -69,6 +86,10 @@ function baro_update() {
     }
 
     //message::add('Plugin Tendance Baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog.');
+    foreach (eqLogic::byType('baro') as $baro) {
+        $baro->getInformations();
+    }
+
 }
 
 function updateLogicalId($eqLogic, $from, $to) {

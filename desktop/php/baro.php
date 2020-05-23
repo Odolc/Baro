@@ -16,6 +16,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <br />
                 <span>{{Ajouter}}</span>
             </div>
+            <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
+                <i class="fas fa-wrench"></i><br>
+                <span>{{Configuration}}</span>
+            </div>
         </div>
         <legend><i class="fas fa-chart-bar"></i> {{Mes Tendances Baro}}</legend>
         <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
@@ -134,8 +138,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <th>{{Valeur}}</th>
                             <th>{{Unité}}</th>
                             <th>{{Paramètres}}</th>
-                            <th width="120px;">{{Options}}</th>
-                            <th style="width: 40px;"></th>
+                            <th width="120px">{{Options}}</th>
+                            <th width="40px"></th>
                         </tr>
                     </thead>
                     <tbody>
