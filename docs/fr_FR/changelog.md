@@ -8,6 +8,9 @@ pluginId: baro
 # Info
 >***Pour rappel*** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineur.
 
+# Version 20200523
+- Update documentations
+
 # Version 20200512
 - Correction bug enregistrement individuel de chaque équipement
 - Enregistrement des équipements après chaque mise à jour

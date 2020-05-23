@@ -22,7 +22,7 @@ plugins:
 title: "Documentation Jeedom"
 description: "Ceci est la documentation du plugin Tendance Baro, lié à la solution domotique Jeedom."
 author: "Edualc"
-image: https://www.jeedom.com/site/logo.png
+image: https://doc.jeedom.com/images/logo.png
 twitter:
   username: Jeedom_domotic
 social:
@@ -35,3 +35,4 @@ community: https://community.jeedom.com
 market: https://market.jeedom.com
 blog: https://blog.jeedom.com
 doc: https://doc.jeedom.com
+img: "images"
