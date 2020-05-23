@@ -1,6 +1,7 @@
 ---
-langs: [fr_FR,en_US,es_ES,de_DE,id_ID,it_IT,ru_RU] 
+langs: [fr_FR,en_US,es_ES]
 baseurl: "/"
+url: "/" # the base hostname & protocol for your site
 sass:
   sass_dir: assets/css
   style: compressed
@@ -16,11 +17,12 @@ gems:
 exclude:
 - vendor
 plugins:
+- jekyll-paginate
 - jekyll-seo-tag
 title: "Documentation Jeedom"
-description: "Ceci est la documentation, lier à la solution domotique Jeedom."
-author: "Jeedom"
-image: https://www.jeedom.com/site/logo.png
+description: "Ceci est la documentation du plugin Tendance Baro, lié à la solution domotique Jeedom."
+author: "Edualc"
+image: https://doc.jeedom.com/images/logo.png
 twitter:
   username: Jeedom_domotic
 social:
@@ -29,4 +31,8 @@ social:
     - https://twitter.com/Jeedom_domotic
     - https://www.facebook.com/Jeedom-249936178537210/
     - https://github.com/jeedom
-theme: jekyll-theme-slate
+community: https://community.jeedom.com
+market: https://market.jeedom.com
+blog: https://blog.jeedom.com
+doc: https://doc.jeedom.com
+img: "images"
