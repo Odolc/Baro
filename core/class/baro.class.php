@@ -149,7 +149,7 @@ class baro extends eqLogic {
         }
         $baroCmd->setEqLogic_id($this->getId());
         $baroCmd->setUnite('hPa/h');
-        $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setGeneric_type('GENERIC_INFO');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
@@ -174,7 +174,7 @@ class baro extends eqLogic {
         }
         $baroCmd->setEqLogic_id($this->getId());
         $baroCmd->setUnite('hPa');
-        $baroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
+        $baroCmd->setGeneric_type('WEATHER_PRESSURE');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
@@ -199,7 +199,7 @@ class baro extends eqLogic {
         }
         $baroCmd->setEqLogic_id($this->getId());
         $baroCmd->setUnite('');
-        $baroCmd->setDisplay('generic_type','WEATHER_CONDITION');
+        $baroCmd->setGeneric_type('WEATHER_CONDITION');
         $baroCmd->setType('info');
         $baroCmd->setSubType('string');
         $baroCmd->save();
@@ -226,7 +226,7 @@ class baro extends eqLogic {
         $baroCmd->setUnite('');
         $baroCmd->setConfiguration('minValue', 0);
         $baroCmd->setConfiguration('maxValue', 5);
-        $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setGeneric_type('GENERIC_INFO');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
