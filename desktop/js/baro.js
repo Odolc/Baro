@@ -24,30 +24,6 @@ $('#bt_selectBaroCmd').on('click', function () {
 	});
 });
 
-$("#table_cmd").delegate(".listEquipementInfo", 'click', function () {
-	var el = $(this);
-	jeedom.cmd.getSelectModal({
-		cmd: {
-			type: 'info'
-		}
-	}, function (result) {
-		var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=calcul]');
-		calcul.atCaret('insert', result.human);
-	});
-});
-
-$("#table_cmd").delegate(".listEquipementAction", 'click', function () {
-	var el = $(this);
-	jeedom.cmd.getSelectModal({
-		cmd: {
-			type: 'action'
-		}
-	}, function (result) {
-		var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=' + el.attr('data-input') + ']');
-		calcul.value(result.human);
-	});
-});
-
 $("#table_cmd").sortable({
 	axis: "y",
 	cursor: "move",
@@ -167,10 +143,9 @@ function addCmdToTable(_cmd) {
 	tr += '</tr>';
 	$('#table_cmd tbody').append(tr);
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-	var tr = $('#table_cmd tbody tr').last();
 	if (isset(_cmd.type)) {
 		$('#table_cmd tbody tr:last .cmdAttr[data-l1key=type]').value(init(_cmd.type));
 	}
-	jeedom.cmd.changeType($('#table_cmd tbody tr').last(), init(_cmd.subType));
+	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 
 }
