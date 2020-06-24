@@ -23,7 +23,10 @@ $('#bt_selectBaroCmd').on('click', function () {
 		$('.eqLogicAttr[data-l2key=pression]').atCaret('insert', result.human);
 	});
 });
-
+$('#bt_resetSearch').off('click').on('click', function () {
+	$('#in_searchEqlogic').val('')
+	$('#in_searchEqlogic').keyup();
+})
 $("#table_cmd").sortable({
 	axis: "y",
 	cursor: "move",

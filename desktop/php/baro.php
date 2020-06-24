@@ -22,12 +22,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
             </div>
         </div>
         <legend><i class="fas fa-chart-bar"></i> {{Mes Tendances Baro}}</legend>
-        <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
+        <div class="input-group" style="margin:5px;">
+            <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
+            <div class="input-group-btn">
+                <a id="bt_resetSearch" class="btn" style="width:30px"><i class="fas fa-times"></i> </a>
+            </div>
+        </div>
         <div class="eqLogicThumbnailContainer">
             <?php
             foreach ($eqLogics as $eqLogic) {
                 $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
-                echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '" >';
+                echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '" >';
                 echo '<img src="' . $plugin->getPathImgIcon() . '" />';
                 echo '<br>';
                 echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
@@ -152,6 +157,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
 </div>
 
 <?php
-	include_file('desktop', 'baro', 'js', 'baro');
-	include_file('core', 'plugin.template', 'js');
+include_file('desktop', 'baro', 'js', 'baro');
+include_file('core', 'plugin.template', 'js');
 ?>
