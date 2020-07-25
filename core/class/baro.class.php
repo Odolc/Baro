@@ -26,7 +26,7 @@ class baro extends eqLogic {
 
     public static function cron5($_eqlogic_id = null) {
         foreach (eqLogic::byType('baro') as $baro) {
-            log::add('baro', 'debug', '========================== CRON 5 ==========================');
+            log::add(__CLASS__,'debug', '========================== CRON 5 ==========================');
 			$baro->getInformations();
 		}
 
@@ -35,7 +35,7 @@ class baro extends eqLogic {
     public static function cron10($_eqlogic_id = null) {
         foreach (eqLogic::byType('baro') as $baro) {
             if ($baro->getIsEnable()) {
-                log::add('baro', 'debug', '================= CRON 10 =================');
+                log::add(__CLASS__,'debug', '================= CRON 10 =================');
                 $baro->getInformations();
             }
         }
@@ -44,7 +44,7 @@ class baro extends eqLogic {
     public static function cron15() {
         foreach (eqLogic::byType('baro') as $baro) {
             if ($baro->getIsEnable()) {
-                log::add('baro', 'debug', '================= CRON 15 =================');
+                log::add(__CLASS__,'debug', '================= CRON 15 =================');
                 $baro->getInformations();
             }
         }
@@ -59,7 +59,7 @@ class baro extends eqLogic {
 		}
 		foreach (eqLogic::byType('baro') as $baro) {
 			if ($baro->getIsEnable()) {
-				log::add('baro', 'debug', '========================== CRON 30 ==========================');
+				log::add(__CLASS__,'debug', '========================== CRON 30 ==========================');
 				$baro->getInformations();
 			}
 		}
@@ -109,7 +109,7 @@ class baro extends eqLogic {
         foreach ($this->getCmd() as $cmd)
         {
             $s = print_r($cmd, 1);
-            log::add('baro', 'debug', 'refresh  cmd: '.$s);
+            log::add(__CLASS__,'debug','refresh  cmd: '.$s);
             $cmd->execute();
         }
     }
@@ -128,7 +128,7 @@ class baro extends eqLogic {
 
     public function postSave() {
         $_eqName = $this->getName();
-        log::add('baro', 'debug', 'postSave() =>'.$_eqName);
+        log::add(__CLASS__,'debug','postSave() =>'.$_eqName);
         $order = 1;
 
         // Ajout d'une commande dans le tableau pour le dP/dT
@@ -149,7 +149,7 @@ class baro extends eqLogic {
         }
         $baroCmd->setEqLogic_id($this->getId());
         $baroCmd->setUnite('hPa/h');
-        $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setGeneric_type('GENERIC_INFO');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
@@ -174,7 +174,7 @@ class baro extends eqLogic {
         }
         $baroCmd->setEqLogic_id($this->getId());
         $baroCmd->setUnite('hPa');
-        $baroCmd->setDisplay('generic_type','WEATHER_PRESSURE');
+        $baroCmd->setGeneric_type('WEATHER_PRESSURE');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
@@ -199,7 +199,7 @@ class baro extends eqLogic {
         }
         $baroCmd->setEqLogic_id($this->getId());
         $baroCmd->setUnite('');
-        $baroCmd->setDisplay('generic_type','WEATHER_CONDITION');
+        $baroCmd->setGeneric_type('WEATHER_CONDITION');
         $baroCmd->setType('info');
         $baroCmd->setSubType('string');
         $baroCmd->save();
@@ -226,7 +226,7 @@ class baro extends eqLogic {
         $baroCmd->setUnite('');
         $baroCmd->setConfiguration('minValue', 0);
         $baroCmd->setConfiguration('maxValue', 5);
-        $baroCmd->setDisplay('generic_type','GENERIC_INFO');
+        $baroCmd->setGeneric_type('GENERIC_INFO');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
@@ -254,83 +254,83 @@ class baro extends eqLogic {
     public function getInformations() {
         if (!$this->getIsEnable()) return;
         $_eqName = $this->getName();
-        log::add('baro', 'debug', '┌───────── CONFIGURATION EQUIPEMENT : '.$_eqName );
+        log::add(__CLASS__,'debug','┌───────── CONFIGURATION EQUIPEMENT : '.$_eqName );
         /*  ********************** PRESSION *************************** */
             $idvirt = str_replace("#","",$this->getConfiguration('pression'));
             $cmdvirt = cmd::byId($idvirt);
             if (is_object($cmdvirt)) {
                 $pressure = $cmdvirt->execCmd();
-                log::add('baro', 'debug', '│ Pression Atmosphérique : ' . $pressure.' hPa');
+                log::add(__CLASS__,'debug','│ Pression Atmosphérique : ' . $pressure.' hPa');
             } else {
                 throw new Exception(__('Le champ "Pression Atmosphérique" ne peut être vide',__FILE__));
-                log::add('baro', 'error', '│ Configuration : pression non existante : ' . $this->getConfiguration('pression'));
+                log::add(__CLASS__,'error','│ Configuration : pression non existante : ' . $this->getConfiguration('pression'));
             }
-        log::add('baro', 'debug', '└─────────');
+        log::add(__CLASS__,'debug','└─────────');
 
-        log::add('baro', 'debug', '┌───────── CALCUL Timestamp : '.$_eqName); // récupération du timestamp de la dernière mesure
+        log::add(__CLASS__,'debug','┌───────── CALCUL Timestamp : '.$_eqName); // récupération du timestamp de la dernière mesure
         $histo = new scenarioExpression();
         $endDate = $histo -> collectDate($idvirt);
 
         // calcul du timestamp actuel
-        log::add('baro', 'debug', '│ ┌─────── Timestamp -15min : ' .$_eqName);
+        log::add(__CLASS__, 'debug','│ ┌─────── Timestamp -15min : ' .$_eqName);
         $_date1 = new DateTime("$endDate");
         $_date2 = new DateTime("$endDate");
         $startDate = $_date1 -> modify('-15 minute');
         $startDate = $_date1 -> format('Y-m-d H:i:s');
-        log::add('baro', 'debug', '│ │ Start Date -15min : ' .$startDate );
-        log::add('baro', 'debug', '│ │ End Date -15min : ' .$endDate );
+        log::add(__CLASS__,'debug','│ │ Start Date -15min : ' .$startDate );
+        log::add(__CLASS__,'debug','│ │ End Date -15min : ' .$endDate );
 
         // dernière mesure barométrique
         $h1 = $histo->lastBetween($idvirt, $startDate, $endDate);
-        log::add('baro', 'debug', '│ │ Pression Atmosphérique -15min : ' .$h1 . ' hPa' );
-        log::add('baro', 'debug', '│ └───────');
+        log::add(__CLASS__,'debug','│ │ Pression Atmosphérique -15min : ' .$h1 . ' hPa' );
+        log::add(__CLASS__,'debug','│ └───────');
 
         // calcul du timestamp - 2h
-        log::add('baro', 'debug', '│ ┌─────── Timestamp -2h : ' .$_eqName);
+        log::add(__CLASS__,'debug','│ ┌─────── Timestamp -2h : ' .$_eqName);
         $endDate = $_date2 -> modify('-2 hour');
         $endDate = $_date2 -> format('Y-m-d H:i:s');
         $startDate = $_date1 -> modify('-2 hour');
         $startDate = $_date1 -> format('Y-m-d H:i:s');
-        log::add('baro', 'debug', '│ │ Start Date -2h : ' .$startDate );
-        log::add('baro', 'debug', '│ │ End Date -2h : ' .$endDate );
+        log::add(__CLASS__,'debug','│ │ Start Date -2h : ' .$startDate );
+        log::add(__CLASS__,'debug','│ │ End Date -2h : ' .$endDate );
 
         // mesure barométrique -2h
         $h2 = $histo->lastBetween($idvirt, $startDate, $endDate);
-        log::add('baro', 'debug', '│ │ Pression Atmosphérique -2h : ' .$h2 . ' hPa' );
+        log::add(__CLASS__,'debug','│ │ Pression Atmosphérique -2h : ' .$h2 . ' hPa' );
 
         // calculs de tendance 15min/2h
         $td2h = ($h1 - $h2) / 2;
-        log::add('baro', 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h' );
-        log::add('baro', 'debug', '│ └───────');
+        log::add(__CLASS__,'debug','│ │ Tendance -2h : ' . $td2h . ' hPa/h' );
+        log::add(__CLASS__,'debug','│ └───────');
 
         // calcul du timestamp - 4h
-        log::add('baro', 'debug', '│ ┌─────── Timestamp -4h : ' .$_eqName);
+        log::add(__CLASS__,'debug','│ ┌─────── Timestamp -4h : ' .$_eqName);
         $endDate = $_date2 -> modify('-2 hour');
         $endDate = $_date2 -> format('Y-m-d H:i:s');
         $startDate = $_date1 -> modify('-2 hour');
         $startDate = $_date1 -> format('Y-m-d H:i:s');
-        log::add('baro', 'debug', '│ │ Start Date -4h : ' .$startDate );
-        log::add('baro', 'debug', '│ │ End Date -4h : ' .$endDate );
+        log::add(__CLASS__,'debug','│ │ Start Date -4h : ' .$startDate );
+        log::add(__CLASS__,'debug','│ │ End Date -4h : ' .$endDate );
 
         // mesure barométrique -4h
         $h4 = $histo->lastBetween($idvirt, $startDate, $endDate);
-        log::add('baro', 'debug', '│ │ Pression Atmosphérique -4h : ' .$h4 . ' hPa' );
+        log::add(__CLASS__,'debug','│ │ Pression Atmosphérique -4h : ' .$h4 . ' hPa' );
 
         // calculs de tendance 2h/4h
         $td4h = ($h1 - $h4) / 4;
-        log::add('baro', 'debug', '│ │ Tendance -4h : ' . $td4h . ' hPa/h' );
-        log::add('baro', 'debug', '│ └───────');
-        log::add('baro', 'debug', '└─────────');
+        log::add(__CLASS__,'debug','│ │ Tendance -4h : ' . $td4h . ' hPa/h' );
+        log::add(__CLASS__,'debug','│ └───────');
+        log::add(__CLASS__,'debug','└─────────');
 
         // calculs de tendance
-        log::add('baro', 'debug', '┌───────── CALCUL TENDANCE : '.$_eqName);
+        log::add(__CLASS__,'debug','┌───────── CALCUL TENDANCE : '.$_eqName);
         // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
         // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
 
         // moyennation de la tendance à -2h (50%) et -4h (50%)
         $td_moy = (0.5 * $td2h + 0.5 * $td4h);
         $dPdT = number_format($td_moy, 3, '.', '');
-        log::add('baro', 'debug', '│ Tendance Moyenne (dPdT) : ' . $dPdT . ' hPa/h' );
+        log::add(__CLASS__,'debug','│ Tendance Moyenne (dPdT) : ' . $dPdT . ' hPa/h' );
 
         if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
             $td = 'Forte embellie, instable';
@@ -351,12 +351,12 @@ class baro extends eqLogic {
             $td = 'Forte dégradation, instable';
             $td_num=0;
         }
-        log::add('baro', 'debug', '│ Tendance : ' .  $td . '' );
-        log::add('baro', 'debug', '│ Tendance numérique : ' .  $td_num . '' );
-        log::add('baro', 'debug', '└─────────');
+        log::add(__CLASS__,'debug','│ Tendance : ' .  $td . '' );
+        log::add(__CLASS__,'debug','│ Tendance numérique : ' .  $td_num . '' );
+        log::add(__CLASS__,'debug','└─────────');
 
     /*  ********************** Mise à Jour des équipements *************************** */
-        log::add('baro', 'debug', '┌───────── MISE A JOUR : '.$_eqName);
+        log::add(__CLASS__,'debug','┌───────── MISE A JOUR : '.$_eqName);
 
         $cmd = $this->getCmd('info', 'dPdT');
 		if (is_object($cmd)) {
@@ -364,7 +364,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($dPdT);
-            log::add('baro', 'debug', '│ dPdT : ' . $dPdT. ' hPa/h');
+            log::add(__CLASS__,'debug','│ dPdT : ' . $dPdT. ' hPa/h');
 		}
 
         $cmd = $this->getCmd('info', 'pressure');
@@ -373,7 +373,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($pressure);
-            log::add('baro', 'debug', '│ Pression : ' . $pressure. ' hPa');
+            log::add(__CLASS__,'debug','│ Pression : ' . $pressure. ' hPa');
 		}
 
         $cmd = $this->getCmd('info', 'td');
@@ -382,7 +382,7 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($td);
-            log::add('baro', 'debug', '│ Tendance : ' . $td);
+            log::add(__CLASS__,'debug','│ Tendance : ' . $td);
 		}
         $cmd = $this->getCmd('info', 'td_num');
 		if (is_object($cmd)) {
@@ -390,10 +390,10 @@ class baro extends eqLogic {
 			$cmd->save();
 			$cmd->setCollectDate('');
             $cmd->event($td_num);
-            log::add('baro', 'debug', '│ Tendance Numérique : ' . $td_num);
+            log::add(__CLASS__,'debug','│ Tendance Numérique : ' . $td_num);
 		}
-        log::add('baro', 'debug', '└─────────');
-        log::add('baro', 'debug', '================ FIN CRON =================');
+        log::add(__CLASS__,'debug','└─────────');
+        log::add(__CLASS__,'debug','================ FIN CRON =================');
 
         return ;
     }
@@ -405,15 +405,15 @@ class BaroCmd extends cmd {
     /*     * ***********************Methode static*************************** */
 
     /*     * *********************Methode d'instance************************* */
-	public function dontRemoveCmd() {
+	/*public function dontRemoveCmd() {
         return true;
-    }
+    }*/
 
 	public function execute($_options = null) {
 		if ($this->getLogicalId() == 'refresh') {
-            log::add('baro', 'debug', ' ─────────> ACTUALISATION MANUELLE');
+            log::add('baro','debug',' ─────────> ACTUALISATION MANUELLE');
 			$this->getEqLogic()->getInformations();
-            log::add('baro', 'debug', ' ─────────> FIN ACTUALISATION MANUELLE');
+            log::add('baro','debug',' ─────────> FIN ACTUALISATION MANUELLE');
 			return;
 		}
 	}
