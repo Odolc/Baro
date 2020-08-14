@@ -30,13 +30,20 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </div>
         <div class="eqLogicThumbnailContainer">
             <?php
+            $status = 0;
             foreach ($eqLogics as $eqLogic) {
+                $status = 1;
                 $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
                 echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '" >';
                 echo '<img src="' . $plugin->getPathImgIcon() . '" />';
                 echo '<br>';
                 echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
                 echo '</div>';
+            }
+            if ($status == 1) {
+                echo '</div>';
+            } else {
+                echo "<br/><br/><br/><center><span style='color:#767676;font-size:1em;font-weight: bold;margin-left: 10px'>{{Aucun équipement de type Tendance a été créé.}}</span></center>";
             }
             ?>
         </div>
