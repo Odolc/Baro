@@ -214,18 +214,26 @@ class baro extends eqLogic
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
 
+        $createRefreshCmd = true;
         $refresh = $this->getCmd(null, 'refresh');
         if (!is_object($refresh)) {
-            $refresh = new baroCmd();
-            $refresh->setLogicalId('refresh');
-            $refresh->setIsVisible(1);
-            $refresh->setName(__('Rafraichir', __FILE__));
-            $refresh->setOrder($order);
+            $refresh = cmd::byEqLogicIdCmdName($this->getId(), __('Rafraichir', __FILE__));
+            if (is_object($refresh)) {
+                $createRefreshCmd = false;
+            }
         }
-        $refresh->setEqLogic_id($this->getId());
-        $refresh->setType('action');
-        $refresh->setSubType('other');
-        $refresh->save();
+        if ($createRefreshCmd) {
+            if (!is_object($refresh)) {
+                $refresh = new baroCmd();
+                $refresh->setLogicalId('refresh');
+                $refresh->setIsVisible(1);
+                $refresh->setName(__('Rafraichir', __FILE__));
+            }
+            $refresh->setType('action');
+            $refresh->setSubType('other');
+            $refresh->setEqLogic_id($this->getId());
+            $refresh->save();
+        }
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -390,9 +398,13 @@ class BaroCmd extends cmd
     /*     * ***********************Methode static*************************** */
 
     /*     * *********************Methode d'instance************************* */
-    /*public function dontRemoveCmd() {
-        return true;
-    }*/
+    public function dontRemoveCmd()
+    {
+        if ($this->getLogicalId() == 'refresh') {
+            return true;
+        }
+        return false;
+    }
 
     public function execute($_options = null)
     {
