@@ -70,7 +70,7 @@ function baro_update()
     foreach ($eqLogics as $eqLogic) {
         //updateLogicalId($eqLogic, 'tendance', 'td');
         //updateLogicalId($eqLogic, 'tendance_num', 'td_num');
-        updateLogicalId($eqLogic, 'pression', null, 2);
+        updateLogicalId($eqLogic, 'pressure', null, 2);
         updateLogicalId($eqLogic, 'dPdT', null, 2);
     }
 
