@@ -69,14 +69,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     <fieldset>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">{{Nom de l'équipement}}</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l\'équipement}}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">{{Objet parent}}</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                                     <option value="">{{Aucun}}</option>
                                     <?php
@@ -127,7 +127,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <label class="col-sm-2 control-label">{{Pression Atmosphérique}}
                                 <sup><i class="fas fa-question-circle" title="{{(hPa) Pression atmosphérique réelle sur le site.}}"></i></sup>
                             </label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="pression" placeholder="{{Pression}}" />
                                     <span class="input-group-btn">
