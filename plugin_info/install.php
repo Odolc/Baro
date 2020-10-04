@@ -68,9 +68,9 @@ function baro_update()
     $plugin = plugin::byId('baro');
     $eqLogics = eqLogic::byType($plugin->getId());
     foreach ($eqLogics as $eqLogic) {
-        updateLogicalId($eqLogic, 'tendance', 'td');
-        updateLogicalId($eqLogic, 'tendance_num', 'td_num');
-        updateLogicalId($eqLogic, 'pression', 'pressure', 2);
+        //updateLogicalId($eqLogic, 'tendance', 'td');
+        //updateLogicalId($eqLogic, 'tendance_num', 'td_num');
+        updateLogicalId($eqLogic, 'pression', null, 2);
         updateLogicalId($eqLogic, 'dPdT', null, 2);
     }
 
