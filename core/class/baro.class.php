@@ -84,6 +84,99 @@ class baro extends eqLogic
     {
         return baro_Template::getTemplate();
     }
+    public function AddCommand($Name, $_logicalId, $Type = 'info', $SubType = 'binary', $Template = null, $unite = null, $generic_type = null, $IsVisible = 1, $icon, $forceLineB = '0', $valuemin = 'default', $valuemax = 'default', $_order = null, $IsHistorized = '0', $repeatevent = false, $_iconname = null, $_calculValueOffset = null, $_historizeRound = null, $_noiconname = null)
+    {
+
+        $Command = $this->getCmd(null, $_logicalId);
+        if (!is_object($Command)) {
+            log::add('rosee', 'debug', '│ Name : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- Type de générique : ' . $generic_type . ' -- Icône : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi: ' . $_calculValueOffset . '/' . $_historizeRound);
+            $Command = new roseeCmd();
+            $Command->setId(null);
+            $Command->setLogicalId($_logicalId);
+            $Command->setEqLogic_id($this->getId());
+            $Command->setName($Name);
+
+            $Command->setType($Type);
+            $Command->setSubType($SubType);
+
+            if ($Template != null) {
+                $Command->setTemplate('dashboard', $Template);
+                $Command->setTemplate('mobile', $Template);
+            }
+
+            if ($unite != null && $SubType == 'numeric') {
+                $Command->setUnite($unite);
+            }
+
+            $Command->setIsVisible($IsVisible);
+            $Command->setIsHistorized($IsHistorized);
+
+            if ($icon != null) {
+                $Command->setdisplay('icon', '<i class="' . $icon . '"></i>');
+            }
+            if ($forceLineB != null) {
+                $Command->setdisplay('forceReturnLineBefore', 1);
+            }
+            if ($_iconname != null) {
+                $Command->setdisplay('showIconAndNamedashboard', 1);
+            }
+            if ($_noiconname != null) {
+                $Command->setdisplay('showNameOndashboard', 0);
+            }
+
+            if ($_calculValueOffset != null) {
+                $Command->setConfiguration('calculValueOffset', $_calculValueOffset);
+            }
+
+            if ($_historizeRound != null) {
+                $Command->setConfiguration('historizeRound', $_historizeRound);
+            }
+            if ($generic_type != null) {
+                $Command->setGeneric_type($generic_type);
+            }
+
+            if ($repeatevent == true && $Type == 'info') {
+                $Command->setconfiguration('repeatEventManagement', 'never');
+                log::add(__CLASS__, 'debug', '│ No Repeat pour l\'info avec le nom : ' . $Name);
+            }
+            if ($valuemin != 'default') {
+                $Command->setconfiguration('minValue', $valuemin);
+            }
+            if ($valuemax != 'default') {
+                $Command->setconfiguration('maxValue', $valuemax);
+            }
+
+            $Command->save();
+        }
+
+        if ($_order != null) {
+            $Command->setOrder($_order);
+        }
+
+        $Command->save();
+
+        $createRefreshCmd = true;
+        $refresh = $this->getCmd(null, 'refresh');
+        if (!is_object($refresh)) {
+            $refresh = cmd::byEqLogicIdCmdName($this->getId(), __('Rafraichir', __FILE__));
+            if (is_object($refresh)) {
+                $createRefreshCmd = false;
+            }
+        }
+        if ($createRefreshCmd) {
+            if (!is_object($refresh)) {
+                $refresh = new roseeCmd();
+                $refresh->setLogicalId('refresh');
+                $refresh->setIsVisible(1);
+                $refresh->setName(__('Rafraichir', __FILE__));
+            }
+            $refresh->setType('action');
+            $refresh->setSubType('other');
+            $refresh->setEqLogic_id($this->getId());
+            $refresh->save();
+        }
+        return $Command;
+    }
 
     /*     * *********************Methode d'instance************************* */
     public function refresh()
@@ -114,8 +207,31 @@ class baro extends eqLogic
         log::add(__CLASS__, 'debug', 'postSave() =>' . $_eqName);
         $order = 1;
 
+        if (version_compare(jeedom::version(), "4", "<")) {
+            $templatecore_V4 = null;
+        } else {
+            $templatecore_V4  = 'core::';
+        };
+
+        $Equipement = eqlogic::byId($this->getId());
+
         // Ajout d'une commande dans le tableau pour le dP/dT
-        $baroCmd = $this->getCmd(null, 'dPdT');
+        $Equipement->AddCommand('dPdT', 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
+        $order++;
+        // Ajout d'une commande dans le tableau pour la pression
+        $Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
+        $order++;
+        // Ajout d'une commande dans le tableau pour la tendance
+        $Equipement->AddCommand('Tendance', 'td', 'info', 'string', $templatecore_V4 . 'multiline', null, 'WEATHER_CONDITION', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, null, null);
+        $order++;
+        // Ajout d'une commande dans le tableau pour la tendance numérique
+        $Equipement->AddCommand('Tendance numerique', 'td_num', 'info', 'numeric', 'baro::tendance', null, 'GENERIC_INFO', '0', 'null', 'default', '0', 5, $order, '0', true, null, null, null, null);
+
+
+
+
+        // Ajout d'une commande dans le tableau pour le dP/dT
+        /*$baroCmd = $this->getCmd(null, 'dPdT');
         if (!is_object($baroCmd)) {
             $baroCmd = new baroCmd();
             $baroCmd->setName(__('dP/dT', __FILE__));
@@ -135,10 +251,10 @@ class baro extends eqLogic
         $baroCmd->setGeneric_type('GENERIC_INFO');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
-        $baroCmd->save();
+        $baroCmd->save();*/
 
         // Ajout d'une commande dans le tableau pour la pression
-        $baroCmd = $this->getCmd(null, 'pressure');
+        /* $baroCmd = $this->getCmd(null, 'pressure');
         if (!is_object($baroCmd)) {
             $baroCmd = new baroCmd();
             $baroCmd->setName(__('Pression', __FILE__));
@@ -161,9 +277,9 @@ class baro extends eqLogic
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
         $baroCmd->save();
-
+*/
         // Ajout d'une commande dans le tableau pour la tendance
-        $baroCmd = $this->getCmd(null, 'td');
+        /*  $baroCmd = $this->getCmd(null, 'td');
         if (!is_object($baroCmd)) {
             $baroCmd = new baroCmd();
             $baroCmd->setName(__('Tendance', __FILE__));
@@ -186,9 +302,9 @@ class baro extends eqLogic
         $baroCmd->setType('info');
         $baroCmd->setSubType('string');
         $baroCmd->save();
-
+*/
         // Ajout d'une commande dans le tableau pour la tendance numérique
-        $baroCmd = $this->getCmd(null, 'td_num');
+        /*      $baroCmd = $this->getCmd(null, 'td_num');
         if (!is_object($baroCmd)) {
             $baroCmd = new baroCmd();
             $baroCmd->setName(__('Tendance numerique', __FILE__));
@@ -212,9 +328,9 @@ class baro extends eqLogic
         $baroCmd->setGeneric_type('GENERIC_INFO');
         $baroCmd->setType('info');
         $baroCmd->setSubType('numeric');
-        $baroCmd->save();
+        $baroCmd->save(); */
 
-        $createRefreshCmd = true;
+        /* $createRefreshCmd = true;
         $refresh = $this->getCmd(null, 'refresh');
         if (!is_object($refresh)) {
             $refresh = cmd::byEqLogicIdCmdName($this->getId(), __('Rafraichir', __FILE__));
@@ -233,7 +349,7 @@ class baro extends eqLogic
             $refresh->setSubType('other');
             $refresh->setEqLogic_id($this->getId());
             $refresh->save();
-        }
+        }*/
     }
 
     /*     * **********************Getteur Setteur*************************** */
@@ -350,43 +466,34 @@ class baro extends eqLogic
         /*  ********************** Mise à Jour des équipements *************************** */
         log::add(__CLASS__, 'debug', '┌───────── MISE A JOUR : ' . $_eqName);
 
-        $cmd = $this->getCmd('info', 'dPdT');
-        if (is_object($cmd)) {
-            $cmd->setConfiguration('value', $dPdT);
-            $cmd->save();
-            $cmd->setCollectDate('');
-            $cmd->event($dPdT);
-            log::add(__CLASS__, 'debug', '│ dPdT : ' . $dPdT . ' hPa/h');
-        }
+        $Equipement = eqlogic::byId($this->getId());
+        if (is_object($Equipement) && $Equipement->getIsEnable()) {
 
-        $cmd = $this->getCmd('info', 'pressure');
-        if (is_object($cmd)) {
-            $cmd->setConfiguration('value', $pressure);
-            $cmd->save();
-            $cmd->setCollectDate('');
-            $cmd->event($pressure);
-            log::add(__CLASS__, 'debug', '│ Pression : ' . $pressure . ' hPa');
-        }
-
-        $cmd = $this->getCmd('info', 'td');
-        if (is_object($cmd)) {
-            $cmd->setConfiguration('value', $td);
-            $cmd->save();
-            $cmd->setCollectDate('');
-            $cmd->event($td);
-            log::add(__CLASS__, 'debug', '│ Tendance : ' . $td);
-        }
-        $cmd = $this->getCmd('info', 'td_num');
-        if (is_object($cmd)) {
-            $cmd->setConfiguration('value', $td_num);
-            $cmd->save();
-            $cmd->setCollectDate('');
-            $cmd->event($td_num);
-            log::add(__CLASS__, 'debug', '│ Tendance Numérique : ' . $td_num);
+            foreach ($Equipement->getCmd('info') as $Command) {
+                if (is_object($Command)) {
+                    switch ($Command->getLogicalId()) {
+                        case "dPdT":
+                            log::add(__CLASS__, 'debug', '│ dPdT : ' . $dPdT . ' hPa/h');
+                            $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $dPdT);
+                            break;
+                        case "pressure":
+                            log::add(__CLASS__, 'debug', '│ Pression : ' . $pressure . ' hPa');
+                            $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $pressure);
+                            break;
+                        case "td":
+                            log::add(__CLASS__, 'debug', '│ Tendance : ' . $td);
+                            $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $td);
+                            break;
+                        case "td_num":
+                            log::add(__CLASS__, 'debug', '│ Tendance Numérique : ' . $td_num);
+                            $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $td_num);
+                            break;
+                    }
+                }
+            }
         }
         log::add(__CLASS__, 'debug', '└─────────');
         log::add(__CLASS__, 'debug', '================ FIN CRON =================');
-
         return;
     }
 }
