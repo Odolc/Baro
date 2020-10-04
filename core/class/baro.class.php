@@ -219,8 +219,8 @@ class baro extends eqLogic
         $Equipement->AddCommand('dPdT', 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
         $order++;
         // Ajout d'une commande dans le tableau pour la pression
-        $Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
-        $order++;
+        //$Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
+        //$order++;
         // Ajout d'une commande dans le tableau pour la tendance
         $Equipement->AddCommand('Tendance', 'td', 'info', 'string', $templatecore_V4 . 'multiline', null, 'WEATHER_CONDITION', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, null, null);
         $order++;
@@ -238,6 +238,7 @@ class baro extends eqLogic
     {
         if (!$this->getIsEnable()) return;
         $_eqName = $this->getName();
+
         log::add(__CLASS__, 'debug', '┌───────── CONFIGURATION EQUIPEMENT : ' . $_eqName);
         /*  ********************** PRESSION *************************** */
         $idvirt = str_replace("#", "", $this->getConfiguration('pression'));
@@ -283,7 +284,7 @@ class baro extends eqLogic
         log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -2h : ' . $h2 . ' hPa');
 
         // calculs de tendance 15min/2h
-        $td2h = ($h1 - $h2) / 2;
+        $td2h = number_format((($h1 - $h2) / 2), 2, '.', '');
         log::add(__CLASS__, 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h');
         log::add(__CLASS__, 'debug', '│ └───────');
 
