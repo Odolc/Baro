@@ -360,12 +360,20 @@ class baro extends eqLogic
                             $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $pressure);
                             break;
                         case "td":
-                            log::add(__CLASS__, 'debug', '│ Tendance : ' . $td);
-                            $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $td);
+                            if (isset($td)) {
+                                log::add(__CLASS__, 'debug', '│ Tendance : ' . $td);
+                                $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $td);
+                            } else {
+                                log::add(__CLASS__, 'debug', '│ Problème variable Tendance');
+                            }
                             break;
                         case "td_num":
-                            log::add(__CLASS__, 'debug', '│ Tendance Numérique : ' . $td_num);
-                            $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $td_num);
+                            if (isset($td_num)) {
+                                log::add(__CLASS__, 'debug', '│ Tendance Numérique : ' . $td_num);
+                                $Equipement->checkAndUpdateCmd($Command->getLogicalId(), $td_num);
+                            } else {
+                                log::add(__CLASS__, 'debug', '│ Problème variable Tendance Numérique ');
+                            }
                             break;
                     }
                 }
