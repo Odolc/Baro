@@ -284,9 +284,13 @@ class baro extends eqLogic
         log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -2h : ' . $h2 . ' hPa');
 
         // calculs de tendance 15min/2h
-        //$td2h = number_format((($h1 - $h2) / 2), 2, '.', '');
-        $td2h = (($h1 - $h2) / 2);
-        log::add(__CLASS__, 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h');
+        if ($h2 != null) {
+            $td2h = ($h1 - $h2) / 2;
+            log::add(__CLASS__, 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h');
+        } else {
+            $td2h = 0;
+            log::add(__CLASS__, 'error', '│ │ Pression Atmosphérique -2h nulle (historique) : ' . $h2 . ' hPa');
+        }
         log::add(__CLASS__, 'debug', '│ └───────');
 
         // calcul du timestamp - 4h
@@ -303,9 +307,13 @@ class baro extends eqLogic
         log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -4h : ' . $h4 . ' hPa');
 
         // calculs de tendance 2h/4h
-        //$td4h = number_format((($h1 - $h4) / 4), 2, '.', '');
-        $td4h = ($h1 - $h4) / 4;
-        log::add(__CLASS__, 'debug', '│ │ Tendance -4h : ' . $td4h . ' hPa/h');
+        if ($h4 != null) {
+            $td4h = (($h1 - $h4) / 4);
+            log::add(__CLASS__, 'debug', '│ │ Tendance -4h : ' . $td4h . ' hPa/h');
+        } else {
+            $td4h = 0;
+            log::add(__CLASS__, 'error', '│ │ Pression Atmosphérique -4h nulle (historique) : ' . $h4 . ' hPa');
+        }
         log::add(__CLASS__, 'debug', '│ └───────');
         log::add(__CLASS__, 'debug', '└─────────');
 
