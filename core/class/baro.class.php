@@ -84,12 +84,12 @@ class baro extends eqLogic
     {
         return baro_Template::getTemplate();
     }
-    public function AddCommand($Name, $_logicalId, $Type = 'info', $SubType = 'binary', $Template = null, $unite = null, $generic_type = null, $IsVisible = 1, $icon, $forceLineB = '0', $valuemin = 'default', $valuemax = 'default', $_order = null, $IsHistorized = '0', $repeatevent = false, $_iconname = null, $_calculValueOffset = null, $_historizeRound = null, $_noiconname = null)
+    public function AddCommand($Name, $_logicalId, $Type = 'info', $SubType = 'binary', $Template = null, $unite = null, $generic_type = null, $IsVisible = 1, $icon = 'default', $forceLineB = 'default', $valuemin = 'default', $valuemax = 'default', $_order = null, $IsHistorized = '0', $repeatevent = false, $_iconname = null, $_calculValueOffset = null, $_historizeRound = null, $_noiconname = null)
     {
 
         $Command = $this->getCmd(null, $_logicalId);
         if (!is_object($Command)) {
-            log::add(__CLASS__, 'debug', '│ Name : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- Type de générique : ' . $generic_type . ' -- Icône : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi: ' . $_calculValueOffset . '/' . $_historizeRound);
+            log::add(__CLASS__, 'debug', '│ Name : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- Type de générique : ' . $generic_type . ' -- Icône : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi: ' . $_calculValueOffset . '/' . $_historizeRound . ' -- Ordre : ' . $_order);
             $Command = new roseeCmd();
             $Command->setId(null);
             $Command->setLogicalId($_logicalId);
@@ -111,13 +111,13 @@ class baro extends eqLogic
             $Command->setIsVisible($IsVisible);
             $Command->setIsHistorized($IsHistorized);
 
-            if ($icon != null) {
+            if ($icon != 'default') {
                 $Command->setdisplay('icon', '<i class="' . $icon . '"></i>');
             }
-            if ($forceLineB != null) {
+            if ($forceLineB != 'default') {
                 $Command->setdisplay('forceReturnLineBefore', 1);
             }
-            if ($_iconname != null) {
+            if ($_iconname != 'default') {
                 $Command->setdisplay('showIconAndNamedashboard', 1);
             }
             if ($_noiconname != null) {
@@ -212,20 +212,22 @@ class baro extends eqLogic
         } else {
             $templatecore_V4  = 'core::';
         };
+        $td_num_max = 5;
+        $td_num_visible = 1;
+        $td_num = 1;
+        $template_td = $templatecore_V4 . 'tile';
+        $template_td_num = 'rosee::tendance';
+        $_iconname_td = 1;
+        $_iconname_td_num = 1;
 
         $Equipement = eqlogic::byId($this->getId());
-
-        // Ajout d'une commande dans le tableau pour le dP/dT
-        $Equipement->AddCommand('dPdT', 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
+        $Equipement->AddCommand('dPdT', 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         $order++;
-        // Ajout d'une commande dans le tableau pour la pression
-        //$Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, 2, null);
+        //$Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         //$order++;
-        // Ajout d'une commande dans le tableau pour la tendance
-        $Equipement->AddCommand('Tendance', 'td', 'info', 'string', $templatecore_V4 . 'multiline', null, 'WEATHER_CONDITION', '0', 'null', 'default', 'default', 'default', $order, '0', true, null, null, null, null);
+        $Equipement->AddCommand('Message', 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order, '0', true, $_iconname_td, null, null, null);
         $order++;
-        // Ajout d'une commande dans le tableau pour la tendance numérique
-        $Equipement->AddCommand('Tendance numerique', 'td_num', 'info', 'numeric', 'baro::tendance', null, 'GENERIC_INFO', '0', 'null', 'default', '0', 5, $order, '0', true, null, null, null, null);
+        $Equipement->AddCommand('Message numérique', 'td_num', 'info', 'numeric', $template_td_num, null, 'GENERIC_INFO', $td_num_visible, 'default', 'default', '0', $td_num_max, $order, '0', true, $_iconname_td_num, null, null, null);
     }
 
     /*     * **********************Getteur Setteur*************************** */
