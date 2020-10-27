@@ -217,6 +217,8 @@ class baro extends eqLogic
         $td_num = 1;
         $template_td = $templatecore_V4 . 'tile';
         $template_td_num = 'rosee::tendance';
+        $name_td = 'Tendance';
+        $name_td_num = 'Tendance numérique';
         $_iconname_td = 1;
         $_iconname_td_num = 1;
 
@@ -225,9 +227,9 @@ class baro extends eqLogic
         $order++;
         //$Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         //$order++;
-        $Equipement->AddCommand('Message', 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order, '0', true, $_iconname_td, null, null, null);
+        $Equipement->AddCommand($name_td, 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order, '0', true, $_iconname_td, null, null, null);
         $order++;
-        $Equipement->AddCommand('Message numérique', 'td_num', 'info', 'numeric', $template_td_num, null, 'GENERIC_INFO', $td_num_visible, 'default', 'default', '0', $td_num_max, $order, '0', true, $_iconname_td_num, null, null, null);
+        $Equipement->AddCommand($name_td_num, 'td_num', 'info', 'numeric', $template_td_num, null, 'GENERIC_INFO', $td_num_visible, 'default', 'default', '0', $td_num_max, $order, '0', true, $_iconname_td_num, null, null, null);
     }
 
     /*     * **********************Getteur Setteur*************************** */
