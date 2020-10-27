@@ -57,7 +57,7 @@ Le plugin met à disposition deux widgets pour la tendance :
 
 - A quoi sert le plugin ?
 
-  > Le plugin calcule une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
+  > Le plugin calcul une tendance météo en se basant sur l'évolution de la pression atmosphérique sur les dernières heures
 
 # Exemple de configuration
 
