@@ -7,7 +7,7 @@ pluginId: baro
 
 # Info
 
-> **_Pour rappel_** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineur.
+> **_Pour rappel_** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
 
 # Version 20201027
 
@@ -19,12 +19,12 @@ pluginId: baro
 - Clean Log + code
 - Correction bug suppression commande Refresh
 - Correction Warning PHP
-- Correction variable non défini
+- Correction variable non définis
 - Correction Bug création des commandes
 
 # Version 20200525
 
-- Correction Bug Recréation des commandes
+- Correction bug recréation des commandes
 - Fin clean suite à déplacement de la documentation
 - Amélioration code (gestion affichage de paramètres suivant le mode de calcul)
 
@@ -69,7 +69,7 @@ pluginId: baro
 - Correction des historiques
 - Commande Refresh (sur la tuile, scénario etc)
 - Amélioration des logs
-- Correction type de generic
+- Correction type de generique
 - Correction Bug : l'actualisation des données ne se fait plus si l'équipement est désactivé
 - Nettoyage des dossiers
 
