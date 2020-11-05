@@ -21,6 +21,7 @@ pluginId: baro
 - Correction Warning PHP
 - Correction variable non définis
 - Correction Bug création des commandes
+- Amélioration de la liste des objets parents
 
 # Version 20200525
 
