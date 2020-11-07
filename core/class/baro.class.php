@@ -240,11 +240,15 @@ class baro extends eqLogic
     {
         if (!$this->getIsEnable()) return;
         $_eqName = $this->getName();
-
         log::add(__CLASS__, 'debug', '┌───────── CONFIGURATION EQUIPEMENT : ' . $_eqName);
+
+        /*  ********************** Calcul *************************** */
+        $calcul = 'tendance';
+
         /*  ********************** PRESSION *************************** */
-        $idvirt = str_replace("#", "", $this->getConfiguration('pression'));
-        $cmdvirt = cmd::byId($idvirt);
+        $pressure = $this->getConfiguration('pression');
+        $pressureID = str_replace("#", "", $this->getConfiguration('pression'));
+        $cmdvirt = cmd::byId($pressureID);
         if (is_object($cmdvirt)) {
             $pressure = $cmdvirt->execCmd();
             log::add(__CLASS__, 'debug', '│ Pression Atmosphérique : ' . $pressure . ' hPa');
@@ -254,103 +258,15 @@ class baro extends eqLogic
         }
         log::add(__CLASS__, 'debug', '└─────────');
 
-        log::add(__CLASS__, 'debug', '┌───────── CALCUL Timestamp : ' . $_eqName); // récupération du timestamp de la dernière mesure
-        $histo = new scenarioExpression();
-        $endDate = $histo->collectDate($idvirt);
-
-        // calcul du timestamp actuel
-        log::add(__CLASS__, 'debug', '│ ┌─────── Timestamp -15min : ' . $_eqName);
-        $_date1 = new DateTime("$endDate");
-        $_date2 = new DateTime("$endDate");
-        $startDate = $_date1->modify('-15 minute');
-        $startDate = $_date1->format('Y-m-d H:i:s');
-        log::add(__CLASS__, 'debug', '│ │ Start Date -15min : ' . $startDate);
-        log::add(__CLASS__, 'debug', '│ │ End Date -15min : ' . $endDate);
-
-        // dernière mesure barométrique
-        $h1 = $histo->lastBetween($idvirt, $startDate, $endDate);
-        log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -15min : ' . $h1 . ' hPa');
-        log::add(__CLASS__, 'debug', '│ └───────');
-
-        // calcul du timestamp - 2h
-        log::add(__CLASS__, 'debug', '│ ┌─────── Timestamp -2h : ' . $_eqName);
-        $endDate = $_date2->modify('-2 hour');
-        $endDate = $_date2->format('Y-m-d H:i:s');
-        $startDate = $_date1->modify('-2 hour');
-        $startDate = $_date1->format('Y-m-d H:i:s');
-        log::add(__CLASS__, 'debug', '│ │ Start Date -2h : ' . $startDate);
-        log::add(__CLASS__, 'debug', '│ │ End Date -2h : ' . $endDate);
-
-        // mesure barométrique -2h
-        $h2 = $histo->lastBetween($idvirt, $startDate, $endDate);
-        log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -2h : ' . $h2 . ' hPa');
-
-        // calculs de tendance 15min/2h
-        if ($h2 != null) {
-            $td2h = ($h1 - $h2) / 2;
-            log::add(__CLASS__, 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h');
-        } else {
-            $td2h = 0;
-            log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -2h nulle (historique) : ' . $h2 . ' hPa');
+        /*  ********************** Calcul de la tendance *************************** */
+        if ($calcul == 'tendance') {
+            log::add(__CLASS__, 'debug', '┌───────── CALCUL DE LA TENDANCE : ' . $_eqName);
+            $va_result_T = baro::getTendance($pressureID);
+            $td_num = $va_result_T[0];
+            $td = $va_result_T[1];
+            $dPdT = $va_result_T[2];
+            log::add(__CLASS__, 'debug', '└─────────');
         }
-        log::add(__CLASS__, 'debug', '│ └───────');
-
-        // calcul du timestamp - 4h
-        log::add(__CLASS__, 'debug', '│ ┌─────── Timestamp -4h : ' . $_eqName);
-        $endDate = $_date2->modify('-2 hour');
-        $endDate = $_date2->format('Y-m-d H:i:s');
-        $startDate = $_date1->modify('-2 hour');
-        $startDate = $_date1->format('Y-m-d H:i:s');
-        log::add(__CLASS__, 'debug', '│ │ Start Date -4h : ' . $startDate);
-        log::add(__CLASS__, 'debug', '│ │ End Date -4h : ' . $endDate);
-
-        // mesure barométrique -4h
-        $h4 = $histo->lastBetween($idvirt, $startDate, $endDate);
-        log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -4h : ' . $h4 . ' hPa');
-
-        // calculs de tendance 2h/4h
-        if ($h4 != null) {
-            $td4h = (($h1 - $h4) / 4);
-            log::add(__CLASS__, 'debug', '│ │ Tendance -4h : ' . $td4h . ' hPa/h');
-        } else {
-            $td4h = 0;
-            log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -4h nulle (historique) : ' . $h4 . ' hPa');
-        }
-        log::add(__CLASS__, 'debug', '│ └───────');
-        log::add(__CLASS__, 'debug', '└─────────');
-
-        // calculs de tendance
-        log::add(__CLASS__, 'debug', '┌───────── CALCUL TENDANCE : ' . $_eqName);
-        // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
-        // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
-
-        // moyennation de la tendance à -2h (50%) et -4h (50%)
-        $td_moy = (0.5 * $td2h + 0.5 * $td4h);
-        $dPdT = number_format($td_moy, 3, '.', '');
-        log::add(__CLASS__, 'debug', '│ Tendance Moyenne (dPdT) : ' . $dPdT . ' hPa/h');
-
-        if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
-            $td = 'Forte embellie, instable';
-            $td_num = 5;
-        } elseif ($td_moy > 0.5 && $td_moy <= 2.5) { // Slowly rising High Pressure System, stable good weather
-            $td = 'Amélioration, beau temps durable';
-            $td_num = 4;
-        } elseif ($td_moy > 0.0 && $td_moy <= 0.5) { // Stable weather condition
-            $td = 'Lente amélioration, temps stable';
-            $td_num = 3;
-        } elseif ($td_moy > -0.5 && $td_moy <= 0) { // Stable weather condition
-            $td = 'Lente dégradation, temps stable';
-            $td_num = 2;
-        } elseif ($td_moy > -2.5 && $td_moy <= -0.5) { // Slowly falling Low Pressure System, stable rainy weather
-            $td = 'Dégradation, mauvais temps durable';
-            $td_num = 1;
-        } else { // Quickly falling Low Pressure, Thunderstorm, not stable
-            $td = 'Forte dégradation, instable';
-            $td_num = 0;
-        }
-        log::add(__CLASS__, 'debug', '│ Tendance : ' .  $td . '');
-        log::add(__CLASS__, 'debug', '│ Tendance numérique : ' .  $td_num . '');
-        log::add(__CLASS__, 'debug', '└─────────');
 
         /*  ********************** Mise à Jour des équipements *************************** */
         log::add(__CLASS__, 'debug', '┌───────── MISE A JOUR : ' . $_eqName);
@@ -392,6 +308,104 @@ class baro extends eqLogic
         log::add(__CLASS__, 'debug', '└─────────');
         log::add(__CLASS__, 'debug', '================ FIN CRON =================');
         return;
+    }
+    /*  ********************** Calcul de la tendance *************************** */
+    public static function getTendance($pressureID)
+    {
+        $histo = new scenarioExpression();
+        $endDate = $histo->collectDate($pressureID);
+
+        // calcul du timestamp actuel
+        log::add(__CLASS__, 'debug', '│ ┌─────── Timestamp -15min');
+        $_date1 = new DateTime("$endDate");
+        $_date2 = new DateTime("$endDate");
+        $startDate = $_date1->modify('-15 minute');
+        $startDate = $_date1->format('Y-m-d H:i:s');
+        log::add(__CLASS__, 'debug', '│ │ Start Date : ' . $startDate);
+        log::add(__CLASS__, 'debug', '│ │ End Date : ' . $endDate);
+
+        // dernière mesure barométrique
+        $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
+        log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique : ' . $h1 . ' hPa');
+        log::add(__CLASS__, 'debug', '│ └───────');
+
+        // calcul du timestamp - 2h
+        log::add(__CLASS__, 'debug', '│ ┌─────── Timestamp -2h');
+        $endDate = $_date2->modify('-2 hour');
+        $endDate = $_date2->format('Y-m-d H:i:s');
+        $startDate = $_date1->modify('-2 hour');
+        $startDate = $_date1->format('Y-m-d H:i:s');
+        log::add(__CLASS__, 'debug', '│ │ Start Date : ' . $startDate);
+        log::add(__CLASS__, 'debug', '│ │ End Date : ' . $endDate);
+
+        // mesure barométrique -2h
+        $h2 = $histo->lastBetween($pressureID, $startDate, $endDate);
+        log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique : ' . $h2 . ' hPa');
+
+        // calculs de tendance 15min/2h
+        if ($h2 != null) {
+            $td2h = ($h1 - $h2) / 2;
+            log::add(__CLASS__, 'debug', '│ │ Tendance -2h : ' . $td2h . ' hPa/h');
+        } else {
+            $td2h = 0;
+            log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -2h nulle (historique) : ' . $h2 . ' hPa');
+        }
+        log::add(__CLASS__, 'debug', '│ └───────');
+
+        // calcul du timestamp - 4h
+        log::add(__CLASS__, 'debug', '│ ┌─────── Timestamp -4h');
+        $endDate = $_date2->modify('-2 hour');
+        $endDate = $_date2->format('Y-m-d H:i:s');
+        $startDate = $_date1->modify('-2 hour');
+        $startDate = $_date1->format('Y-m-d H:i:s');
+        log::add(__CLASS__, 'debug', '│ │ Start Date : ' . $startDate);
+        log::add(__CLASS__, 'debug', '│ │ End Date : ' . $endDate);
+
+        // mesure barométrique -4h
+        $h4 = $histo->lastBetween($pressureID, $startDate, $endDate);
+        log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique : ' . $h4 . ' hPa');
+
+        // calculs de tendance 2h/4h
+        if ($h4 != null) {
+            $td4h = (($h1 - $h4) / 4);
+            log::add(__CLASS__, 'debug', '│ │ Tendance -4h : ' . $td4h . ' hPa/h');
+        } else {
+            $td4h = 0;
+            log::add(__CLASS__, 'debug', '│ │ Pression Atmosphérique -4h nulle (historique) : ' . $h4 . ' hPa');
+        }
+        log::add(__CLASS__, 'debug', '│ └───────');
+
+        // calculs de tendance
+        log::add(__CLASS__, 'debug', '│ ┌───────── Calcul Tendance Moyenne');
+        // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
+        // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
+
+        // moyennation de la tendance à -2h (50%) et -4h (50%)
+        $td_moy = (0.5 * $td2h + 0.5 * $td4h);
+        $dPdT = number_format($td_moy, 3, '.', '');
+        log::add(__CLASS__, 'debug', '│ │ Tendance Moyenne (dPdT): ' . $dPdT . ' hPa/h');
+
+        if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
+            $td = 'Forte embellie, instable';
+            $td_num = number_format(5);
+        } elseif ($td_moy > 0.5 && $td_moy <= 2.5) { // Slowly rising High Pressure System, stable good weather
+            $td = 'Amélioration, beau temps durable';
+            $td_num = number_format(4);
+        } elseif ($td_moy > 0.0 && $td_moy <= 0.5) { // Stable weather condition
+            $td = 'Lente amélioration, temps stable';
+            $td_num = number_format(3);
+        } elseif ($td_moy > -0.5 && $td_moy <= 0) { // Stable weather condition
+            $td = 'Lente dégradation, temps stable';
+            $td_num = number_format(2);
+        } elseif ($td_moy > -2.5 && $td_moy <= -0.5) { // Slowly falling Low Pressure System, stable rainy weather
+            $td = 'Dégradation, mauvais temps durable';
+            $td_num = number_format(1);
+        } else { // Quickly falling Low Pressure, Thunderstorm, not stable
+            $td = 'Forte dégradation, instable';
+            $td_num = 0;
+        };
+        log::add(__CLASS__, 'debug', '│ └─────────');
+        return array($td_num, $td, $dPdT);
     }
 }
 
