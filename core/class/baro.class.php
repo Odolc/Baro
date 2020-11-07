@@ -321,8 +321,7 @@ class baro extends eqLogic
         $_date2 = new DateTime("$endDate");
         $startDate = $_date1->modify('-15 minute');
         $startDate = $_date1->format('Y-m-d H:i:s');
-        log::add(__CLASS__, 'debug', '│ │ Start Date : ' . $startDate);
-        log::add(__CLASS__, 'debug', '│ │ End Date : ' . $endDate);
+        log::add(__CLASS__, 'debug', '│ │ Start / End Date : ' . $startDate . ' / ' . $endDate);
 
         // dernière mesure barométrique
         $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
@@ -335,8 +334,7 @@ class baro extends eqLogic
         $endDate = $_date2->format('Y-m-d H:i:s');
         $startDate = $_date1->modify('-2 hour');
         $startDate = $_date1->format('Y-m-d H:i:s');
-        log::add(__CLASS__, 'debug', '│ │ Start Date : ' . $startDate);
-        log::add(__CLASS__, 'debug', '│ │ End Date : ' . $endDate);
+        log::add(__CLASS__, 'debug', '│ │ Start / End Date : ' . $startDate . ' / ' . $endDate);
 
         // mesure barométrique -2h
         $h2 = $histo->lastBetween($pressureID, $startDate, $endDate);
@@ -358,8 +356,7 @@ class baro extends eqLogic
         $endDate = $_date2->format('Y-m-d H:i:s');
         $startDate = $_date1->modify('-2 hour');
         $startDate = $_date1->format('Y-m-d H:i:s');
-        log::add(__CLASS__, 'debug', '│ │ Start Date : ' . $startDate);
-        log::add(__CLASS__, 'debug', '│ │ End Date : ' . $endDate);
+        log::add(__CLASS__, 'debug', '│ │ Start / End Date : ' . $startDate . ' / ' . $endDate);
 
         // mesure barométrique -4h
         $h4 = $histo->lastBetween($pressureID, $startDate, $endDate);
