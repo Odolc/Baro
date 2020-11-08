@@ -90,7 +90,7 @@ class baro extends eqLogic
         $Command = $this->getCmd(null, $_logicalId);
         if (!is_object($Command)) {
             log::add(__CLASS__, 'debug', '│ Name : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- Type de générique : ' . $generic_type . ' -- Icône : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi: ' . $_calculValueOffset . '/' . $_historizeRound . ' -- Ordre : ' . $_order);
-            $Command = new roseeCmd();
+            $Command = new baroCmd();
             $Command->setId(null);
             $Command->setLogicalId($_logicalId);
             $Command->setEqLogic_id($this->getId());
@@ -163,7 +163,7 @@ class baro extends eqLogic
         }
         if ($createRefreshCmd) {
             if (!is_object($refresh)) {
-                $refresh = new roseeCmd();
+                $refresh = new baroCmd();
                 $refresh->setLogicalId('refresh');
                 $refresh->setIsVisible(1);
                 $refresh->setName(__('Rafraichir', __FILE__));
@@ -202,7 +202,7 @@ class baro extends eqLogic
     public function postSave()
     {
         $_eqName = $this->getName();
-        log::add(__CLASS__, 'debug', 'postSave() =>' . $_eqName);
+        log::add(__CLASS__, 'debug', 'Sauvegarde de l\'équipement [postSave()] : ' . $_eqName);
         $order = 1;
 
         if (version_compare(jeedom::version(), "4", "<")) {
@@ -214,7 +214,7 @@ class baro extends eqLogic
         $td_num_visible = 1;
         $td_num = 1;
         $template_td = $templatecore_V4 . 'tile';
-        $template_td_num = 'rosee::tendance';
+        $template_td_num = 'baro::tendance';
         $name_td = 'Tendance';
         $name_td_num = 'Tendance numérique';
         $_iconname_td = 1;
