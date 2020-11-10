@@ -18,7 +18,8 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
-function baro_install() {
+function baro_install()
+{
     jeedom::getApiKey('baro');
 
     $cron = cron::byClassAndFunction('baro', 'pull');
@@ -35,7 +36,8 @@ function baro_install() {
     //message::add('Plugin Tendance Baro', 'Merci pour l\'installation du plugin.');
 }
 
-function baro_update() {
+function baro_update()
+{
     jeedom::getApiKey('baro');
 
     $cron = cron::byClassAndFunction('baro', 'pull');
@@ -55,55 +57,58 @@ function baro_update() {
         config::save('functionality::cron15::enable', 1, 'baro');
     }
 
-    if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1){
+    if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1) {
         config::save('functionality::cron30::enable', 0, 'baro');
     }
 
-    if (config::byKey('functionality::cronHourly::enable', 'baro', -1) == -1){
+    if (config::byKey('functionality::cronHourly::enable', 'baro', -1) == -1) {
         config::save('functionality::cronHourly::enable', 0, 'baro');
     }
 
     $plugin = plugin::byId('baro');
     $eqLogics = eqLogic::byType($plugin->getId());
     foreach ($eqLogics as $eqLogic) {
-        updateLogicalId($eqLogic, 'tendance', 'td');
-        updateLogicalId($eqLogic, 'tendance_num', 'td_num');
-        updateLogicalId($eqLogic, 'pression', 'pressure');
+        //updateLogicalId($eqLogic, 'tendance', 'td');
+        //updateLogicalId($eqLogic, 'tendance_num', 'td_num');
+        updateLogicalId($eqLogic, 'pressure', null, 2);
+        updateLogicalId($eqLogic, 'dPdT', null, 2);
     }
 
     //resave eqs for new cmd:
-    try
-    {
+    try {
         $eqs = eqLogic::byType('baro');
-        foreach ($eqs as $eq){
+        foreach ($eqs as $eq) {
             $eq->save();
         }
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $e = print_r($e, 1);
-        log::add('baro', 'error', 'baro_update ERROR: '.$e);
+        log::add('baro', 'error', 'baro_update ERROR: ' . $e);
     }
 
     //message::add('Plugin Tendance Baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog.');
     foreach (eqLogic::byType('baro') as $baro) {
         $baro->getInformations();
     }
-
 }
 
-function updateLogicalId($eqLogic, $from, $to) {
-    $baroCmd = $eqLogic->getCmd(null, $from);
-    if (is_object($baroCmd)) {
-        $baroCmd->setLogicalId($to);
-        $baroCmd->save();
+function updateLogicalId($eqLogic, $from, $to, $_historizeRound = null)
+{
+    $command = $eqLogic->getCmd(null, $from);
+    if (is_object($command)) {
+        if ($to != null) {
+            $command->setLogicalId($to);
+        }
+        if ($_historizeRound != null) {
+            $command->setConfiguration('historizeRound', $_historizeRound);
+        }
+        $command->save();
     }
 }
 
-function baro_remove() {
+function baro_remove()
+{
     $cron = cron::byClassAndFunction('baro', 'pull');
     if (is_object($cron)) {
         $cron->remove();
     }
 }
-?>

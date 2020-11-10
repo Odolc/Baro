@@ -30,13 +30,20 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </div>
         <div class="eqLogicThumbnailContainer">
             <?php
+            $status = 0;
             foreach ($eqLogics as $eqLogic) {
+                $status = 1;
                 $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
                 echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '" >';
                 echo '<img src="' . $plugin->getPathImgIcon() . '" />';
                 echo '<br>';
                 echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
                 echo '</div>';
+            }
+            if ($status == 1) {
+                echo '</div>';
+            } else {
+                echo "<br/><br/><br/><center><span style='color:#767676;font-size:1em;font-weight: bold;margin-left: 10px'>{{Aucun équipement de type Tendance a été créé.}}</span></center>";
             }
             ?>
         </div>
@@ -62,20 +69,23 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     <fieldset>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">{{Nom de l'équipement}}</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l\'équipement}}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">{{Objet parent}}</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                                     <option value="">{{Aucun}}</option>
                                     <?php
-                                    foreach (jeeObject::all() as $object) {
-                                        echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+                                    $options = '';
+                                    foreach ((jeeObject::buildTree(null, false)) as $object) {
+                                        $decay = $object->getConfiguration('parentNumber');
+                                        $options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $decay) . $object->getName() . '</option>';
                                     }
+                                    echo $options;
                                     ?>
                                 </select>
                             </div>
@@ -120,7 +130,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <label class="col-sm-2 control-label">{{Pression Atmosphérique}}
                                 <sup><i class="fas fa-question-circle" title="{{(hPa) Pression atmosphérique réelle sur le site.}}"></i></sup>
                             </label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="pression" placeholder="{{Pression}}" />
                                     <span class="input-group-btn">
@@ -138,17 +148,15 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <table id="table_cmd" class="table table-bordered table-condensed">
                     <thead>
                         <tr>
-                            <th width="50px"> ID</th>
-                            <th width="450px">{{Nom}}</th>
-                            <th>{{Valeur}}</th>
-                            <th>{{Unité}}</th>
+                            <th style="width: 50px;"> ID</th>
+                            <th style="width: 550px;">{{Nom}}</th>
+                            <th style="width: 250px;">{{Sous-Type}}</th>
+                            <th style="width: 350px;">{{Min/Max - Unité}}</th>
                             <th>{{Paramètres}}</th>
-                            <th width="120px">{{Options}}</th>
-                            <th width="40px"></th>
+                            <th style="width: 250px;">{{Options}}</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
 
