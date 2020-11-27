@@ -13,6 +13,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
+
+ /*
+* Permet la réorganisation des commandes dans l'équipement
+*/
+$("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+
+/*
+* Fonction Spécifique Plugin
+*/
 $('#bt_selectBaroCmd').on('click', function () {
 	jeedom.cmd.getSelectModal({
 		cmd: {
@@ -22,18 +31,6 @@ $('#bt_selectBaroCmd').on('click', function () {
 	}, function (result) {
 		$('.eqLogicAttr[data-l2key=pression]').atCaret('insert', result.human);
 	});
-});
-$('#bt_resetSearch').off('click').on('click', function () {
-	$('#in_searchEqlogic').val('')
-	$('#in_searchEqlogic').keyup();
-})
-$("#table_cmd").sortable({
-	axis: "y",
-	cursor: "move",
-	items: ".cmd",
-	placeholder: "ui-state-highlight",
-	tolerance: "intersect",
-	forcePlaceholderSize: true
 });
 
 $('#bt_autoDEL_eq').on('click', function () {
@@ -90,6 +87,9 @@ $('#bt_autoDEL_eq').on('click', function () {
 	});
 });
 
+/*
+* Fonction permettant l'affichage des commandes dans l'équipement
+*/
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 		console.log("add cmd:" + init(_cmd.id)) // ajouté pour debug
