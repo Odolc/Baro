@@ -30,7 +30,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <a id="bt_resetSearch" class="btn roundedRight" style="width:30px"><i class="fas fa-times"></i> </a>
             </div>
         </div>
-        <!-- Liste des équipements du plugin "Mes équipements : Mes Points de Rosée, de Givre" -->
+        <!-- Liste des équipements du plugin -->
         <legend><i class="fas fa-chart-bar"></i> {{Mes Tendances Baro}}</legend>
         <div class="eqLogicThumbnailContainer">
             <?php
