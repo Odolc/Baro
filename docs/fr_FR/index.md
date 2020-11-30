@@ -63,12 +63,12 @@ Le plugin met à disposition deux widgets pour la tendance :
 
 ## Vue de la liste des équipements
 
-![exemple vue d'ensemble](../images/vue.png)
+![exemple vue d'ensemble](../images/baro_screenshot1.png)
 
 ## Exemple de configuration
 
-![exemple équipement](../images/equipement.png)
-![exemple commandes](../images/commandes.png)
+![exemple équipement](../images/baro_screenshot2.png)
+![exemple commandes](../images/baro_screenshot3.png)
 
 # Troubleshotting
 
