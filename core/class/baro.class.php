@@ -194,7 +194,8 @@ class baro extends eqLogic
         if (!$this->getIsEnable()) return;
 
         if ($this->getConfiguration('pression') == '') {
-            throw new Exception(__('Le champ pression ne peut etre vide', __FILE__));
+            throw new Exception(__('Le champ "Pression" ne peut être vide pour l\'équipement : ' . $this->getName(), __FILE__));
+            log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
         }
     }
 
@@ -256,8 +257,8 @@ class baro extends eqLogic
             $pressure = $cmdvirt->execCmd();
             log::add(__CLASS__, 'debug', '│ Pression Atmosphérique : ' . $pressure . ' hPa');
         } else {
-            throw new Exception(__('Le champ "Pression Atmosphérique" ne peut être vide', __FILE__));
-            log::add(__CLASS__, 'error', '│ Configuration : pression non existante : ' . $this->getConfiguration('pression'));
+            throw new Exception(__('Le champ "Pression" ne peut être vide pour l\'équipement : ' . $this->getName(), __FILE__));
+            log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
         }
         log::add(__CLASS__, 'debug', '└─────────');
 
