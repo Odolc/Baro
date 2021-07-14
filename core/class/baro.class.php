@@ -29,6 +29,7 @@ class baro extends eqLogic
     {
         return array();
     }
+    public static $_widgetPossibility = array('custom' => true);
     public static function cron5($_eqlogic_id = null)
     {
         foreach (eqLogic::byType('baro') as $baro) {
