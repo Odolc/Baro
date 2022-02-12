@@ -14,6 +14,24 @@
     "documentation": "https://odolc.github.io/Baro/#language#/",
     "changelog_beta" : "https://odolc.github.io/Baro/#language#/changelog",
  	"documentation_beta" : "https://odolc.github.io/Baro/#language#/",
-    "language": ["de_DE", "en_US", "es_ES", "fr_FR", "id_ID", "it_IT", "ru_RU", "sp_SP"],
-    "compatibility": ["miniplus", "smart", "rpi", "docker", "diy", "v4", "mobile"]
+    "language": [
+        "de_DE", 
+        "en_US", 
+        "es_ES", 
+        "fr_FR", 
+        "id_ID", 
+        "it_IT", 
+        "ru_RU", 
+        "sp_SP"
+    ],
+	"compatibility": [
+		"miniplus",
+		"smart",
+		"rpi",
+		"docker",
+		"diy",
+		"mobile",
+		"v4",
+		"atlas"
+	]
 }
