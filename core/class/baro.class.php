@@ -27,7 +27,24 @@ class baro extends eqLogic
     /*     * ***********************Methode static*************************** */
     public static function deadCmd()
     {
-        return array();
+        $return = array();
+        foreach (eqLogic::byType('baro') as $baro) {
+            foreach ($baro->getCmd() as $cmd) {
+                preg_match_all("/#([0-9]*)#/", $cmd->getConfiguration('infoName', ''), $matches);
+                foreach ($matches[1] as $cmd_id) {
+                    if (!cmd::byId(str_replace('#', '', $cmd_id))) {
+                        $return[] = array('detail' => __('baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Nom Information', __FILE__), 'who' => '#' . $cmd_id . '#');
+                    }
+                }
+                preg_match_all("/#([0-9]*)#/", $cmd->getConfiguration('calcul', ''), $matches);
+                foreach ($matches[1] as $cmd_id) {
+                    if (!cmd::byId(str_replace('#', '', $cmd_id))) {
+                        $return[] = array('detail' => __('baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Calcul', __FILE__), 'who' => '#' . $cmd_id . '#');
+                    }
+                }
+            }
+        }
+        return $return;
     }
     public static $_widgetPossibility = array('custom' => true);
     public static function cron5($_eqlogic_id = null)
