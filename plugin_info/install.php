@@ -70,7 +70,7 @@ function baro_update()
     foreach ($eqLogics as $eqLogic) {
         //updateLogicalId($eqLogic, 'tendance', 'td');
         //updateLogicalId($eqLogic, 'tendance_num', 'td_num');
-        updateLogicalId($eqLogic, 'pressure', null, 2);
+        updateLogicalId($eqLogic, 'pressure', null, 2, 'Pression Atmosphérique');
         updateLogicalId($eqLogic, 'dPdT', null, 2);
     }
 
@@ -91,7 +91,7 @@ function baro_update()
     }
 }
 
-function updateLogicalId($eqLogic, $from, $to, $_historizeRound = null)
+function updateLogicalId($eqLogic, $from, $to, $_historizeRound = null, $name = null)
 {
     $command = $eqLogic->getCmd(null, $from);
     if (is_object($command)) {
@@ -100,6 +100,9 @@ function updateLogicalId($eqLogic, $from, $to, $_historizeRound = null)
         }
         if ($_historizeRound != null) {
             $command->setConfiguration('historizeRound', $_historizeRound);
+        }
+        if ($name != null) {
+            $command->setName($name);
         }
         $command->save();
     }
