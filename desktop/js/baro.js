@@ -134,8 +134,8 @@ function addCmdToTable(_cmd) {
   	tr += '<i class="fas fa-minus-circle pull-right cmdAction cursor" data-action="remove" title="{{Supprimer la commande}}"></i></td>'
   	tr += '</tr>'
    	$('#table_cmd tbody').append(tr);
-   	var tr = $('#table_cmd tbody tr').last();
-   	jeedom.eqLogic.builSelectCmd({
+	var tr = $('#table_cmd tbody tr').last();
+   	jeedom.eqLogic.buildSelectCmd({
      	id:  $('.eqLogicAttr[data-l1key=id]').value(),
      	filter: {type: 'info'},
      	error: function (error) {
