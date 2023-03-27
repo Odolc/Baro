@@ -9,6 +9,11 @@ pluginId: baro
 
 > **_Pour rappel_** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
 
+
+# Version 20230327
+
+- Typo
+
 # Version 20220909
 
 - Ajout fonctionnalité Core V4.3
