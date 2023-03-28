@@ -25,7 +25,28 @@ class baro extends eqLogic
     /*     * *************************Attributs****************************** */
 
     /*     * ***********************Methode static*************************** */
-
+    public static function deadCmd()
+    {
+        $return = array();
+        foreach (eqLogic::byType('baro') as $baro) {
+            foreach ($baro->getCmd() as $cmd) {
+                preg_match_all("/#([0-9]*)#/", $cmd->getConfiguration('infoName', ''), $matches);
+                foreach ($matches[1] as $cmd_id) {
+                    if (!cmd::byId(str_replace('#', '', $cmd_id))) {
+                        $return[] = array('detail' => __('baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Nom Information', __FILE__), 'who' => '#' . $cmd_id . '#');
+                    }
+                }
+                preg_match_all("/#([0-9]*)#/", $cmd->getConfiguration('calcul', ''), $matches);
+                foreach ($matches[1] as $cmd_id) {
+                    if (!cmd::byId(str_replace('#', '', $cmd_id))) {
+                        $return[] = array('detail' => __('baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Calcul', __FILE__), 'who' => '#' . $cmd_id . '#');
+                    }
+                }
+            }
+        }
+        return $return;
+    }
+    public static $_widgetPossibility = array('custom' => true);
     public static function cron5($_eqlogic_id = null)
     {
         foreach (eqLogic::byType('baro') as $baro) {
@@ -191,7 +212,8 @@ class baro extends eqLogic
         if (!$this->getIsEnable()) return;
 
         if ($this->getConfiguration('pression') == '') {
-            throw new Exception(__('Le champ pression ne peut etre vide', __FILE__));
+            throw new Exception(__('Le champ "Pression" ne peut être vide pour l\'équipement : ' . $this->getName(), __FILE__));
+            log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
         }
     }
 
@@ -223,7 +245,7 @@ class baro extends eqLogic
         $Equipement = eqlogic::byId($this->getId());
         $Equipement->AddCommand('dPdT', 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         $order++;
-        $Equipement->AddCommand('Pression', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
+        $Equipement->AddCommand('Pression Atmosphérique', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         $order++;
         $Equipement->AddCommand($name_td, 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order, '0', true, $_iconname_td, null, null, null);
         $order++;
@@ -253,8 +275,8 @@ class baro extends eqLogic
             $pressure = $cmdvirt->execCmd();
             log::add(__CLASS__, 'debug', '│ Pression Atmosphérique : ' . $pressure . ' hPa');
         } else {
-            throw new Exception(__('Le champ "Pression Atmosphérique" ne peut être vide', __FILE__));
-            log::add(__CLASS__, 'error', '│ Configuration : pression non existante : ' . $this->getConfiguration('pression'));
+            throw new Exception(__('Le champ "Pression" ne peut être vide pour l\'équipement : ' . $this->getName(), __FILE__));
+            log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
         }
         log::add(__CLASS__, 'debug', '└─────────');
 
