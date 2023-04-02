@@ -9,31 +9,43 @@ pluginId: baro
 
 > **_Pour rappel_** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
 
+## 2023 
 
-# Version 20230327
+### 02/04/2023
+
+- Correction pour core 4.4
+- Version mini Core pour le plugin est 4.2
+
+### Version 20230327
 
 - Typo
 
-# Version 20220909
+## 2022 
+
+### Version 20220909
 
 - Ajout fonctionnalité Core V4.3
 
-# Version 20220205
+### Version 20220205
 
 - Affichage Core v4.2
 
-# Version 20210728
+## 2021
+
+### Version 20210728
 
 - Affichage tableau Core v4.2 (beta)
 - Correction Objet Parent
 - Amélioration générale de l'affichage
 
-# Version 20201129
+## 2020
+
+### Version 20201129
 
 - Amélioration de l'affichage, ajout info bulle sur les commandes
 - Amélioration mise à jour des commandes
 
-# Version 20201027
+### Version 20201027
 
 - Amélioration Visu sur dashboard
 - Amélioration création des commandes
@@ -47,34 +59,34 @@ pluginId: baro
 - Correction Bug création des commandes
 - Amélioration de la liste des objets parents
 
-# Version 20200525
+### Version 20200525
 
 - Correction bug recréation des commandes
 - Fin clean suite à déplacement de la documentation
 - Amélioration code (gestion affichage de paramètres suivant le mode de calcul)
 
-# Version 20200523
+### Version 20200523
 
 - Update documentations
 
-# Version 20200512
+### Version 20200512
 
 - Correction bug enregistrement individuel de chaque équipement
 - Enregistrement des équipements après chaque mise à jour
 - Modification widget pour la tendance
 
-# Version 20200418
+### Version 20200418
 
 - Ajout widget core pour les commandes sauf pour tendance
 - Ajout widget pour la tendance (uniquement pour le Core V4)
 - Mise à jour de la doc
 - Modification des variables internes aux calculs
 
-# Version 20200414
+### Version 20200414
 
 - Résolution Bug calcul tendance
 
-# Version 20200413
+### Version 20200413
 
 - Ajout de log supplémentaire en mode DEBUG
 - Nettoyage log
@@ -86,7 +98,9 @@ pluginId: baro
 
 > \*Info : Penser à sauvegarder chaque équipement
 
-# Version 2.2
+## <2020
+
+### Version 2.2
 
 - Ajout d’un cron 30
 - Amélioration de l'affichage pour le Core V4
@@ -100,16 +114,16 @@ pluginId: baro
 
 > _Remarque : Il est conseillé de supprimer le plugin et ensuite le réinstaller_
 
-# Version 2.1
+### Version 2.1
 
 - Support de PHP 7.3
 - Migration vers font-awesome 5
 - Migration affichage au format core V4
 
-# Version 2.0
+### Version 2.0
 
 - Mise à jour pour compatibilité Jeedom V3
 
-# Version 1.0
+### Version 1.0
 
 - Création du plugin
