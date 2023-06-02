@@ -24,6 +24,9 @@
         "ru_RU", 
         "sp_SP"
     ],
+    "link" : {
+		"forum":"https://community.jeedom.com/tag/plugin-baro"
+	},
 	"compatibility": [
 		"miniplus",
 		"smart",
@@ -32,6 +35,7 @@
 		"diy",
 		"mobile",
 		"v4",
-		"atlas"
+		"atlas",
+		"luna"
 	]
 }
