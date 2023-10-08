@@ -33,13 +33,13 @@ class baro extends eqLogic
                 preg_match_all("/#([0-9]*)#/", $cmd->getConfiguration('infoName', ''), $matches);
                 foreach ($matches[1] as $cmd_id) {
                     if (!cmd::byId(str_replace('#', '', $cmd_id))) {
-                        $return[] = array('detail' => __('baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Nom Information', __FILE__), 'who' => '#' . $cmd_id . '#');
+                        $return[] = array('detail' => __('Baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Nom Information', __FILE__), 'who' => '#' . $cmd_id . '#');
                     }
                 }
                 preg_match_all("/#([0-9]*)#/", $cmd->getConfiguration('calcul', ''), $matches);
                 foreach ($matches[1] as $cmd_id) {
                     if (!cmd::byId(str_replace('#', '', $cmd_id))) {
-                        $return[] = array('detail' => __('baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Calcul', __FILE__), 'who' => '#' . $cmd_id . '#');
+                        $return[] = array('detail' => __('Baro', __FILE__) . ' ' . $baro->getHumanName() . ' ' . __('dans la commande', __FILE__) . ' ' . $cmd->getName(), 'help' => __('Calcul', __FILE__), 'who' => '#' . $cmd_id . '#');
                     }
                 }
             }
@@ -212,7 +212,7 @@ class baro extends eqLogic
         if (!$this->getIsEnable()) return;
 
         if ($this->getConfiguration('pression') == '') {
-            throw new Exception(__('Le champ "Pression" ne peut être vide pour l\'équipement : ' . $this->getName(), __FILE__));
+            throw new Exception(__((__('Le champ PRESSION ATMOSPHÉRIQUE ne peut être vide pour l\'équipement : ', __FILE__)) . $this->getName(), __FILE__));
             log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
         }
     }
@@ -237,15 +237,17 @@ class baro extends eqLogic
         $td_num = 1;
         $template_td = $templatecore_V4 . 'tile';
         $template_td_num = 'baro::tendance';
-        $name_td = 'Tendance';
-        $name_td_num = 'Tendance numérique';
+        $name_td = (__('Tendance', __FILE__));
+        $name_td_num = (__('Tendance numérique', __FILE__));
         $_iconname_td = 1;
         $_iconname_td_num = 1;
+        $dPdT_name =  (__('dPdT', __FILE__));
+        $pressure_name =  (__('Pression Atmosphérique', __FILE__));
 
         $Equipement = eqlogic::byId($this->getId());
-        $Equipement->AddCommand('dPdT', 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
+        $Equipement->AddCommand($dPdT_name, 'dPdT', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa/h', 'GENERIC_INFO', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         $order++;
-        $Equipement->AddCommand('Pression Atmosphérique', 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
+        $Equipement->AddCommand($pressure_name, 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order, '0', true, 'default', null, 2, null);
         $order++;
         $Equipement->AddCommand($name_td, 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order, '0', true, $_iconname_td, null, null, null);
         $order++;
@@ -275,7 +277,7 @@ class baro extends eqLogic
             $pressure = $cmdvirt->execCmd();
             log::add(__CLASS__, 'debug', '│ Pression Atmosphérique : ' . $pressure . ' hPa');
         } else {
-            throw new Exception(__('Le champ "Pression" ne peut être vide pour l\'équipement : ' . $this->getName(), __FILE__));
+            throw new Exception(__((__('Le champ PRESSION ATMOSPHÉRIQUE ne peut être vide pour l\'équipement : ', __FILE__)) . $this->getName(), __FILE__));
             log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
         }
         log::add(__CLASS__, 'debug', '└─────────');
@@ -405,22 +407,22 @@ class baro extends eqLogic
         log::add(__CLASS__, 'debug', '│ │ Tendance Moyenne (dPdT): ' . $dPdT . ' hPa/h');
 
         if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
-            $td = 'Forte embellie, instable';
+            $td = (__('Forte embellie, instable', __FILE__));
             $td_num = number_format(5);
         } elseif ($td_moy > 0.5 && $td_moy <= 2.5) { // Slowly rising High Pressure System, stable good weather
-            $td = 'Amélioration, beau temps durable';
+            $td = (__('Amélioration, beau temps durable', __FILE__));
             $td_num = number_format(4);
         } elseif ($td_moy > 0.0 && $td_moy <= 0.5) { // Stable weather condition
-            $td = 'Lente amélioration, temps stable';
+            $td = (__('Lente amélioration, temps stable', __FILE__));
             $td_num = number_format(3);
         } elseif ($td_moy > -0.5 && $td_moy <= 0) { // Stable weather condition
-            $td = 'Lente dégradation, temps stable';
+            $td = (__('Lente dégradation, temps stable', __FILE__));
             $td_num = number_format(2);
         } elseif ($td_moy > -2.5 && $td_moy <= -0.5) { // Slowly falling Low Pressure System, stable rainy weather
-            $td = 'Dégradation, mauvais temps durable';
+            $td = (__('Dégradation, mauvais temps durable', __FILE__));
             $td_num = number_format(1);
         } else { // Quickly falling Low Pressure, Thunderstorm, not stable
-            $td = 'Forte dégradation, instable';
+            $td = (__('Forte dégradation, instable', __FILE__));
             $td_num = 0;
         };
         log::add(__CLASS__, 'debug', '│ └─────────');

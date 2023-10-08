@@ -11,6 +11,11 @@ pluginId: baro
 
 ## 2023 
 
+### 08/10/2023
+
+- Amélioration info vers communauty pour le Core 4.4
+- Typo
+
 ### 02/04/2023
 
 - Correction pour core 4.4

@@ -27,7 +27,7 @@ try {
     if (init('action') == 'getBaro') {
         $baro = baro::byId(init('id'));
         if (!is_object($baro)) {
-            throw new Exception(__('Baro inconnu verifier l\'id', __FILE__));
+            throw new Exception(__('Plugin inconnu vérifier l\'ID', __FILE__));
         }
         $return = utils::o2a($baro);
         $return['cmd'] = array();
