@@ -7,9 +7,14 @@ pluginId: baro
 
 # Info
 
-> **_Pour rappel_** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
+> **_Pour rappel_**, s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineur.
 
 ## 2023 
+
+### 08/10/2023
+
+- Amélioration info vers Community pour le Core 4.4
+- Typo
 
 ### 02/04/2023
 
