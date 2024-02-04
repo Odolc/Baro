@@ -9,6 +9,13 @@ pluginId: baro
 
 > **_Pour rappel_**, s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
 
+## 2024
+
+### 04/02/2024
+
+- Suppression lien community suite changement core 4.4
+- Amélioration barre de recherche
+
 ## 2023 
 
 ### 08/10/2023
