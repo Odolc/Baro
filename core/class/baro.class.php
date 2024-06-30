@@ -47,7 +47,7 @@ class baro extends eqLogic
         return $return;
     }
     public static $_widgetPossibility = array('custom' => true);
-    public static function cron5($_eqlogic_id = null)
+    public static function cron5()
     {
         foreach (eqLogic::byType('baro') as $baro) {
             log::add(__CLASS__, 'debug', '========================== CRON 5 ==========================');
@@ -55,7 +55,7 @@ class baro extends eqLogic
         }
     }
 
-    public static function cron10($_eqlogic_id = null)
+    public static function cron10()
     {
         foreach (eqLogic::byType('baro') as $baro) {
             if ($baro->getIsEnable()) {
@@ -75,7 +75,7 @@ class baro extends eqLogic
         }
     }
 
-    public static function cron30($_eqlogic_id = null)
+    public static function cron30()
     {
         //no both cron15 and cron30 enabled:
         if (config::byKey('functionality::cron15::enable', 'baro', 0) == 1) {
