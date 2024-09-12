@@ -224,15 +224,11 @@ class baro extends eqLogic
 
     public function postSave()
     {
-        $_eqName = $this->getName();
+        //$_eqName = $this->getName();
         //log::add('baro', 'debug', 'Sauvegarde de l\'équipement [postSave()] : ' . $_eqName);
         $order = 1;
+        $templatecore_V4  = 'core::';
 
-        if (version_compare(jeedom::version(), "4", "<")) {
-            $templatecore_V4 = null;
-        } else {
-            $templatecore_V4  = 'core::';
-        };
         $td_num_max = 5;
         $td_num_visible = 1;
         $td_num = 1;
@@ -249,13 +245,12 @@ class baro extends eqLogic
         $this->AddCommand($pressure_name, 'pressure', 'info', 'numeric', $templatecore_V4 . 'line', 'hPa', 'WEATHER_PRESSURE', '0', 'default', 'default', 'default', 'default', $order++, '0', true, 'default', null, 2, null);
         $this->AddCommand($name_td, 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order++, '0', true, $_iconname_td, null, null, null);
         $this->AddCommand($name_td_num, 'td_num', 'info', 'numeric', $template_td_num, null, 'GENERIC_INFO', $td_num_visible, 'default', 'default', '0', $td_num_max, $order++, '0', true, $_iconname_td_num, null, null, null);
+
+        $this->getInformations();
     }
 
     /*     * **********************Getteur Setteur*************************** */
-    public function postUpdate()
-    {
-        $this->getInformations();
-    }
+    public function postUpdate() {}
 
     public function getInformations()
     {
@@ -266,7 +261,7 @@ class baro extends eqLogic
         /*  ********************** Calcul *************************** */
         $calcul = 'tendance';
 
-        /*  ********************** PRESSION *************************** */
+        /*  ********************** PRESSION *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
         $pressure = $this->getConfiguration('pression');
         $pressureID = str_replace("#", "", $this->getConfiguration('pression'));
         $cmdvirt = cmd::byId($pressureID);
@@ -293,7 +288,7 @@ class baro extends eqLogic
         }
         log::add('baro', 'debug', '└─────────');
 
-        /*  ********************** Calcul de la tendance *************************** */
+        /*  ********************** Calcul de la tendance *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
         if ($calcul == 'tendance') {
             log::add('baro', 'debug', '┌── :fg-warning:Calcul de la tendance ::/fg: '  . $_eqName . ' ──');
             $va_result_T = baro::getTendance($pressureID);
@@ -324,7 +319,7 @@ class baro extends eqLogic
         log::add('baro', 'debug', '================ FIN CRON OU SAUVEGARDE =================');
         return;
     }
-    /*  ********************** Calcul de la tendance *************************** */
+    /*  ********************** Calcul de la tendance *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
     public static function getTendance($pressureID)
     {
         $histo = new scenarioExpression();
@@ -335,6 +330,11 @@ class baro extends eqLogic
         $_date2 = new DateTime("$endDate");
         $startDate = $_date1->modify('-15 minute');
         $startDate = $_date1->format('Y-m-d H:i:s');
+        // Valeur nulle 
+        $td_moy = 100;
+        $dPdT = number_format($td_moy, 3, '.', '');
+        $td_num = number_format(5);
+        $td = (__('Pression atmosphérique nulle (historique)', __FILE__));
 
         // dernière mesure barométrique
         $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
@@ -363,6 +363,8 @@ class baro extends eqLogic
 
                 // mesure barométrique -4h
                 $h4 = $histo->lastBetween($pressureID, $startDate, $endDate);
+
+                // calculs de tendance 2h/4h
                 if ($h4 != null) {
                     $td4h = (($h1 - $h4) / 4);
                     $log_msg = 'Tendance -4h : ' . $td4h . ' hPa/h';

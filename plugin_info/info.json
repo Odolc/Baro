@@ -12,7 +12,10 @@
 	"usage": "",
 	"licence": "AGPL",
 	"author": "Claude Metzger",
-	"require": "4.0",
+	"require": "4.2",
+	"os" : {
+		"min" : 10
+	},
 	"category": "weather",
 	"hasDependency": false,
 	"hasOwnDeamon": false,

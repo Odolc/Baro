@@ -82,7 +82,7 @@ function baro_update()
         }
     } catch (Exception $e) {
         $e = print_r($e, 1);
-        log::add('baro', 'error', 'baro_update ERROR: ' . $e);
+        log::add('baro', 'error', '[ALERT] baro_update ERROR: ' . $e);
     }
 
     //message::add('Plugin Tendance Baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog.');
