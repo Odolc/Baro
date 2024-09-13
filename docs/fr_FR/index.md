@@ -82,3 +82,12 @@ Le plugin met à disposition deux widgets pour la tendance :
   > Il faut attendre 4h pour avoir des résultats corrects lors de la création de l'équipement
   >
   > L'équipement doit être aussi historisé pour pouvoir fonctionner
+
+- L'historique de la commande Pression doit être activé
+  
+  > l'historique de la commande xx doit ête obligatoirement activé.
+  (voir image ci-dessous)<br/>
+  
+  ![Historique](../images/pression1.png)
+  <br/>
+  ![Historique](../images/pression2.png)

@@ -24,19 +24,25 @@ $eqLogics = eqLogic::byType($plugin->getId());
             </div>
         </div>
         <!-- Champ de recherche -->
-        <div class="input-group" style="margin-bottom:5px;">
-            <input class="form-control roundedLeft" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
-            <div class="input-group-btn">
-                <a id="bt_resetObjectSearch" class="btn" style="width:30px"><i class="fas fa-times"></i>
-                </a><a class="btn roundedRight hidden" id="bt_pluginDisplayAsTable" data-coreSupport="1" data-state="0"><i class="fas fa-grip-lines"></i></a>
-            </div>
-        </div>
+        <?php
+        if (count($eqLogics) == 0) {
+        } else {
+            // Champ de recherche
+            echo '<div class="input-group" style="margin:5px;">';
+            echo '<input class="form-control roundedLeft" placeholder="{{Rechercher}}" id="in_searchEqlogic">';
+            echo '<div class="input-group-btn">';
+            echo '<a id="bt_resetSearch" class="btn" style="width:30px"><i class="fas fa-times"></i></a>';
+            echo '<a class="btn roundedRight hidden" id="bt_pluginDisplayAsTable" data-coreSupport="1" data-state="0"><i class="fas fa-grip-lines"></i></a>';
+            echo '</div>';
+            echo '</div>';
+        }
+        ?>
         <!-- Liste des équipements du plugin -->
         <legend><i class="fas fa-chart-bar"></i> {{Mes Tendances Baro}}</legend>
         <div class="eqLogicThumbnailContainer">
             <?php
             if (count($eqLogics) == 0) {
-                echo '<br><div class="text-center" style="font-size:1.2em;font-weight:bold;">{{Aucun équipement de type Tendance n\'a été créé, cliquer sur "Ajouter" pour commencer}}</div>';
+                echo '<br><div class="text-center" style="font-size:1.2em;font-weight:bold;">{{Aucun équipement de type Baro n\'a été créé, cliquer sur Ajouter pour commencer}}</div>';
             } else {
                 foreach ($eqLogics as $eqLogic) {
                     $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
@@ -45,7 +51,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     echo '<br>';
                     echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
                     echo '<span class="hiddenAsCard displayTableRight hidden">';
-                    echo ($eqLogic->getIsVisible() == 1) ? '<i class="fas fa-eye" title="{{Equipement visible}}"></i>' : '<i class="fas fa-eye-slash" title="{{Equipement non visible}}"></i>';
+                    echo ($eqLogic->getIsVisible() == 1) ? '<i class="fas fa-eye" title="{{Équipement visible}}"></i>' : '<i class="fas fa-eye-slash" title="{{Équipement non visible}}"></i>';
                     echo '</span>';
                     echo '</div>';
                 }
@@ -70,8 +76,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
         <!-- Onglets -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fas fa-arrow-circle-left"></i></a></li>
-            <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
-            <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-list-alt"></i> {{Commandes}}</a></li>
+            <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Équipement}}</a></li>
+            <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-list"></i> {{Commandes}}</a></li>
         </ul>
         <div class="tab-content">
             <!-- Onglet de configuration de l'équipement -->
@@ -132,9 +138,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                 </label>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="pression" placeholder="{{Pression}}" />
+                                        <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="pression" placeholder="{{Pression Atmosphérique}}" />
                                         <span class="input-group-btn">
-                                            <a class="btn btn-default listCmdActionOther roundedRight" title="Rechercher une commande"><i class="fas fa-list-alt"></i></a>
+                                            <a class="btn btn-default listCmdActionOther roundedRight" title="{{Rechercher une commande}}"><i class="fas fa-list-alt"></i></a>
                                         </span>
                                     </div>
                                 </div>

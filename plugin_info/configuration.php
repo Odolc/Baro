@@ -18,49 +18,37 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 include_file('core', 'authentification', 'php');
 if (!isConnect()) {
-	include_file('desktop', '404', 'php');
-	die();
+    include_file('desktop', '404', 'php');
+    die();
 }
 ?>
 
 <script>
-    $(function() {
-        $('#div_confPlugin > .panel.panel-primary').hide()
-    })
+    setTimeout(function() {
+        /* 
+        hide configuration panel
+        */
+        let modal = jeeDialog.get('#div_confPlugin', 'dialog')
+        let dom_container = null
+        if (modal != null) {
+            dom_container = modal.querySelector('#div_confPlugin')
+        } else {
+            dom_container = document.getElementById('div_pageContainer').querySelector('#div_confPlugin')
+        }
+        dom_container.querySelector('#div_plugin_configuration').closest('.panel').style.display = 'none'
 
-    $("input[data-l1key='functionality::cron5::enable']").on('change', function() {
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron10::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron15::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron30::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cronHourly::enable']").prop("checked", false)
-    });
-    
-    $("input[data-l1key='functionality::cron10::enable']").on('change', function() {
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron5::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron15::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron30::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cronHourly::enable']").prop("checked", false)
-    });
-    
-    $("input[data-l1key='functionality::cron15::enable']").on('change', function() {
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron5::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron10::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron30::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cronHourly::enable']").prop("checked", false)
-    });
-
-    $("input[data-l1key='functionality::cron30::enable']").on('change', function() {
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron5::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron10::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron15::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cronHourly::enable']").prop("checked", false)
-    });
-    
-    $("input[data-l1key='functionality::cronHourly::enable']").on('change', function() {
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron5::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron10::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron15::enable']").prop("checked", false)
-        if ($(this).is(':checked')) $("input[data-l1key='functionality::cron30::enable']").prop("checked", false)
-    });
-
+        /*
+        Allow only one cron
+        */
+        document.getElementById('div_plugin_functionality').querySelectorAll('input.configKey').forEach(
+            _checkbox => {
+                _checkbox.addEventListener('change', function(event) {
+                    if (_checkbox.checked) {
+                        document.querySelectorAll('#div_plugin_functionality input.configKey').forEach(_filter => {
+                            if (_checkbox.getAttribute('data-l1key') != _filter.getAttribute('data-l1key')) _filter.checked = false
+                        })
+                    }
+                })
+            })
+    }, 100)
 </script>

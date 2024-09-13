@@ -7,9 +7,30 @@ pluginId: baro
 
 # Info
 
-> **_Pour rappel_** s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
+> **_Pour rappel_**, s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
+
+## 2024
+
+### 13/09/2024
+
+- Amélioration log plugin
+- Reprise de la création des commandes
+- Correction bug sur la mise à jour (2 crons actifs en même temps)
+- Traduction merci a @Mips
+- Tendance : plus de calcul si l'historique est null
+- Correction warning PHP8
+
+### 04/02/2024
+
+- Suppression lien community suite changement core 4.4
+- Amélioration barre de recherche
 
 ## 2023 
+
+### 08/10/2023
+
+- Amélioration info vers Community pour le Core 4.4
+- Typo
 
 ### 02/04/2023
 
