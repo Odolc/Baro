@@ -29,8 +29,8 @@ function baro_install()
 
     config::save('functionality::cron5::enable', 0, 'baro');
     config::save('functionality::cron10::enable', 0, 'baro');
-    config::save('functionality::cron15::enable', 1, 'baro');
-    config::save('functionality::cron30::enable', 0, 'baro');
+    config::save('functionality::cron15::enable', 0, 'baro');
+    config::save('functionality::cron30::enable', 1, 'baro');
     config::save('functionality::cronHourly::enable', 0, 'baro');
 
     //message::add('Plugin Tendance Baro', 'Merci pour l\'installation du plugin.');
@@ -46,19 +46,19 @@ function baro_update()
     }
 
     if (config::byKey('functionality::cron5::enable', 'baro', -1) == -1) {
-        config::save('functionality::cron5::enable', 1, 'baro');
+        config::save('functionality::cron5::enable', 0, 'baro');
     }
 
     if (config::byKey('functionality::cron10::enable', 'baro', -1) == -1) {
-        config::save('functionality::cron10::enable', 1, 'baro');
+        config::save('functionality::cron10::enable', 0, 'baro');
     }
 
     if (config::byKey('functionality::cron15::enable', 'baro', -1) == -1) {
-        config::save('functionality::cron15::enable', 1, 'baro');
+        config::save('functionality::cron15::enable', 0, 'baro');
     }
 
     if (config::byKey('functionality::cron30::enable', 'baro', -1) == -1) {
-        config::save('functionality::cron30::enable', 0, 'baro');
+        config::save('functionality::cron30::enable', 1, 'baro');
     }
 
     if (config::byKey('functionality::cronHourly::enable', 'baro', -1) == -1) {
@@ -82,7 +82,7 @@ function baro_update()
         }
     } catch (Exception $e) {
         $e = print_r($e, 1);
-        log::add('baro', 'error', 'baro_update ERROR: ' . $e);
+        log::add('baro', 'error', '[ALERT] baro_update ERROR: ' . $e);
     }
 
     //message::add('Plugin Tendance Baro', 'Merci pour la mise à jour de ce plugin, consultez le changelog.');
