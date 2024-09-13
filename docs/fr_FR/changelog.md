@@ -11,6 +11,15 @@ pluginId: baro
 
 ## 2024
 
+### 13/09/2024
+
+- Amélioration log plugin
+- Reprise de la création des commandes
+- Correction bug sur la mise à jour (2 crons actifs en même temps)
+- Traduction merci a @Mips
+- Tendance : plus de calcul si l'historique est null
+- Correction warning PHP8
+
 ### 04/02/2024
 
 - Suppression lien community suite changement core 4.4

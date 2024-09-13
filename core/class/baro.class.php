@@ -110,7 +110,7 @@ class baro extends eqLogic
 
         $Command = $this->getCmd(null, $_logicalId);
         if (!is_object($Command)) {
-            log::add('baro', 'debug', '| ───▶︎ - {{CRÉATION COMMANDE}} : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- {{Type de générique}} : ' . $generic_type . ' -- {{Icône}} : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi : ' . $_calculValueOffset . '/' . $_historizeRound . ' -- {{Ordre}} : ' . $_order);
+            log::add('baro', 'debug', '| ───▶︎ CRÉATION COMMANDE : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- Type de générique : ' . $generic_type . ' -- Icône : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi : ' . $_calculValueOffset . '/' . $_historizeRound . ' -- Ordre : ' . $_order);
             $Command = new baroCmd();
             $Command->setId(null);
             $Command->setLogicalId($_logicalId);
@@ -286,7 +286,7 @@ class baro extends eqLogic
             log::add('baro', 'error', (__('Configuration :', __FILE__)) . ' ' . (__('Le champ PRESSION ATMOSPHÉRIQUE', __FILE__))  . ' ' . (__('ne peut être vide', __FILE__)) . ' ['  . $this->getName() . ']');
             throw new Exception(__((__('Le champ PRESSION ATMOSPHÉRIQUE', __FILE__)) . ' ' . (__('ne peut être vide', __FILE__)) . ' ['  . $this->getName(), __FILE__) . ']');
         }
-        log::add('baro', 'debug', '└─────────');
+        log::add('baro', 'debug', '└──');
 
         /*  ********************** Calcul de la tendance *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
         if ($calcul == 'tendance') {
@@ -295,7 +295,7 @@ class baro extends eqLogic
             $td_num = $va_result_T[0];
             $td = $va_result_T[1];
             $dPdT = $va_result_T[2];
-            log::add('baro', 'debug', '└───────');
+            log::add('baro', 'debug', '└──');
         }
 
         /*  ********************** Mise à Jour des équipements *************************** */
@@ -315,7 +315,7 @@ class baro extends eqLogic
                 }
             }
         }
-        log::add('baro', 'debug', '└───────');
+        log::add('baro', 'debug', '└──');
         log::add('baro', 'debug', '================ FIN CRON OU SAUVEGARDE =================');
         return;
     }
