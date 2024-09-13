@@ -13,8 +13,8 @@
 	"licence": "AGPL",
 	"author": "Claude Metzger",
 	"require": "4.2",
-	"os" : {
-		"min" : 10
+	"os": {
+		"min": 10
 	},
 	"category": "weather",
 	"hasDependency": false,
