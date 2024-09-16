@@ -279,7 +279,8 @@ class baro extends eqLogic
                     log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . $log_msg . ' : ' . $pressureHISTO);
                     message::add('Plugin Baro', $_eqName . ' : ' . $log_msg);
                 } else {
-                    log::add('baro', 'debug', '| ───▶︎ :fg-success:' . (__('L\'historique de la commande', __FILE__)) . ' ' . $cmdvirt->getName() . ' est bien activé:/fg:');
+                    log::add('baro', 'debug', '| ───▶︎ Pression Atmosphérique (' . $cmdvirt->getName() . ') : ' . $pressure . ' hPa');
+                    log::add('baro', 'debug', '|  └───▶︎ :fg-success:' . (__('L\'historique de la commande', __FILE__)) . ':/fg: ' . $cmdvirt->getName() . ':fg-success: est bien activé:/fg:');
                 }
             }
         } else {
@@ -303,8 +304,14 @@ class baro extends eqLogic
 
         $Equipement = eqlogic::byId($this->getId());
         if (is_object($Equipement) && $Equipement->getIsEnable()) {
-            $list = 'dPdT,pressure,td,td_num';
-            $Value_calcul = array('dPdT' => $dPdT, 'pressure' => $pressure, 'td' => $td, 'td_num' => $td_num);
+            if ($td == 'Pression atmosphérique nulle (historique)') { // Non mise à jour des valeurs si problème dans l'historique
+                $list = 'dPdT,pressure';
+                $Value_calcul = array('dPdT' => $dPdT, 'pressure' => $pressure);
+                log::add('baro', 'debug', '| :fg-warning:───▶︎ Problème avec l\'historique de la pression atmosphérique ::/fg: ' . 'Non mise à jour de la tendance et de la tendance numérique');
+            } else {
+                $list = 'dPdT,pressure,td,td_num';
+                $Value_calcul = array('dPdT' => $dPdT, 'pressure' => $pressure, 'td' => $td, 'td_num' => $td_num);
+            }
             $fields = explode(',', $list);
             foreach ($this->getCmd() as $cmd) {
                 foreach ($fields as $fieldname) {
@@ -334,7 +341,7 @@ class baro extends eqLogic
         $td_moy = 100;
         $dPdT = number_format($td_moy, 3, '.', '');
         $td_num = number_format(5);
-        $td = (__('Pression atmosphérique nulle (historique)', __FILE__));
+        $td = 'Pression atmosphérique nulle (historique)';
 
         // dernière mesure barométrique
         $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
