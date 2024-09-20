@@ -7,6 +7,7 @@
     },
     "plugins\/baro\/core\/class\/baro.class.php": {
         "Amélioration, beau temps durable": "Miglioramento, bel tempo duraturo",
+        "Arrondi": "Arrondi",
         "Baro": "Baro",
         "Calcul": "Calcolo",
         "Calcul de la tendance": "Calcolo delle tendenze",
@@ -24,6 +25,7 @@
         "Le champ PRESSION ATMOSPHÉRIQUE": "Il campo PRESSIONE ATMOSFERICA",
         "Lente amélioration, temps stable": "Miglioramento lento, tempo stabile",
         "Lente dégradation, temps stable": "Degrado lento, tempo stabile",
+        "Ligne": "Linea",
         "Min\/Max": "Min\/Max",
         "Mise à jour": "Mise à jour",
         "Nom Information": "Nome Informazioni",
