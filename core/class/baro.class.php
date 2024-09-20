@@ -110,7 +110,7 @@ class baro extends eqLogic
 
         $Command = $this->getCmd(null, $_logicalId);
         if (!is_object($Command)) {
-            log::add('baro', 'debug', '│ ' . (__('Création Commande', __FILE__)) . ' : ' . $Name . ' ── ' . (__("Type / SubType", __FILE__)) . ' : '  . $Type . '/' . $SubType . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . ' ── ' . (__("Type de générique", __FILE__)) . ' : ' . $generic_type . ' ── ' . (__("Icône", __FILE__)) . ' : ' . $icon . ' ── ' . (__("Min/Max", __FILE__)) . ' : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi : ' . $_calculValueOffset . '/' . $_historizeRound . ' ── ' . (__("Ordre", __FILE__)) . $_order);
+            log::add('baro', 'debug', '│ ' . __('Création Commande', __FILE__) . ' : ' . $Name . ' ── ' . __('Type / SubType', __FILE__) . ' : '  . $Type . '/' . $SubType . ' ── LogicalID : ' . $_logicalId . ' ── Template Widget / ' . __('Ligne', __FILE__)      . ' : ' . $Template . '/' . $forceLineB . ' ── ' . __('Type de générique', __FILE__) . ' : ' . $generic_type . ' ── ' . __('Icône', __FILE__)  . ' : ' . $icon . ' ── ' . __('Min/Max', __FILE__) . ' : ' . $valuemin . '/' . $valuemax . ' ── ' . __('Calcul', __FILE__) . ' / ' . __('Arrondi', __FILE__) . ' : ' . $_calculValueOffset . '/' . $_historizeRound . ' ── ' . __('Ordre', __FILE__) . $_order);
             $Command = new baroCmd();
             $Command->setId(null);
             $Command->setLogicalId($_logicalId);
@@ -245,6 +245,7 @@ class baro extends eqLogic
         $this->AddCommand($name_td, 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order++, '0', true, $_iconname_td, null, null, null);
         $this->AddCommand($name_td_num, 'td_num', 'info', 'numeric', $template_td_num, null, 'GENERIC_INFO', $td_num_visible, 'default', 'default', '0', $td_num_max, $order++, '0', true, $_iconname_td_num, null, null, null);
 
+        if (!$this->getIsEnable()) return;
         $this->getInformations();
     }
 
