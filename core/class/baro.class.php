@@ -344,7 +344,8 @@ class baro extends eqLogic
         // dernière mesure barométrique
         $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
         if ($h1 != '') {
-            log::add('baro', 'debug', '| ───▶︎ Timestamp -15min : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . ' hPa');
+            $log_msg_h =  '-15min';
+            log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h1 . ' hPa');
 
             // calcul du timestamp - 2h
             $endDate = $_date2->modify('-2 hour');
@@ -358,8 +359,9 @@ class baro extends eqLogic
             // calculs de tendance 15min/2h
             if ($h2 != null) {
                 $td2h = ($h1 - $h2) / 2;
-                $log_msg = 'Tendance -2h : ' . $td2h . ' hPa/h';
-                log::add('baro', 'debug', '| ───▶︎ Timestamp -2h    : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h2 . ' hPa - ' . $log_msg);
+                $log_msg_h =  ' -2h';
+                $log_msg = __('Tendance', __FILE__) . $log_msg_h .  ' : ' . $td2h . ' hPa/h';
+                log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h2 . ' hPa - ' . $log_msg);
                 // calcul du timestamp - 4h
                 $endDate = $_date2->modify('-2 hour');
                 $endDate = $_date2->format('Y-m-d H:i:s');
@@ -372,8 +374,9 @@ class baro extends eqLogic
                 // calculs de tendance 2h/4h
                 if ($h4 != null) {
                     $td4h = (($h1 - $h4) / 4);
-                    $log_msg = 'Tendance -4h : ' . $td4h . ' hPa/h';
-                    log::add('baro', 'debug', '| ───▶︎ Timestamp -4h    : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h4 . ' hPa - ' . $log_msg);
+                    $log_msg_h =  ' -4h';
+                    $log_msg = __('Tendance', __FILE__) . ' -4h : ' . $td4h . ' hPa/h';
+                    log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h4 . ' hPa - ' . $log_msg);
 
                     // Calcul de la tendance
                     // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
