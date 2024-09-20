@@ -116,17 +116,23 @@ class baro extends eqLogic
             $Command->setLogicalId($_logicalId);
             $Command->setEqLogic_id($this->getId());
             $Command->setName($Name);
-
             $Command->setType($Type);
             $Command->setSubType($SubType);
+            if ($SubType == 'numeric') {
+                if ($unite != null) {
+                    $Command->setUnite($unite);
+                }
+                if ($valuemin != 'default') {
+                    $Command->setconfiguration('minValue', $valuemin);
+                }
+                if ($valuemax != 'default') {
+                    $Command->setconfiguration('maxValue', $valuemax);
+                }
+            }
 
             if ($Template != null) {
                 $Command->setTemplate('dashboard', $Template);
                 $Command->setTemplate('mobile', $Template);
-            }
-
-            if ($unite != null && $SubType == 'numeric') {
-                $Command->setUnite($unite);
             }
 
             $Command->setIsVisible($IsVisible);
@@ -158,12 +164,6 @@ class baro extends eqLogic
 
             if ($repeatevent == true && $Type == 'info') {
                 $Command->setconfiguration('repeatEventManagement', 'never');
-            }
-            if ($valuemin != 'default') {
-                $Command->setconfiguration('minValue', $valuemin);
-            }
-            if ($valuemax != 'default') {
-                $Command->setconfiguration('maxValue', $valuemax);
             }
 
             if ($_order != null) {
