@@ -9,9 +9,11 @@
 		"it_IT": "Plugin per il calcolo delle tendenze meteo in base alle variazioni di pressione di un barometro collegato a Jeedom (locale)",
 		"pt_PT": "Plugin para calcular as tendências meteorológicas com base nas variações de pressão de um barómetro ligado ao Jeedom (local)"
 	},
-	"usage": "",
+	"usage": {
+		"fr_FR": ""
+	},
 	"licence": "AGPL",
-	"author": "Claude Metzger",
+	"author": "Claude Metzger / JAG",
 	"require": "4.2",
 	"os": {
 		"min": 10
@@ -20,10 +22,6 @@
 	"hasDependency": false,
 	"hasOwnDeamon": false,
 	"maxDependancyInstallTime": 0,
-	"changelog": "https://odolc.github.io/Baro/#language#/changelog",
-	"documentation": "https://odolc.github.io/Baro/#language#/",
-	"changelog_beta": "https://odolc.github.io/Baro/#language#/changelog",
-	"documentation_beta": "https://odolc.github.io/Baro/#language#/",
 	"language": [
 		"de_DE",
 		"en_US",
@@ -32,6 +30,10 @@
 		"it_IT",
 		"pt_PT"
 	],
+	"changelog": "https://odolc.github.io/Baro/#language#/changelog",
+	"documentation": "https://odolc.github.io/Baro/#language#/",
+	"changelog_beta": "https://odolc.github.io/Baro/#language#/changelog",
+	"documentation_beta": "https://odolc.github.io/Baro/#language#/",
 	"link": {
 		"forum": "https://community.jeedom.com/tag/plugin-baro"
 	},

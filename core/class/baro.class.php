@@ -110,23 +110,29 @@ class baro extends eqLogic
 
         $Command = $this->getCmd(null, $_logicalId);
         if (!is_object($Command)) {
-            log::add('baro', 'debug', '| ───▶︎ CRÉATION COMMANDE : ' . $Name . ' -- Type : ' . $Type . ' -- LogicalID : ' . $_logicalId . ' -- Template Widget / Ligne : ' . $Template . '/' . $forceLineB . '-- Type de générique : ' . $generic_type . ' -- Icône : ' . $icon . ' -- Min/Max : ' . $valuemin . '/' . $valuemax . ' -- Calcul/Arrondi : ' . $_calculValueOffset . '/' . $_historizeRound . ' -- Ordre : ' . $_order);
+            log::add('baro', 'debug', '│ ' . __('Création Commande', __FILE__) . ' : ' . $Name . ' ── ' . __('Type / SubType', __FILE__) . ' : '  . $Type . '/' . $SubType . ' ── LogicalID : ' . $_logicalId . ' ── Template Widget / ' . __('Ligne', __FILE__)      . ' : ' . $Template . '/' . $forceLineB . ' ── ' . __('Type de générique', __FILE__) . ' : ' . $generic_type . ' ── ' . __('Icône', __FILE__)  . ' : ' . $icon . ' ── ' . __('Min/Max', __FILE__) . ' : ' . $valuemin . '/' . $valuemax . ' ── ' . __('Calcul', __FILE__) . ' / ' . __('Arrondi', __FILE__) . ' : ' . $_calculValueOffset . '/' . $_historizeRound . ' ── ' . __('Ordre', __FILE__) . $_order);
             $Command = new baroCmd();
             $Command->setId(null);
             $Command->setLogicalId($_logicalId);
             $Command->setEqLogic_id($this->getId());
             $Command->setName($Name);
-
             $Command->setType($Type);
             $Command->setSubType($SubType);
+            if ($SubType == 'numeric') {
+                if ($unite != null) {
+                    $Command->setUnite($unite);
+                }
+                if ($valuemin != 'default') {
+                    $Command->setconfiguration('minValue', $valuemin);
+                }
+                if ($valuemax != 'default') {
+                    $Command->setconfiguration('maxValue', $valuemax);
+                }
+            }
 
             if ($Template != null) {
                 $Command->setTemplate('dashboard', $Template);
                 $Command->setTemplate('mobile', $Template);
-            }
-
-            if ($unite != null && $SubType == 'numeric') {
-                $Command->setUnite($unite);
             }
 
             $Command->setIsVisible($IsVisible);
@@ -158,13 +164,6 @@ class baro extends eqLogic
 
             if ($repeatevent == true && $Type == 'info') {
                 $Command->setconfiguration('repeatEventManagement', 'never');
-                //log::add(__CLASS__, 'debug', '│ No Repeat pour l\'info avec le nom : ' . $Name);
-            }
-            if ($valuemin != 'default') {
-                $Command->setconfiguration('minValue', $valuemin);
-            }
-            if ($valuemax != 'default') {
-                $Command->setconfiguration('maxValue', $valuemax);
             }
 
             if ($_order != null) {
@@ -217,8 +216,8 @@ class baro extends eqLogic
         if (!$this->getIsEnable()) return;
 
         if ($this->getConfiguration('pression') == '') {
-            throw new Exception(__((__('Le champ PRESSION ATMOSPHÉRIQUE ne peut être vide pour l\'équipement : ', __FILE__)) . $this->getName(), __FILE__));
-            log::add(__CLASS__, 'error', '│ Configuration : Pression inexistant pour l\'équipement : ' . $this->getName() . ' ' . $this->getConfiguration('pression'));
+            log::add('baro', 'error', (__('La valeur :', __FILE__)) . ' ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() .  ')' . ' ' . __('pour l\'équipement', __FILE__) . ' [' . $this->getName() . '] ' . __('ne peut être vide', __FILE__));
+            throw new Exception((__('La valeur :', __FILE__)) . ' ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() .  ')' . ' ' . __('pour l\'équipement', __FILE__) . ' [' . $this->getName() . '] ' . __('ne peut être vide', __FILE__));
         }
     }
 
@@ -246,6 +245,7 @@ class baro extends eqLogic
         $this->AddCommand($name_td, 'td', 'info', 'string', $template_td, null, 'WEATHER_CONDITION', $td_num, 'default', 'default', 'default', 'default', $order++, '0', true, $_iconname_td, null, null, null);
         $this->AddCommand($name_td_num, 'td_num', 'info', 'numeric', $template_td_num, null, 'GENERIC_INFO', $td_num_visible, 'default', 'default', '0', $td_num_max, $order++, '0', true, $_iconname_td_num, null, null, null);
 
+        if (!$this->getIsEnable()) return;
         $this->getInformations();
     }
 
@@ -256,7 +256,7 @@ class baro extends eqLogic
     {
         if (!$this->getIsEnable()) return;
         $_eqName = $this->getName();
-        log::add('baro', 'debug', '┌── :fg-success:Configuration de l\'équipement ::/fg: '  . $_eqName . ' ──');
+        log::add('baro', 'debug', '┌── :fg-success:' . __('Mise à jour', __FILE__) . ' ::/fg: '  . $_eqName . ' ──');
 
         /*  ********************** Calcul *************************** */
         $calcul = 'tendance';
@@ -279,7 +279,8 @@ class baro extends eqLogic
                     log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . $log_msg . ' : ' . $pressureHISTO);
                     message::add('Plugin Baro', $_eqName . ' : ' . $log_msg);
                 } else {
-                    log::add('baro', 'debug', '| ───▶︎ :fg-success:' . (__('L\'historique de la commande', __FILE__)) . ' ' . $cmdvirt->getName() . ' est bien activé:/fg:');
+                    log::add('baro', 'debug', '| ───▶︎ ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() . ') : ' . $pressure . ' hPa');
+                    log::add('baro', 'debug', '|  └───▶︎ :fg-success:' . __('L\'historique de la commande', __FILE__) . ':/fg: ' . $cmdvirt->getName() . ':fg-success: ' . __('est bien activé', __FILE__) . ':/fg:');
                 }
             }
         } else {
@@ -290,7 +291,7 @@ class baro extends eqLogic
 
         /*  ********************** Calcul de la tendance *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
         if ($calcul == 'tendance') {
-            log::add('baro', 'debug', '┌── :fg-warning:Calcul de la tendance ::/fg: '  . $_eqName . ' ──');
+            log::add('baro', 'debug', '┌── :fg-warning:' . __('Calcul de la tendance', __FILE__) . ' ::/fg: '  . $_eqName . ' ──');
             $va_result_T = baro::getTendance($pressureID);
             $td_num = $va_result_T[0];
             $td = $va_result_T[1];
@@ -299,12 +300,17 @@ class baro extends eqLogic
         }
 
         /*  ********************** Mise à Jour des équipements *************************** */
-        log::add('baro', 'debug', '┌── :fg-info:Mise à jour ::/fg: '  . $_eqName . ' ──');
+        log::add('baro', 'debug', '┌── :fg-info:' . __('Mise à jour', __FILE__)  . ' ::/fg: '  . $_eqName . ' ──');
 
         $Equipement = eqlogic::byId($this->getId());
         if (is_object($Equipement) && $Equipement->getIsEnable()) {
             $list = 'dPdT,pressure,td,td_num';
             $Value_calcul = array('dPdT' => $dPdT, 'pressure' => $pressure, 'td' => $td, 'td_num' => $td_num);
+            if ($td == 'Pression atmosphérique nulle (historique)') { // Non mise à jour des valeurs si problème dans l'historique
+                $list = 'pressure';
+                $Value_calcul = array('pressure' => $pressure);
+                log::add('baro', 'debug', '| :fg-warning:───▶︎ ' . __('Problème avec l\'historique de la pression atmosphérique', __FILE__) . ' ::/fg: ' . __('Non mise à jour de la tendance et de la tendance numérique', __FILE__));
+            }
             $fields = explode(',', $list);
             foreach ($this->getCmd() as $cmd) {
                 foreach ($fields as $fieldname) {
@@ -316,7 +322,7 @@ class baro extends eqLogic
             }
         }
         log::add('baro', 'debug', '└──');
-        log::add('baro', 'debug', '================ FIN CRON OU SAUVEGARDE =================');
+        log::add('baro', 'debug', '================ ' . __('FIN CRON OU SAUVEGARDE', __FILE__) . ' =================');
         return;
     }
     /*  ********************** Calcul de la tendance *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
@@ -334,12 +340,13 @@ class baro extends eqLogic
         $td_moy = 100;
         $dPdT = number_format($td_moy, 3, '.', '');
         $td_num = number_format(5);
-        $td = (__('Pression atmosphérique nulle (historique)', __FILE__));
+        $td = 'Pression atmosphérique nulle (historique)';
 
         // dernière mesure barométrique
         $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
         if ($h1 != '') {
-            log::add('baro', 'debug', '| ───▶︎ Timestamp -15min : Start/End Date : ' . $startDate . '/' . $endDate . ' - Pression Atmosphérique : ' . $h1 . ' hPa');
+            $log_msg_h =  '-15min';
+            log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h1 . ' hPa');
 
             // calcul du timestamp - 2h
             $endDate = $_date2->modify('-2 hour');
@@ -353,8 +360,9 @@ class baro extends eqLogic
             // calculs de tendance 15min/2h
             if ($h2 != null) {
                 $td2h = ($h1 - $h2) / 2;
-                $log_msg = 'Tendance -2h : ' . $td2h . ' hPa/h';
-                log::add('baro', 'debug', '| ───▶︎ Timestamp -2h    : Start/End Date : ' . $startDate . '/' . $endDate . ' - Pression Atmosphérique : ' . $h2 . ' hPa - ' . $log_msg);
+                $log_msg_h =  ' -2h';
+                $log_msg = __('Tendance', __FILE__) . $log_msg_h .  ' : ' . $td2h . ' hPa/h';
+                log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h2 . ' hPa - ' . $log_msg);
                 // calcul du timestamp - 4h
                 $endDate = $_date2->modify('-2 hour');
                 $endDate = $_date2->format('Y-m-d H:i:s');
@@ -367,11 +375,11 @@ class baro extends eqLogic
                 // calculs de tendance 2h/4h
                 if ($h4 != null) {
                     $td4h = (($h1 - $h4) / 4);
-                    $log_msg = 'Tendance -4h : ' . $td4h . ' hPa/h';
-                    log::add('baro', 'debug', '| ───▶︎ Timestamp -4h    : Start/End Date : ' . $startDate . '/' . $endDate . ' - Pression Atmosphérique : ' . $h4 . ' hPa - ' . $log_msg);
+                    $log_msg_h =  ' -4h';
+                    $log_msg = __('Tendance', __FILE__) . ' -4h : ' . $td4h . ' hPa/h';
+                    log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h4 . ' hPa - ' . $log_msg);
 
                     // Calcul de la tendance
-                    //log::add('baro', 'debug', '│ ┌───────── Calcul Tendance Moyenne');
                     // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
                     // et : https://www.parallax.com/sites/default/files/downloads/29124-Altimeter-Application-Note-501.pdf
                     $td_moy = (0.5 * $td2h + 0.5 * $td4h);
@@ -399,14 +407,14 @@ class baro extends eqLogic
                     };
                 } else {
                     $td4h = 0;
-                    log::add('baro', 'debug', '| ───▶︎ [ALERT] Pression Atmosphérique -4h nulle (historique) : ' . $h4 . ' hPa');
+                    log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . __('Pression Atmosphérique', __FILE__) . ' -4h ' . __('nulle (historique)', __FILE__)  . '  : ' . $h4 . ' hPa');
                 }
             } else {
                 $td2h = 0;
-                log::add('baro', 'debug', '| ───▶︎ [ALERT] Pression Atmosphérique -2h nulle (historique) : ' . $h2 . ' hPa');
+                log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . __('Pression Atmosphérique', __FILE__) . ' -2h ' . __('nulle (historique)', __FILE__)  . '  : ' . $h2 . ' hPa');
             }
         } else {
-            log::add('baro', 'debug', '| ───▶︎ [ALERT] Pression Atmosphérique -15min nulle (historique) : ' . $h1 . ' hPa');
+            log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . __('Pression Atmosphérique', __FILE__) . ' 15min ' . __('nulle (historique)', __FILE__)  . '  : ' . $h1 . ' hPa');
         }
         return array($td_num, $td, $dPdT);
     }
@@ -430,10 +438,12 @@ class BaroCmd extends cmd
     public function execute($_options = null)
     {
         if ($this->getLogicalId() == 'refresh') {
-            log::add('baro', 'debug', ' ─────────> ACTUALISATION MANUELLE');
+            log::add('baro', 'debug', ' ─────────▶︎ ' . (__('Début de l\'actualisation manuelle', __FILE__)));
             $this->getEqLogic()->getInformations();
-            log::add('baro', 'debug', ' ─────────> FIN ACTUALISATION MANUELLE');
+            log::add('baro', 'debug', ' ─────────▶︎ ' . (__("Fin De l\'actualisation manuelle", __FILE__)));
             return;
+        } else {
+            log::add('baro', 'debug', '│  [WARNING] ' . __("Pas d'action pour la commande execute",  __FILE__) . ' : ' . $this->getLogicalId());
         }
     }
 }
