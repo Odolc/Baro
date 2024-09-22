@@ -11,6 +11,11 @@ pluginId: baro
 
 ## 2024
 
+### 22/09/2024
+
+- Tendance : en cas d'absence de données dans l'historique, les données de tendance et tendance numérique ne sont pas mis à jour
+- Traduction
+
 ### 13/09/2024
 
 - Amélioration log plugin
