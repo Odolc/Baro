@@ -9,9 +9,6 @@
 		"it_IT": "Plugin per il calcolo delle tendenze meteo in base alle variazioni di pressione di un barometro collegato a Jeedom (locale)",
 		"pt_PT": "Plugin para calcular as tendências meteorológicas com base nas variações de pressão de um barómetro ligado ao Jeedom (local)"
 	},
-	"usage": {
-		"fr_FR": ""
-	},
 	"licence": "AGPL",
 	"author": "Claude Metzger / JAG",
 	"require": "4.2",
