@@ -11,7 +11,11 @@ pluginId: baro
 
 ## 2024
 
-#### 25/08/2024
+### 27/09/2024
+
+- Correction bug installation depuis Market
+
+#### 25/09/2024
 
 - Correction bug setConfiguration sur la création des commandes
 
