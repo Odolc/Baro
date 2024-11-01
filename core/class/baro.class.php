@@ -139,16 +139,16 @@ class baro extends eqLogic
             $Command->setIsHistorized($IsHistorized);
 
             if ($icon != 'default') {
-                $Command->setdisplay('icon', '<i class="' . $icon . '"></i>');
+                $Command->setDisplay('icon', '<i class="' . $icon . '"></i>');
             }
             if ($forceLineB != 'default') {
-                $Command->setdisplay('forceReturnLineBefore', 1);
+                $Command->setDisplay('forceReturnLineBefore', 1);
             }
             if ($_iconname != 'default') {
-                $Command->setdisplay('showIconAndNamedashboard', 1);
+                $Command->setDisplay('showIconAndNamedashboard', 1);
             }
             if ($_noiconname != null) {
-                $Command->setdisplay('showNameOndashboard', 0);
+                $Command->setDisplay('showNameOndashboard', 0);
             }
 
             if ($_calculValueOffset != null) {
