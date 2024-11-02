@@ -223,8 +223,6 @@ class baro extends eqLogic
 
     public function postSave()
     {
-        //$_eqName = $this->getName();
-        //log::add('baro', 'debug', 'Sauvegarde de l\'équipement [postSave()] : ' . $_eqName);
         $order = 1;
         $templatecore_V4  = 'core::';
 
@@ -255,8 +253,8 @@ class baro extends eqLogic
     public function getInformations()
     {
         if (!$this->getIsEnable()) return;
-        $_eqName = $this->getName();
-        log::add('baro', 'debug', '┌── :fg-success:' . __('Mise à jour', __FILE__) . ' ::/fg: '  . $_eqName . ' ──');
+
+        log::add('baro', 'debug', '┌── :fg-success:' . __('Mise à jour', __FILE__) . ' ::/fg: '  . $this->getName() . ' (' . $this->getHumanName() . ') ──');
 
         /*  ********************** Calcul *************************** */
         $calcul = 'tendance';
@@ -277,7 +275,7 @@ class baro extends eqLogic
                 $log_msg .= ' ' . (__('doit être activé', __FILE__));
                 if ($pressureHISTO != 1) {
                     log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . $log_msg . ' : ' . $pressureHISTO);
-                    message::add('Plugin Baro', $_eqName . ' : ' . $log_msg);
+                    message::add('Plugin Baro', $this->getName() . ' : ' . $log_msg);
                 } else {
                     log::add('baro', 'debug', '| ───▶︎ ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() . ') : ' . $pressure . ' hPa');
                     log::add('baro', 'debug', '|  └───▶︎ :fg-success:' . __('L\'historique de la commande', __FILE__) . ':/fg: ' . $cmdvirt->getName() . ':fg-success: ' . __('est bien activé', __FILE__) . ':/fg:');
@@ -291,7 +289,7 @@ class baro extends eqLogic
 
         /*  ********************** Calcul de la tendance *************************** => VALABLE AUSSI POUR LE PLUGIN BARO/ROSEE*/
         if ($calcul == 'tendance') {
-            log::add('baro', 'debug', '┌── :fg-warning:' . __('Calcul de la tendance', __FILE__) . ' ::/fg: '  . $_eqName . ' ──');
+            log::add('baro', 'debug', '┌── :fg-warning:' . __('Calcul de la tendance', __FILE__) . ' ::/fg: '  . $this->getName() . ' ──');
             $va_result_T = baro::getTendance($pressureID);
             $td_num = $va_result_T[0];
             $td = $va_result_T[1];
@@ -300,7 +298,7 @@ class baro extends eqLogic
         }
 
         /*  ********************** Mise à Jour des équipements *************************** */
-        log::add('baro', 'debug', '┌── :fg-info:' . __('Mise à jour', __FILE__)  . ' ::/fg: '  . $_eqName . ' ──');
+        log::add('baro', 'debug', '┌── :fg-info:' . __('Mise à jour', __FILE__)  . ' ::/fg: '  . $this->getName() . ' ──');
 
         $Equipement = eqlogic::byId($this->getId());
         if (is_object($Equipement) && $Equipement->getIsEnable()) {
