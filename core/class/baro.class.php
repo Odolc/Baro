@@ -314,7 +314,7 @@ class baro extends eqLogic
                 foreach ($fields as $fieldname) {
                     if ($cmd->getLogicalId('data') == $fieldname) {
                         $this->checkAndUpdateCmd($fieldname, $Value_calcul[$fieldname]);
-                        log::add('baro', 'debug', '| :fg-info:───▶︎ ' . $cmd->getName() . ' ::/fg: ' . $Value_calcul[$fieldname]);
+                        log::add('baro', 'debug', '| :fg-info:───▶︎ ' . $cmd->getName() . ' ::/fg: ' . $Value_calcul[$fieldname] . ' ' . $cmd->getUnite());
                     }
                 }
             }
