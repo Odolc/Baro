@@ -11,6 +11,11 @@ pluginId: baro
 
 ## 2024
 
+### 28/12/2024
+
+- Typo
+- Amélioration log
+
 ### 27/09/2024
 
 - Correction bug installation depuis Market
