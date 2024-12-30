@@ -383,7 +383,7 @@ class baro extends eqLogic
                     $td_moy = (0.5 * $td2h + 0.5 * $td4h);
                     $dPdT = number_format($td_moy, 3, '.', '');
 
-                    log::add('baro', 'debug', '| ───▶︎ Tendance Moyenne (dPdT): ' . $dPdT . ' hPa/h');
+                    log::add('baro', 'debug', '| :fg-success:───▶︎ ' . __('Tendance Moyenne', __FILE__)  . ' (dPdT) ::/fg: ' . $dPdT . ' hPa/h');
                     if ($td_moy > 2.5) { // Quickly rising High Pressure System, not stable
                         $td = (__('Forte embellie, instable', __FILE__));
                         $td_num = number_format(5);
@@ -405,14 +405,14 @@ class baro extends eqLogic
                     };
                 } else {
                     $td4h = 0;
-                    log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . __('Pression Atmosphérique', __FILE__) . ' -4h ' . __('nulle (historique)', __FILE__)  . '  : ' . $h4 . ' hPa');
+                    log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . ':fg-danger:' . __('L\'historique de la commande', __FILE__) . ':/fg: ' . __('Pression atmosphérique', __FILE__) . ' -4h :fg-danger:' . __('est nulle', __FILE__)  . ' :/fg:: '  . $h4  . ' hPa');
                 }
             } else {
                 $td2h = 0;
-                log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . __('Pression Atmosphérique', __FILE__) . ' -2h ' . __('nulle (historique)', __FILE__)  . '  : ' . $h2 . ' hPa');
+                log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . ':fg-danger:' . __('L\'historique de la commande', __FILE__) . ':/fg: ' . __('Pression atmosphérique', __FILE__) . ' -2h :fg-danger:' . __('est nulle', __FILE__)  . ' :/fg:: '  . $h1  . ' hPa');
             }
         } else {
-            log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . __('Pression Atmosphérique', __FILE__) . ' 15min ' . __('nulle (historique)', __FILE__)  . '  : ' . $h1 . ' hPa');
+            log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . ':fg-danger:' . __('L\'historique de la commande', __FILE__) . ':/fg: ' . __('Pression atmosphérique', __FILE__) . ' -15min :fg-danger:' . __('est nulle', __FILE__)  . ' :/fg:: '  . $h1  . ' hPa');
         }
         return array($td_num, $td, $dPdT);
     }
