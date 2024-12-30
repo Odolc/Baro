@@ -9,4 +9,4 @@ Plugin de calcul de tendance météo basée sur les variations de pression d'un 
 
 _[Documentation](https://odolc.github.io/Baro/#language#/)_
 
-_[changelog](https://odolc.github.io/Baro/#language#/changelog.html)_
+_[changelog](https://odolc.github.io/Baro/#language#/changelog)_
