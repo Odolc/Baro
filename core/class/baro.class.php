@@ -216,8 +216,8 @@ class baro extends eqLogic
         if (!$this->getIsEnable()) return;
 
         if ($this->getConfiguration('pression') == '') {
-            log::add('baro', 'error', (__('La valeur :', __FILE__)) . ' ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() .  ')' . ' ' . __('pour l\'équipement', __FILE__) . ' [' . $this->getName() . '] ' . __('ne peut être vide', __FILE__));
-            throw new Exception((__('La valeur :', __FILE__)) . ' ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() .  ')' . ' ' . __('pour l\'équipement', __FILE__) . ' [' . $this->getName() . '] ' . __('ne peut être vide', __FILE__));
+            log::add('baro', 'error', (__('La valeur :', __FILE__)) . ' ' . __('Pression atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() .  ')' . ' ' . __('pour l\'équipement', __FILE__) . ' [' . $this->getName() . '] ' . __('ne peut être vide', __FILE__));
+            throw new Exception((__('La valeur :', __FILE__)) . ' ' . __('Pression atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() .  ')' . ' ' . __('pour l\'équipement', __FILE__) . ' [' . $this->getName() . '] ' . __('ne peut être vide', __FILE__));
         }
     }
 
@@ -267,8 +267,8 @@ class baro extends eqLogic
             $pressure = $cmdvirt->execCmd();
             $pressureHISTO = $cmdvirt->getIsHistorized($pressureID);
             if ($pressure === '') {
-                log::add('baro', 'error', (__('La valeur :', __FILE__)) . ' ' . (__('Pression Atmosphérique', __FILE__)) . ' (' . $cmdvirt->getName() .  ')' . ' ' . (__('pour l\'équipement', __FILE__)) . ' [' . $this->getName() . '] ' . (__('ne peut être vide', __FILE__)));
-                throw new Exception((__('La valeur :', __FILE__)) . ' ' . (__('Pression Atmosphérique', __FILE__)) . ' (' . $cmdvirt->getName() .  ')' . ' ' . (__('pour l\'équipement', __FILE__)) . ' [' . $this->getName() . '] ' . (__('ne peut être vide', __FILE__)));
+                log::add('baro', 'error', (__('La valeur :', __FILE__)) . ' ' . (__('Pression atmosphérique', __FILE__)) . ' (' . $cmdvirt->getName() .  ')' . ' ' . (__('pour l\'équipement', __FILE__)) . ' [' . $this->getName() . '] ' . (__('ne peut être vide', __FILE__)));
+                throw new Exception((__('La valeur :', __FILE__)) . ' ' . (__('Pression atmosphérique', __FILE__)) . ' (' . $cmdvirt->getName() .  ')' . ' ' . (__('pour l\'équipement', __FILE__)) . ' [' . $this->getName() . '] ' . (__('ne peut être vide', __FILE__)));
             } else {
                 $log_msg = (__('L\'historique de la commande', __FILE__)) . ' ';
                 $log_msg .= $cmdvirt->getName();
@@ -277,7 +277,7 @@ class baro extends eqLogic
                     log::add('baro', 'debug', '| ───▶︎ [ALERT] ' . $log_msg . ' : ' . $pressureHISTO);
                     message::add('Plugin Baro', $this->getName() . ' : ' . $log_msg);
                 } else {
-                    log::add('baro', 'debug', '| ───▶︎ ' . __('Pression Atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() . ') : ' . $pressure . ' hPa');
+                    log::add('baro', 'debug', '| ───▶︎ ' . __('Pression atmosphérique', __FILE__) . ' (' . $cmdvirt->getName() . ') : ' . $pressure . ' hPa');
                     log::add('baro', 'debug', '|  └───▶︎ :fg-success:' . __('L\'historique de la commande', __FILE__) . ':/fg: ' . $cmdvirt->getName() . ':fg-success: ' . __('est bien activé', __FILE__) . ':/fg:');
                 }
             }
@@ -344,7 +344,7 @@ class baro extends eqLogic
         $h1 = $histo->lastBetween($pressureID, $startDate, $endDate);
         if ($h1 != '') {
             $log_msg_h =  '-15min';
-            log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h1 . ' hPa');
+            log::add('baro', 'debug', '| :fg-success:───▶︎ Timestamp:/fg: ' . $log_msg_h  . ' ::fg-success: Start/End Date ::/fg: ' . $startDate . ' :fg-success:/:/fg: ' . $endDate . ':fg-success: - ' . __('Pression atmosphérique', __FILE__)  . ' :/fg:: ' . $h1 . ' hPa');
 
             // calcul du timestamp - 2h
             $endDate = $_date2->modify('-2 hour');
@@ -359,8 +359,8 @@ class baro extends eqLogic
             if ($h2 != null) {
                 $td2h = ($h1 - $h2) / 2;
                 $log_msg_h =  ' -2h';
-                $log_msg = __('Tendance', __FILE__) . $log_msg_h .  ' : ' . $td2h . ' hPa/h';
-                log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h2 . ' hPa - ' . $log_msg);
+                $log_msg = ':fg-success: - ' . __('Tendance', __FILE__) . $log_msg_h .  ' ::/fg: ' . $td2h . ' hPa/h';
+                log::add('baro', 'debug', '| :fg-success:───▶︎ Timestamp:/fg: ' . $log_msg_h  . ' ::fg-success: Start/End Date ::/fg: ' . $startDate . ' :fg-success:/:/fg: ' . $endDate . ':fg-success: - ' . __('Pression atmosphérique', __FILE__)  . ' ::/fg: ' . $h2 . ' hPa - ' . $log_msg);
                 // calcul du timestamp - 4h
                 $endDate = $_date2->modify('-2 hour');
                 $endDate = $_date2->format('Y-m-d H:i:s');
@@ -374,8 +374,8 @@ class baro extends eqLogic
                 if ($h4 != null) {
                     $td4h = (($h1 - $h4) / 4);
                     $log_msg_h =  ' -4h';
-                    $log_msg = __('Tendance', __FILE__) . ' -4h : ' . $td4h . ' hPa/h';
-                    log::add('baro', 'debug', '| ───▶︎ Timestamp ' . $log_msg_h  . ' : Start/End Date : ' . $startDate . '/' . $endDate . ' - ' . __('Pression Atmosphérique)', __FILE__)  . ' : ' . $h4 . ' hPa - ' . $log_msg);
+                    $log_msg = ':fg-success: - ' . __('Tendance', __FILE__) . $log_msg_h . ' ::/fg: ' . $td4h . ' hPa/h';
+                    log::add('baro', 'debug', '| :fg-success:───▶︎ Timestamp:/fg: ' . $log_msg_h  . ' ::fg-success: Start/End Date ::/fg: ' . $startDate . ' :fg-success:/:/fg: ' . $endDate . ':fg-success: - ' . __('Pression atmosphérique', __FILE__)  . ' ::/fg: ' . $h4 . ' hPa' . $log_msg);
 
                     // Calcul de la tendance
                     // sources : http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
