@@ -37,14 +37,15 @@
         "Problème avec l\\'historique de la pression atmosphérique": "Problema con el historial de presión de aire",
         "Rafraichir": "Refrescar",
         "Tendance": "Tendencias",
+        "Tendance Moyenne": "Tendencia media",
         "Tendance numérique": "Tendencias digitales",
         "Type \/ SubType": "Tipo \/ Subtipo",
         "Type de générique": "Tipo de créditos",
         "dans la commande": "en el",
         "doit être activé": "debe estar activada",
         "est bien activé": "se activa",
+        "est nulle": "es nulo",
         "ne peut être vide": "no puede estar vacío",
-        "nulle (historique)": "nulo (histórico)",
         "pour l\\'équipement": "para equipos"
     },
     "plugins\/baro\/desktop\/js\/baro.js": {
