@@ -11,6 +11,10 @@ pluginId: baro
 
 ## 2024
 
+### 30/12/2024
+
+- Amélioration log + traduction
+
 ### 28/12/2024
 
 - Typo
