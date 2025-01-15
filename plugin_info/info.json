@@ -13,7 +13,8 @@
 	"author": "Claude Metzger / JAG",
 	"require": "4.2",
 	"os": {
-		"min": 10
+		"min": 10,
+		"max": ""
 	},
 	"category": "weather",
 	"hasDependency": false,

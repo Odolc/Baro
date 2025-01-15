@@ -7,6 +7,6 @@
 
 Plugin de calcul de tendance météo basée sur les variations de pression d'un baromètre connecté à Jeedom (local)
 
-_[Documentation](https://odolc.github.io/Baro/#language#/)_
+_[Documentation](https://odolc.github.io/Baro/fr_FR/)_
 
-_[changelog](https://odolc.github.io/Baro/#language#/changelog.html)_
+_[changelog](https://odolc.github.io/Baro/fr_FR/changelog)_
