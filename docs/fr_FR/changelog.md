@@ -9,6 +9,12 @@ pluginId: baro
 
 > **_Pour rappel_**, s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de corrections de bugs mineurs.
 
+## 2025
+
+### 15/01/2025
+
+- Typo
+
 ## 2024
 
 ### 30/12/2024
