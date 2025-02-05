@@ -1,7 +1,7 @@
 <img align="right" src="plugin_info/baro_icon.png" width="150">
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/JEALG/Baro/graphs/commit-activity)
-[![GitHub contributors](https://img.shields.io/github/contributors/jeedom/core.svg)](https://github.com/JEALG/Baro/Temperature/graphs/contributors/)
+[![GitHub contributors](https://img.shields.io/github/contributors/jeedom/core.svg)](https://github.com/JEALG/Baro/graphs/contributors/)
 
 # Plugin Tendance Baro
 
