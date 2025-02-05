@@ -28,10 +28,10 @@
 		"it_IT",
 		"pt_PT"
 	],
-	"changelog": "https://odolc.github.io/Baro/#language#/changelog",
-	"documentation": "https://odolc.github.io/Baro/#language#/",
-	"changelog_beta": "https://odolc.github.io/Baro/#language#/changelog",
-	"documentation_beta": "https://odolc.github.io/Baro/#language#/",
+	"changelog": "https://jealg.github.io/documentation/plugin-tendance_baro/#language#/changelog",
+	"documentation": "https://jealg.github.io/documentation/plugin-tendance_baro/#language#/",
+	"changelog_beta": "https://jealg.github.io/documentation/plugin-tendance_baro/#language#/beta_changelog",
+	"documentation_beta": "https://jealg.github.io/documentation/plugin-tendance_baro/#language#/",
 	"link": {
 		"forum": "https://community.jeedom.com/tag/plugin-baro"
 	},
