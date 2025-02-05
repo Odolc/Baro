@@ -13,7 +13,7 @@ pluginId: baro
 
 ### 06/02/2025
 
-- Migration documentation
+- Mise à jour lien de la documentation
 
 ### 15/01/2025
 
