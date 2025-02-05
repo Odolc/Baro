@@ -11,6 +11,10 @@ pluginId: baro
 
 ## 2025
 
+### 06/02/2025
+
+- Migration documentation
+
 ### 15/01/2025
 
 - Typo
